@@ -119,7 +119,7 @@ public class GerenciaEmpregados {
     }
 
     public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
-        if (emp.equals(""))
+        if (emp.isEmpty())
             throw new IdNuloException();
 
         Empregado empregado = empregados.get(emp);
@@ -130,4 +130,25 @@ public class GerenciaEmpregados {
         empregados.remove(emp);
     }
 
+    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
+        Double horasDouble = Double.parseDouble(horas.replace(",", "."));
+
+        if(emp == null) {
+            throw new IdNuloException();
+        } else if(!empregados.containsKey(emp)) {
+            throw new EmpregadoNaoExisteException();
+        } else if(!Objects.equals(empregados.get(emp).getTipo(), "horista")) {
+            throw new EmpregadoNaoHoristaException();
+        } else if(horasDouble <= 0){
+            throw new HoraPositivaException();
+        }
+        EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
+        if(horasDouble > 8){
+            empregado.horasNormais.put(data, horas);
+            empregado.horasExtras.put(data, String.valueOf(horasDouble - 8));
+        }
+        else{
+            empregado.horasNormais.put(data, String.valueOf(horasDouble));
+        }
+    }
 }

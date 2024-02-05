@@ -8,6 +8,7 @@ import br.ufal.ic.p2.wepayu.gerencia.Sistema;
 
 public class Facade {
     Sistema sistema = new Sistema();
+    GerenciaEmpregados gerenciaEmpregados = new GerenciaEmpregados();
 
     public void zerarSistema() {
         Sistema.zerarSistema();
@@ -45,11 +46,15 @@ public class Facade {
         GerenciaEmpregados.removerEmpregado(emp);
     }
 
-    public String getHorasNormailTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
+    public String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException{
         return EmpregadoHorista.getHorasNormaisTrabalhadas(emp, dataInicial, dataFinal);
     }
 
-    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
+    public String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException{
         return EmpregadoHorista.getHorasExtrasTrabalhadas(emp, dataInicial, dataFinal);
+    }
+
+    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException{
+        return GerenciaEmpregados.lancaCartao(emp, data, horas);
     }
 }

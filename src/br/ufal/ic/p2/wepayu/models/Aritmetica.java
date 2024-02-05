@@ -21,4 +21,6 @@ public class Aritmetica {
 
         return str.replace(".", "");
     }
+
+    public String
 }

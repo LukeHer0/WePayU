@@ -1,12 +1,18 @@
 package br.ufal.ic.p2.wepayu.empregados;
 
-import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoHoristaException;
+import br.ufal.ic.p2.wepayu.Exception.*;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
 
 public class EmpregadoHorista extends Empregado{
+
+    public LinkedHashMap<String, String> horasNormais = new LinkedHashMap<>();
+    public LinkedHashMap<String, String> horasExtras = new LinkedHashMap<>();
 
     private EmpregadoHorista(String nome, String endereco, String tipo, String salario, String id) {
         this.nome = nome;
@@ -17,16 +23,29 @@ public class EmpregadoHorista extends Empregado{
         this.sindicalizado = false;
     }
 
-    public static String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
-        Empregado empregado = empregados.get(emp);
+
+    public static String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException{
+        EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
+        if(emp == null)
+        {
+            throw new IdNuloException();
+        }
         if(!Objects.equals(empregado.getTipo(), "horista")){
             throw new EmpregadoNaoHoristaException();
         }
-        return emp;
+        return empregado.getNome();
     }
 
-    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
-        return emp;
+    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException{
+        EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
+        if(emp == null)
+        {
+            throw new IdNuloException();
+        }
+        if(!Objects.equals(empregado.getTipo(), "horista")){
+            throw new EmpregadoNaoHoristaException();
+        }
+        return empregado.getNome();
     }
 
     public static class EmpregadoHoristaBuilder {
