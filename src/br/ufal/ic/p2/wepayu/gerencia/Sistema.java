@@ -4,16 +4,13 @@ import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 public class Sistema {
 
 
-    public void zerarSistema() {
-        GerenciaEmpregados.empregados = new Hashtable<>();
+    public static void zerarSistema() {
+        GerenciaEmpregados.empregados = new HashMap<>();
 
         System.out.println("Sistema zerado \uD83D\uDC4D");
     }

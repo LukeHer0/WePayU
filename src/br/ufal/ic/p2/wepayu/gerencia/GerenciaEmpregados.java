@@ -9,19 +9,19 @@ import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 
 import java.util.Arrays;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Enumeration;
 
 public class GerenciaEmpregados {
-    public static Hashtable<String, Empregado> empregados = new Hashtable<>();
+    public static HashMap<String, Empregado> empregados = new HashMap<>();
     protected static Aritmetica aritmetica = new Aritmetica();
     protected static Erros verificarErros = new Erros();
 
     protected static int idCounter = 100000000;
 
-    public String getAtributoEmpregado(String emp, String atributo) throws
+    public static String getAtributoEmpregado(String emp, String atributo) throws
             IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException{
         if (Objects.equals(emp, "")) {
             throw new IdNuloException();
@@ -44,41 +44,25 @@ public class GerenciaEmpregados {
         };
     }
 
-    public String getEmpregadoPorNome(String nome, Integer indice) throws NomeInexistenteException {
-
-//        for(int i = 100000000; i < idCounter; i++)
-//        {
-//            if(empregados.isEmpty()){
-//                System.out.println("\nEmpregados vazios\n");
-//            }
-//            Empregado empregado = empregados.get(String.valueOf(i));
-//            if(Objects.equals(empregado.getNome(), nome)){
-//                indice--;
-//                if(Objects.equals(indice, 0)){
-//                    System.out.printf("Id do cidadao: %s\nNome do empregado: %s\n", empregado.getId(), empregado.getNome());
-//                    return empregado.getId();
-//                }
-//            }
-//        }
-
-        Enumeration<String> keys = empregados.keys();
-        while(empregados.keys().hasMoreElements()){
-            String key = keys.nextElement();
-            Empregado empregado = empregados.get(key);
-            System.out.printf("\nEmpregado: %s %s %s %s\n", empregado.getId(), empregado.getNome(), empregado.getSalario(), empregado.getEndereco());
-            if(Objects.equals(empregado.getNome(), nome)){
+    public static String getEmpregadoPorNome(String nome, Integer indice) throws NomeInexistenteException, EmpregadoNaoExisteException {
+        if(empregados.isEmpty()){
+            System.out.println("\nEmpregados vazios\n");
+            throw new EmpregadoNaoExisteException();
+        }
+        for (Map.Entry<String, Empregado> entry : empregados.entrySet()) {
+            Empregado e = entry.getValue();
+            String key = entry.getKey();
+            if (nome.contains(e.getNome()))
                 indice--;
-                if(Objects.equals(indice, 0)){
-                    System.out.printf("Id do cidadao: %s\nNome do empregado: %s\n", empregado.getId(), empregado.getNome());
-                    return empregado.getId();
-                }
-            }
+
+            if (indice == 0)
+                return key;
         }
 
         throw new NomeInexistenteException();
     }
 
-    public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws
+    public static String criarEmpregado(String nome, String endereco, String tipo, String salario) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
             ComissaoNegativaException, TipoNAplicavelException{
@@ -109,7 +93,7 @@ public class GerenciaEmpregados {
         }
     }
 
-    public String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws
+    public static String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
             ComissaoNegativaException, TipoNAplicavelException{
@@ -134,16 +118,15 @@ public class GerenciaEmpregados {
         }
     }
 
-    public void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
-        if(Objects.equals(emp, "")){
+    public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
+        if (emp.equals(""))
             throw new IdNuloException();
-        } else if (!empregados.containsKey(emp)) {
+
+        Empregado empregado = empregados.get(emp);
+
+        if (empregado == null)
             throw new EmpregadoNaoExisteException();
-        }
-        System.out.println(empregados);
-        System.out.println("Remover:" + emp);
+
         empregados.remove(emp);
-        System.out.println(empregados);
-        System.out.println();
     }
 }

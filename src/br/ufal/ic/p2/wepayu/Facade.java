@@ -8,11 +8,9 @@ import br.ufal.ic.p2.wepayu.gerencia.Sistema;
 
 public class Facade {
     Sistema sistema = new Sistema();
-    GerenciaEmpregados gerenciaEmpregados = new GerenciaEmpregados();
 
     public void zerarSistema() {
-        sistema = new Sistema();
-        gerenciaEmpregados = new GerenciaEmpregados();
+        Sistema.zerarSistema();
         //sistema.zerarSistema();
     }
 
@@ -24,27 +22,27 @@ public class Facade {
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
             ComissaoNegativaException, TipoNAplicavelException{
-        return gerenciaEmpregados.criarEmpregado(nome, endereco, tipo, salario);
+        return GerenciaEmpregados.criarEmpregado(nome, endereco, tipo, salario);
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
             ComissaoNegativaException, TipoNAplicavelException{
-        return gerenciaEmpregados.criarEmpregado(nome, endereco, tipo, salario, comissao);
+        return GerenciaEmpregados.criarEmpregado(nome, endereco, tipo, salario, comissao);
     }
 
     public String getAtributoEmpregado(String emp, String atributo) throws
             IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException {
-        return gerenciaEmpregados.getAtributoEmpregado(emp, atributo);
+        return GerenciaEmpregados.getAtributoEmpregado(emp, atributo);
     }
 
-    public String getEmpregadoPorNome(String nome, Integer indice) throws NomeInexistenteException {
-        return gerenciaEmpregados.getEmpregadoPorNome(nome, indice);
+    public String getEmpregadoPorNome(String nome, Integer indice) throws NomeInexistenteException, EmpregadoNaoExisteException {
+        return GerenciaEmpregados.getEmpregadoPorNome(nome, indice);
     }
 
     public void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException {
-        gerenciaEmpregados.removerEmpregado(emp);
+        GerenciaEmpregados.removerEmpregado(emp);
     }
 
 }
