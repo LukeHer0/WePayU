@@ -2,7 +2,7 @@ package br.ufal.ic.p2.wepayu;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.Exception.IdNuloException;
-import br.ufal.ic.p2.wepayu.empregados.Empregado;
+import br.ufal.ic.p2.wepayu.empregados.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados;
 import br.ufal.ic.p2.wepayu.gerencia.Sistema;
 
@@ -45,4 +45,11 @@ public class Facade {
         GerenciaEmpregados.removerEmpregado(emp);
     }
 
+    public String getHorasNormailTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
+        return EmpregadoHorista.getHorasNormaisTrabalhadas(emp, dataInicial, dataFinal);
+    }
+
+    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
+        return EmpregadoHorista.getHorasExtrasTrabalhadas(emp, dataInicial, dataFinal);
+    }
 }

@@ -1,16 +1,32 @@
 package br.ufal.ic.p2.wepayu.empregados;
 
+import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoHoristaException;
+
+import java.util.Objects;
+
+import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
+
 public class EmpregadoHorista extends Empregado{
 
     private EmpregadoHorista(String nome, String endereco, String tipo, String salario, String id) {
-
-
         this.nome = nome;
         this.endereco = endereco;
         this.tipo = tipo;
         this.salario = salario;
         this.id = id;
         this.sindicalizado = false;
+    }
+
+    public static String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
+        Empregado empregado = empregados.get(emp);
+        if(!Objects.equals(empregado.getTipo(), "horista")){
+            throw new EmpregadoNaoHoristaException();
+        }
+        return emp;
+    }
+
+    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException{
+        return emp;
     }
 
     public static class EmpregadoHoristaBuilder {
@@ -48,5 +64,6 @@ public class EmpregadoHorista extends Empregado{
         public EmpregadoHorista build(){
             return new EmpregadoHorista(nome, endereco, tipo, salario, id);
         }
+
     }
 }
