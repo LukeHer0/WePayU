@@ -1,7 +1,7 @@
 package br.ufal.ic.p2.wepayu.Exception;
 
 public class DataIniPostFinException extends Exception{
-    DataIniPostFinException(){
+    public DataIniPostFinException(){
         super("Data inicial nao pode ser posterior aa data final.");
     }
 

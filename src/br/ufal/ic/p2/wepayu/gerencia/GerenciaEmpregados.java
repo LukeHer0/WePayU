@@ -8,14 +8,13 @@ import br.ufal.ic.p2.wepayu.empregados.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Enumeration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class GerenciaEmpregados {
     public static HashMap<String, Empregado> empregados = new HashMap<>();
+
     protected static Aritmetica aritmetica = new Aritmetica();
     protected static Erros verificarErros = new Erros();
 
@@ -130,25 +129,5 @@ public class GerenciaEmpregados {
         empregados.remove(emp);
     }
 
-    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
-        Double horasDouble = Double.parseDouble(horas.replace(",", "."));
 
-        if(emp == null) {
-            throw new IdNuloException();
-        } else if(!empregados.containsKey(emp)) {
-            throw new EmpregadoNaoExisteException();
-        } else if(!Objects.equals(empregados.get(emp).getTipo(), "horista")) {
-            throw new EmpregadoNaoHoristaException();
-        } else if(horasDouble <= 0){
-            throw new HoraPositivaException();
-        }
-        EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
-        if(horasDouble > 8){
-            empregado.horasNormais.put(data, horas);
-            empregado.horasExtras.put(data, String.valueOf(horasDouble - 8));
-        }
-        else{
-            empregado.horasNormais.put(data, String.valueOf(horasDouble));
-        }
-    }
 }

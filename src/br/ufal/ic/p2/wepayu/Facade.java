@@ -3,8 +3,15 @@ package br.ufal.ic.p2.wepayu;
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.Exception.IdNuloException;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.gerencia.CartaoPonto;
 import br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados;
 import br.ufal.ic.p2.wepayu.gerencia.Sistema;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
+import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
 
 public class Facade {
     Sistema sistema = new Sistema();
@@ -46,15 +53,37 @@ public class Facade {
         GerenciaEmpregados.removerEmpregado(emp);
     }
 
-    public String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException{
+    public String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException, DataIniPostFinException, DataInicialInvException, DataFinalInvException {
         return EmpregadoHorista.getHorasNormaisTrabalhadas(emp, dataInicial, dataFinal);
     }
 
-    public String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException{
+    public String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, IdNuloException, DataIniPostFinException, DataInicialInvException, DataFinalInvException {
         return EmpregadoHorista.getHorasExtrasTrabalhadas(emp, dataInicial, dataFinal);
     }
 
-    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException{
-        return GerenciaEmpregados.lancaCartao(emp, data, horas);
+    public void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
+        Double horasDouble = Double.parseDouble(horas.replace(",", "."));
+
+        if (Objects.equals(emp, "")) {
+            throw new IdNuloException();
+        } else if (!empregados.containsKey(emp)) {
+            throw new EmpregadoNaoExisteException();
+        } else if (!Objects.equals(empregados.get(emp).getTipo(), "horista")) {
+            throw new EmpregadoNaoHoristaException();
+        } else if (horasDouble <= 0) {
+            throw new HoraPositivaException();
+        }
+
+        EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
+
+        LocalDate date;
+        try {
+            DateTimeFormatter dataa = DateTimeFormatter.ofPattern("d/M/yyyy");
+            date = LocalDate.parse(data, dataa);
+        } catch (Exception e) {
+            throw new DataInvalidaException();
+        }
+
+        empregado.setPontodeHora(new CartaoPonto(date, horasDouble));
     }
 }
