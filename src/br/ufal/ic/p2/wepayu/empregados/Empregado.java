@@ -1,9 +1,11 @@
 package br.ufal.ic.p2.wepayu.empregados;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
+import br.ufal.ic.p2.wepayu.gerencia.TaxaServico;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -19,6 +21,8 @@ public abstract class Empregado {
     protected String id;
 
     protected String comissao;
+
+    public ArrayList<TaxaServico> taxaServicos;
 
     protected static Aritmetica aritmetica = new Aritmetica();
     protected static Erros verificarErros = new Erros();
@@ -49,6 +53,26 @@ public abstract class Empregado {
 
     public String getId() {
         return this.id;
+    }
+
+    public void setTaxas(TaxaServico taxa){
+        this.taxaServicos.add(taxa);
+    }
+
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+
+    public void setEndereco(String endereco){
+        this.endereco = endereco;
+    }
+
+    public void setSalario(String salario){
+        this.salario = salario;
+    }
+
+    public void setSindicalizado(String sindicalizado){
+            this.sindicalizado = sindicalizado.equals("true");
     }
 
 }

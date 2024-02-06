@@ -2,7 +2,10 @@ package br.ufal.ic.p2.wepayu.models;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Erros {
@@ -50,5 +53,31 @@ public class Erros {
         } else if (Double.parseDouble(salario.replace(',', '.')) < 0) {
             throw new SalarioNegativoException();
         }
+    }
+
+    public static boolean confereData(String data){
+        int d = 0, m = 0, y, i = 0;
+
+        for (String s : data.split("/")) {
+            if (i == 0) {
+                d = Integer.parseInt(s);
+                i++;
+            } else if (i == 1) {
+                m = Integer.parseInt(s);
+                i++;
+            } else {
+                y = Integer.parseInt(s);
+            }
+        }
+        if(d > 31){
+            return false;
+        }else if (m == 2 && d > 29){
+            return false;
+        }else if (m > 12){
+            return false;
+        }else {
+            return true;
+        }
+
     }
 }

@@ -117,6 +117,56 @@ public class GerenciaEmpregados {
         }
     }
 
+    public static void alteraEmpregado(String emp, String atributo, String valor) throws EmpregadoNaoExisteException, NomeNuloException,
+            EnderecoNuloException, SalarioNuloException, ComissaoNulaException, SalarioNumericoException, SalarioNegativoException,
+            ValorTrueFalseException{
+        if(emp == null){
+            throw new EmpregadoNaoExisteException();
+        }
+
+        Empregado empregado = empregados.get(emp);
+
+        switch (atributo){
+            case "nome" ->{
+                if(valor.isEmpty()){
+                    throw new NomeNuloException();
+                }
+                empregado.setNome(valor);
+            }
+            case "endereco" ->{
+                if(valor.isEmpty()){
+                    throw new EnderecoNuloException();
+                }
+                empregado.setEndereco(valor);
+            }
+            case "salario" ->{
+                if(valor.isEmpty()){
+                    throw new SalarioNuloException();
+                }
+
+                try{
+                    double salario = Double.parseDouble(valor.replace(',', '.'));
+
+                    if(salario <= 0)
+                    {
+                        throw new SalarioNegativoException();
+                    }
+                }catch (Exception e){
+                    throw new SalarioNumericoException();
+                }
+                empregado.setSalario(valor);
+            }
+            case "sindicalizado" ->{
+                if(!valor.equals("false") && !valor.equals("true")){
+                    throw new ValorTrueFalseException();
+                }
+                if(valor.equals("false")){
+                    empregado.setSindicalizado(valor);
+                }
+            }
+        }
+    }
+
     public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
         if (emp.isEmpty())
             throw new IdNuloException();
@@ -129,5 +179,141 @@ public class GerenciaEmpregados {
         empregados.remove(emp);
     }
 
+    public static String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException,
+            IdNuloException, DataIniPostFinException, DataInicialInvException, DataFinalInvException{
+        if(emp == null) {
+            throw new IdNuloException();
+        }if(!(empregados.get(emp) instanceof EmpregadoHorista)){
+            throw new EmpregadoNaoHoristaException();
+        }
+        EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
 
+        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate Inicial, Final;
+
+        if(!(Erros.confereData(dataInicial))){
+            throw new DataInicialInvException();
+        }
+        Inicial = LocalDate.parse(dataInicial, dataFormato);
+
+        if(!(Erros.confereData(dataFinal))){
+            throw new DataFinalInvException();
+        }
+        Final = LocalDate.parse(dataFinal,dataFormato);
+
+        double acumulador = 0;
+        if(Inicial.equals(Final))
+        {
+            return "0";
+        }else if(Inicial.isAfter(Final)){
+            throw new DataIniPostFinException();
+        } else{
+            if(empregado.cartaoPonto == null) {
+                return "0";
+            }
+            for(CartaoPonto c : empregado.cartaoPonto){
+                if(c.getData().isEqual(Inicial) || (c.getData().isAfter(Inicial) && c.getData().isBefore(Final))){
+                    if(c.getHoras() > 8){
+                        acumulador += 8;
+                    }else{
+                        acumulador += c.getHoras();
+                    }
+                }
+            }
+        }
+        if(acumulador != (int) acumulador) {
+
+            return String.format("%.1f", acumulador).replace(".", ",");
+        }
+        return Integer.toString((int)acumulador);
+    }
+
+    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoHoristaException,
+            DataIniPostFinException, DataInicialInvException, DataFinalInvException{
+        if(emp == null) {
+            throw new IdNuloException();
+        }if(!(empregados.get(emp) instanceof EmpregadoHorista)){
+            throw new EmpregadoNaoHoristaException();
+        }
+        EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
+
+
+        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate Inicial, Final;
+
+        if(!(Erros.confereData(dataInicial))){
+            throw new DataInicialInvException();
+        }
+        Inicial = LocalDate.parse(dataInicial, dataFormato);
+
+        if(!(Erros.confereData(dataFinal))){
+            throw new DataFinalInvException();
+        }
+        Final = LocalDate.parse(dataFinal,dataFormato);
+
+        double acumulador = 0;
+        if(Inicial.equals(Final)) {
+            return "0";
+        }else if(Inicial.isAfter(Final)){
+            throw new DataIniPostFinException();
+        } else{
+            if(empregado.cartaoPonto == null) {
+                return "0";
+            }
+            for(CartaoPonto c : empregado.cartaoPonto){
+                if(c.getData().isEqual(Inicial) || (c.getData().isAfter(Inicial) && c.getData().isBefore(Final))){
+                    if(c.getHoras() > 8){
+                        acumulador += (c.getHoras() - 8);
+                    }
+                }
+            }
+        }
+        if(acumulador != (int) acumulador) {
+
+            return String.format("%.1f", acumulador).replace(".", ",");
+        }
+        return Integer.toString((int)acumulador);
+    }
+
+    public static String getVendasRealizadas (String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoComissionadoException,
+            DataInicialInvException, DataFinalInvException, DataIniPostFinException{
+        if(emp == null){
+            throw new IdNuloException();
+        }if(!(empregados.get(emp) instanceof  EmpregadoComissionado)){
+            throw new EmpregadoNaoComissionadoException();
+        }
+
+        EmpregadoComissionado empregado = (EmpregadoComissionado) empregados.get(emp);
+
+        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate Inicial, Final;
+
+        if(!(Erros.confereData(dataInicial))){
+            throw new DataInicialInvException();
+        }
+        Inicial = LocalDate.parse(dataInicial, dataFormato);
+
+        if(!(Erros.confereData(dataFinal))){
+            throw new DataFinalInvException();
+        }
+        Final = LocalDate.parse(dataFinal,dataFormato);
+        double acumulador = 0;
+        if(Inicial.equals(Final)){
+            return "0,00";
+        }else if(Inicial.isAfter(Final)) {
+            throw new DataIniPostFinException();
+        } else{
+            if(empregado.cartaoVenda == null){
+                return "0";
+            }
+            for(CartaoVenda c : empregado.cartaoVenda){
+                if(c.getData().isEqual(Inicial) || (c.getData().isAfter(Inicial) && c.getData().isBefore(Final))){
+                    acumulador += c.getHoras();
+                }
+            }
+        }
+
+        return String.format("%.2f", acumulador).replace(".", ",");
+
+    }
 }
