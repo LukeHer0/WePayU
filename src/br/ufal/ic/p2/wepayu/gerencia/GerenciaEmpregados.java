@@ -167,6 +167,24 @@ public class GerenciaEmpregados {
         }
     }
 
+    public static void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws
+            IdSindicatoNuloException, TaxaSindicalNulaException, TaxaSindicalNumericaException{
+        if(idSindicato.isEmpty()){
+            throw new IdSindicatoNuloException();
+        }if(taxaSindical.isEmpty()){
+            throw new TaxaSindicalNulaException();
+        }
+        try{
+            Double taxaSindicalDouble = Double.parseDouble(taxaSindical.replace(',','.'));
+            if(taxaSindicalDouble <= 0){
+                throw new TaxaSindicalPositivaException();
+            }
+        }catch (Exception e){
+            throw new TaxaSindicalNumericaException();
+        }
+
+    }
+
     public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
         if (emp.isEmpty())
             throw new IdNuloException();

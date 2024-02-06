@@ -5,6 +5,7 @@ import br.ufal.ic.p2.wepayu.Exception.IdNuloException;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.empregados.MembroSindicato;
 import br.ufal.ic.p2.wepayu.gerencia.*;
 
 import javax.xml.crypto.Data;
@@ -140,7 +141,7 @@ public class Facade {
         } catch (Exception e) {
             throw new DataInvalidaException();
         }
-        empregado.setTaxas(new TaxaServico(date, valorDouble));
+//        MembroSindicato.setTaxas(new TaxaServico(date, valorDouble));
     }
 
     public static void alteraEmpregado(String emp, String atributo, String valor) throws EmpregadoNaoExisteException, NomeNuloException,

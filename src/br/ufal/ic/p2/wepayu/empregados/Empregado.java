@@ -22,8 +22,6 @@ public abstract class Empregado {
 
     protected String comissao;
 
-    public ArrayList<TaxaServico> taxaServicos;
-
     protected static Aritmetica aritmetica = new Aritmetica();
     protected static Erros verificarErros = new Erros();
 
@@ -55,9 +53,9 @@ public abstract class Empregado {
         return this.id;
     }
 
-    public void setTaxas(TaxaServico taxa){
-        this.taxaServicos.add(taxa);
-    }
+//    public void setTaxas(TaxaServico taxa){
+//        this.taxaServicos.add(taxa);
+//    }
 
     public void setNome(String nome){
         this.nome = nome;
