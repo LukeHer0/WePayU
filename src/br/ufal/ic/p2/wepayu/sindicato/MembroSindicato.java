@@ -1,6 +1,4 @@
-package br.ufal.ic.p2.wepayu.empregados;
-
-import br.ufal.ic.p2.wepayu.gerencia.TaxaServico;
+package br.ufal.ic.p2.wepayu.sindicato;
 
 import java.util.ArrayList;
 

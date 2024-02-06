@@ -1,17 +1,10 @@
-package br.ufal.ic.p2.wepayu.empregados;
+package br.ufal.ic.p2.wepayu.empregados.comissionado;
 
-import br.ufal.ic.p2.wepayu.Exception.*;
-import br.ufal.ic.p2.wepayu.gerencia.CartaoVenda;
-import br.ufal.ic.p2.wepayu.models.Erros;
+import br.ufal.ic.p2.wepayu.empregados.Empregado;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
-
-public class EmpregadoComissionado extends Empregado{
+public class EmpregadoComissionado extends Empregado {
 
     public ArrayList<CartaoVenda> cartaoVenda;
     private EmpregadoComissionado(String nome, String endereco, String tipo, String salario, String comissao, String id) {

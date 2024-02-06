@@ -3,8 +3,10 @@ package br.ufal.ic.p2.wepayu.gerencia;
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado;
-import br.ufal.ic.p2.wepayu.empregados.EmpregadoComissionado;
-import br.ufal.ic.p2.wepayu.empregados.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda;
+import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
+import br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto;
+import br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 
@@ -332,6 +334,9 @@ public class GerenciaEmpregados {
         }
 
         return String.format("%.2f", acumulador).replace(".", ",");
+    }
 
+    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
+        EmpregadoHorista.lancaCartao(emp, data, horas);
     }
 }

@@ -16,6 +16,6 @@ public class Sistema {
     }
 
 
-    public void encerrarSistema(){
+    public static void encerrarSistema(){
     }
 }

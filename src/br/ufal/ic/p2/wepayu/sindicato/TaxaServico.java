@@ -1,12 +1,12 @@
-package br.ufal.ic.p2.wepayu.gerencia;
+package br.ufal.ic.p2.wepayu.sindicato;
 
 import java.time.LocalDate;
 
-public class CartaoVenda {
+public class TaxaServico {
     private LocalDate data;
     private Double valor;
 
-    public CartaoVenda(LocalDate data, Double valor){
+    public TaxaServico(LocalDate data, Double valor){
         this.data = data;
         this.valor = valor;
     }
@@ -14,7 +14,6 @@ public class CartaoVenda {
     public LocalDate getData(){
         return this.data;
     }
-
     public Double getHoras(){
         return this.valor;
     }

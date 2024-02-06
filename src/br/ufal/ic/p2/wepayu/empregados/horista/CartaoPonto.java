@@ -1,4 +1,4 @@
-package br.ufal.ic.p2.wepayu.gerencia;
+package br.ufal.ic.p2.wepayu.empregados.horista;
 
 import java.time.LocalDate;
 public class CartaoPonto {

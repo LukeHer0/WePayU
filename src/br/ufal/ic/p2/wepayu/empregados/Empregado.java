@@ -1,14 +1,7 @@
 package br.ufal.ic.p2.wepayu.empregados;
 
-import br.ufal.ic.p2.wepayu.Exception.*;
-import br.ufal.ic.p2.wepayu.gerencia.TaxaServico;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Objects;
 
 public abstract class Empregado {
 
@@ -72,5 +65,7 @@ public abstract class Empregado {
     public void setSindicalizado(String sindicalizado){
             this.sindicalizado = sindicalizado.equals("true");
     }
+
+
 
 }
