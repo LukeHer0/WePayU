@@ -46,6 +46,20 @@ public class Facade {
         return GerenciaEmpregados.getEmpregadoPorNome(nome, indice);
     }
 
+    public String getTaxasServico(String emp, String dataInicial, String dataFinal) throws Exception {
+        return GerenciaSindicato.getTaxasServico(emp, dataInicial, dataFinal);
+    }
+
+    public void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws
+            TaxaSindicalNulaException, TaxaSindicalNumericaException, IdSindicatoNuloException, OutroEmpregadoSindicatoException {
+        GerenciaEmpregados.alteraEmpregado(emp, atributo, valor, idSindicato, taxaSindical);
+    }
+
+    public static void alteraEmpregado(String emp, String atributo, String valor) throws
+            EmpregadoNaoExisteException, NomeNuloException, EnderecoNuloException, SalarioNuloException,
+            ComissaoNulaException, SalarioNumericoException, SalarioNegativoException, ValorTrueFalseException{
+        GerenciaEmpregados.alteraEmpregado(emp, atributo, valor);
+    }
     public void removerEmpregado(String emp) throws
             IdNuloException, EmpregadoNaoExisteException {
         GerenciaEmpregados.removerEmpregado(emp);
@@ -81,15 +95,9 @@ public class Facade {
         GerenciaVendas.lancaVenda(emp, data, valor);
     }
 
-    public void lancaTaxasServico(String membro, String data, String valor) throws
+    public void lancaTaxaServico(String membro, String data, String valor) throws
             IdMembroNuloException, MembroNaoExisteException, DataInvalidaException,
             ValorPositivoException {
-        GerenciaSindicato.lancaTaxasServico(membro, data, valor);
-    }
-
-    public static void alteraEmpregado(String emp, String atributo, String valor) throws
-            EmpregadoNaoExisteException, NomeNuloException, EnderecoNuloException, SalarioNuloException,
-            ComissaoNulaException, SalarioNumericoException, SalarioNegativoException, ValorTrueFalseException{
-        GerenciaEmpregados.alteraEmpregado(emp, atributo, valor);
+        GerenciaSindicato.lancaTaxaServico(membro, data, valor);
     }
 }

@@ -3,7 +3,6 @@ package br.ufal.ic.p2.wepayu.empregados;
 public class EmpregadoAssalariado extends Empregado{
 
     private EmpregadoAssalariado(String nome, String endereco, String tipo, String salario, String id){
-
         this.nome = nome;
         this.endereco = endereco;
         this.tipo = tipo;

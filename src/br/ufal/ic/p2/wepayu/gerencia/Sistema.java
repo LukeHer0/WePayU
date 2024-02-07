@@ -11,8 +11,7 @@ public class Sistema {
 
     public static void zerarSistema() {
         GerenciaEmpregados.empregados = new HashMap<>();
-
-        System.out.println("Sistema zerado \uD83D\uDC4D");
+//        System.out.println("Sistema zerado \uD83D\uDC4D");
     }
 
 

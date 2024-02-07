@@ -1,12 +1,12 @@
 package br.ufal.ic.p2.wepayu.models;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
+import br.ufal.ic.p2.wepayu.gerencia.GerenciaSindicato;
+import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 public class Erros {
     private static Aritmetica aritmetica = new Aritmetica();
@@ -55,6 +55,16 @@ public class Erros {
         }
     }
 
+    public static boolean verificarIdSindicato(String idSindicato) {
+        for(Map.Entry<String, MembroSindicato> entry : GerenciaSindicato.empregadosSindicalizados.entrySet()) {
+            String membro = entry.getKey();
+            if(membro.equals(idSindicato)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean confereData(String data){
         int d = 0, m = 0, y, i = 0;
 
@@ -78,6 +88,5 @@ public class Erros {
         }else {
             return true;
         }
-
     }
 }

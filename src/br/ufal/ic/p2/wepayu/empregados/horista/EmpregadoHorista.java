@@ -11,8 +11,6 @@ import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
 
 public class EmpregadoHorista extends Empregado {
 
-//    public LinkedHashMap<LocalDate, String> horasNormais = new LinkedHashMap<>();
-//    public LinkedHashMap<LocalDate, String> horasExtras = new LinkedHashMap<>();
 public ArrayList<CartaoPonto> cartaoPonto;
 
     private EmpregadoHorista(String nome, String endereco, String tipo, String salario, String id) {

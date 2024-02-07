@@ -59,13 +59,11 @@ public abstract class Empregado {
     }
 
     public void setSalario(String salario){
-        this.salario = salario;
+        this.salario = aritmetica.doubleFormat(salario);
     }
 
     public void setSindicalizado(String sindicalizado){
             this.sindicalizado = sindicalizado.equals("true");
     }
-
-
 
 }

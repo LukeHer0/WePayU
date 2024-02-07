@@ -9,6 +9,7 @@ import br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto;
 import br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
+import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +18,6 @@ import java.util.*;
 public class GerenciaEmpregados {
     public static HashMap<String, Empregado> empregados = new HashMap<>();
 
-    protected static Aritmetica aritmetica = new Aritmetica();
     protected static Erros verificarErros = new Erros();
 
     protected static int idCounter = 100000000;
@@ -170,21 +170,29 @@ public class GerenciaEmpregados {
     }
 
     public static void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws
-            IdSindicatoNuloException, TaxaSindicalNulaException, TaxaSindicalNumericaException{
+            IdSindicatoNuloException, TaxaSindicalNulaException, TaxaSindicalNumericaException, OutroEmpregadoSindicatoException {
         if(idSindicato.isEmpty()){
             throw new IdSindicatoNuloException();
         }if(taxaSindical.isEmpty()){
             throw new TaxaSindicalNulaException();
         }
-        try{
-            Double taxaSindicalDouble = Double.parseDouble(taxaSindical.replace(',','.'));
+        try{double taxaSindicalDouble = Double.parseDouble(taxaSindical.replace(',','.'));
             if(taxaSindicalDouble <= 0){
                 throw new TaxaSindicalPositivaException();
             }
         }catch (Exception e){
             throw new TaxaSindicalNumericaException();
         }
-
+        if(!(Erros.verificarIdSindicato(idSindicato))){
+            throw new OutroEmpregadoSindicatoException();
+        }
+        empregados.get(emp).setSindicalizado("true");
+        MembroSindicato novoMembroSindicato = new MembroSindicato.MembroSindicatoBuilder()
+                .idMembro(idSindicato)
+                .taxaSindical(taxaSindical)
+                .empregado(empregados.get(emp))
+                .build();
+        GerenciaSindicato.empregadosSindicalizados.put(idSindicato, novoMembroSindicato);
     }
 
     public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
