@@ -56,7 +56,7 @@ public class MembroSindicato {
     }
 
     public void setTaxas(TaxaServico taxa){
-        this.taxasServicos.addLast(taxa);
+        this.taxasServicos.add(taxa);
     }
 
 }

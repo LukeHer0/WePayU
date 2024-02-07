@@ -23,16 +23,17 @@ public class GerenciaEmpregados {
     protected static int idCounter = 100000000;
 
     public static String getAtributoEmpregado(String emp, String atributo) throws
-            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException{
-        if (Objects.equals(emp, "")) {
-            throw new IdNuloException();
-        }
-        if (!empregados.containsKey(emp)) {
-            throw new EmpregadoNaoExisteException();
-        }
-        if (!(Arrays.asList("nome", "endereco", "tipo", "salario", "sindicalizado", "comissao").contains(atributo))) {
-            throw new AtributoNExisteException();
-        }
+            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException, EmpregadoNaoComissionadoException {
+//        if (Objects.equals(emp, "")) {
+//            throw new IdNuloException();
+//        }
+//        if (!empregados.containsKey(emp)) {
+//            throw new EmpregadoNaoExisteException();
+//        }
+//        if (!(Arrays.asList("nome", "endereco", "tipo", "salario", "sindicalizado", "comissao").contains(atributo))) {
+//            throw new AtributoNExisteException();
+//        }
+        Erros.conferirErrosGetAtributo(emp, atributo);
         Empregado empregado = empregados.get(emp);
         return switch (atributo) {
             case "nome" -> empregado.getNome();

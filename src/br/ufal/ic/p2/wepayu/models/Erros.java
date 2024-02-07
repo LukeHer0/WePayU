@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.models;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
+import br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados;
 import br.ufal.ic.p2.wepayu.gerencia.GerenciaSindicato;
 import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
 
@@ -87,6 +88,20 @@ public class Erros {
             return false;
         }else {
             return true;
+        }
+    }
+
+    public static void conferirErrosGetAtributo(String emp, String atributo)
+            throws IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
+            EmpregadoNaoComissionadoException {
+        if (Objects.equals(emp,"")) {
+            throw new IdNuloException();
+        } else if (!GerenciaEmpregados.empregados.containsKey(emp)){
+            throw new EmpregadoNaoExisteException();
+        } else if (!(Arrays.asList("nome", "endereco", "tipo", "salario", "sindicalizado", "comissao").contains(atributo))){
+            throw new AtributoNExisteException();
+        } else if (!(GerenciaEmpregados.empregados.get(emp).getTipo().equals("comissionado")) && atributo.equals("comissao")){
+            throw new EmpregadoNaoComissionadoException();
         }
     }
 }

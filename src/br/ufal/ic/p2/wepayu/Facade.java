@@ -37,7 +37,8 @@ public class Facade {
     }
 
     public String getAtributoEmpregado(String emp, String atributo) throws
-            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException {
+            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
+            EmpregadoNaoComissionadoException {
         return GerenciaEmpregados.getAtributoEmpregado(emp, atributo);
     }
 
