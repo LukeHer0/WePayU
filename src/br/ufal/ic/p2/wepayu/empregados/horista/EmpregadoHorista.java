@@ -20,6 +20,7 @@ public ArrayList<CartaoPonto> cartaoPonto;
         this.salario = salario;
         this.id = id;
         this.sindicalizado = false;
+        this.metodoPagamento = "emMaos";
         this.cartaoPonto = new ArrayList<CartaoPonto>();
     }
 
@@ -59,6 +60,7 @@ public ArrayList<CartaoPonto> cartaoPonto;
         protected String tipo;
         protected String salario;
         protected String id;
+        protected String metodoPagamento;
 
         public EmpregadoHoristaBuilder nome(String nome) {
             this.nome = nome;
@@ -82,6 +84,11 @@ public ArrayList<CartaoPonto> cartaoPonto;
 
         public EmpregadoHoristaBuilder id(String id) {
             this.id = id;
+            return this;
+        }
+
+        public EmpregadoHoristaBuilder metodoPagamento(String metodoPagamento){
+            this.metodoPagamento = metodoPagamento;
             return this;
         }
 

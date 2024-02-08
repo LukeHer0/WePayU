@@ -2,9 +2,9 @@ package br.ufal.ic.p2.wepayu.gerencia;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
+import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda;
-import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto;
 import br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static br.ufal.ic.p2.wepayu.gerencia.GerenciaSindicato.empregadosSindicalizados;
+
 public class GerenciaEmpregados {
     public static HashMap<String, Empregado> empregados = new HashMap<>();
 
@@ -23,50 +25,61 @@ public class GerenciaEmpregados {
     protected static int idCounter = 100000000;
 
     public static String getAtributoEmpregado(String emp, String atributo) throws
-            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException{
+            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
+            EmpregadoNaoComissionadoException, EmpregadoNaoRecebeBancoException,
+            EmpregadoNaoSindicalizadoException{
+        //Método que retorna um atributo requerido pelo usuário
         if (Objects.equals(emp, "")) {
-            throw new IdNuloException();
+            throw new IdNuloException(); //caso o id seja nulo
         }
         if (!empregados.containsKey(emp)) {
-            throw new EmpregadoNaoExisteException();
+            throw new EmpregadoNaoExisteException(); //caso o id não seja nulo, mas não há nenhum empregado com o id requerido
         }
-        if (!(Arrays.asList("nome", "endereco", "tipo", "salario", "sindicalizado", "comissao").contains(atributo))) {
-            throw new AtributoNExisteException();
+        if (!(Arrays.asList("nome", "endereco", "tipo", "salario", "sindicalizado", "comissao", "metodoPagamento",
+                "banco", "agencia", "contaCorrente", "idSindicato", "taxaSindical").contains(atributo))) {
+            throw new AtributoNExisteException(); //o atributo deve ser um desses da lista acima
         }
         Empregado empregado = empregados.get(emp);
+
         return switch (atributo) {
             case "nome" -> empregado.getNome();
             case "endereco" -> empregado.getEndereco();
             case "tipo" -> empregado.getTipo();
             case "salario" -> empregado.getSalario();
             case "sindicalizado" -> String.valueOf(empregado.getSindicalizado());
-            case "comissao" -> empregado.getComissao();
-            default -> throw new AtributoNExisteException();
+            case "comissao" -> empregado.getComissao(empregado.getTipo());
+            case "metodoPagamento" -> empregado.getMetodoPagamento();
+            case "banco" -> empregado.getBanco(empregado.getMetodoPagamento());
+            case "agencia" -> empregado.getAgencia(empregado.getMetodoPagamento());
+            case "contaCorrente" -> empregado.getContaCorrente(empregado.getMetodoPagamento());
+            case "idSindicato" -> GerenciaSindicato.getIdSindicato(emp);
+            case "taxaSindical" -> GerenciaSindicato.getTaxaSindical(emp);
+            default -> throw new AtributoNExisteException(); //redundante com o if acima, porém o switch case precisa de um default para funcionar
         };
     }
 
     public static String getEmpregadoPorNome(String nome, Integer indice) throws NomeInexistenteException, EmpregadoNaoExisteException {
+        //Método para obter um empregado a partir do nome
         if(empregados.isEmpty()){
-            System.out.println("\nEmpregados vazios\n");
+//            System.out.println("\nEmpregados vazios\n");
             throw new EmpregadoNaoExisteException();
         }
-        for (Map.Entry<String, Empregado> entry : empregados.entrySet()) {
+        for (Map.Entry<String, Empregado> entry : empregados.entrySet()) { //for que percorre a lista de empregados
             Empregado e = entry.getValue();
             String key = entry.getKey();
-            if (nome.contains(e.getNome()))
+            if (nome.contains(e.getNome())) //caso haja um empregado com o nome requerido, é decrementado 1 do indice para garantir que o empregado é necessariamente o que o usuário quer
                 indice--;
 
-            if (indice == 0)
+            if (indice == 0) //indice necessario para os caros em que há mais de um empregado com o mesmo nome
                 return key;
         }
-
-        throw new NomeInexistenteException();
+        throw new NomeInexistenteException(); //nao ha empregado com esse nome
     }
 
     public static String criarEmpregado(String nome, String endereco, String tipo, String salario) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
-            ComissaoNegativaException, TipoNAplicavelException{
+            ComissaoNegativaException, TipoNAplicavelException{ //Método para criar empregados assalariados e horistas
         if(Objects.equals(tipo, "assalariado")){
             verificarErros.conferirErros(nome, endereco, tipo, salario);
             EmpregadoAssalariado empregado =
@@ -76,9 +89,10 @@ public class GerenciaEmpregados {
                             .tipo(tipo)
                             .salario(salario)
                             .id(String.valueOf(idCounter++))
+                            .metodoPagamento("emMaos")
                             .build();
             empregados.put(empregado.getId(), empregado);
-            return empregado.getId();
+            return empregado.getId(); //empregado criado e o id sera gerado na classe empregado
         }else{
             verificarErros.conferirErros(nome, endereco, tipo, salario);
             EmpregadoHorista empregado =
@@ -88,6 +102,7 @@ public class GerenciaEmpregados {
                             .tipo(tipo)
                             .salario(salario)
                             .id(String.valueOf(idCounter++))
+                            .metodoPagamento("emMaos")
                             .build();
             empregados.put(empregado.getId(), empregado);
             return empregado.getId();
@@ -97,7 +112,7 @@ public class GerenciaEmpregados {
     public static String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
-            ComissaoNegativaException, TipoNAplicavelException{
+            ComissaoNegativaException, TipoNAplicavelException{ //Método para criar empregados comissionados
         if(Objects.equals(tipo, "comissionado")){
             verificarErros.conferirErros(nome, endereco, tipo, salario, comissao);
             EmpregadoComissionado empregado =
@@ -108,6 +123,7 @@ public class GerenciaEmpregados {
                             .salario(salario)
                             .comissao(comissao)
                             .id(String.valueOf(idCounter++))
+                            .metodoPagamento("emMaos")
                             .build();
             empregados.put(empregado.getId(), empregado);
             return empregado.getId();
@@ -121,17 +137,24 @@ public class GerenciaEmpregados {
 
     public static void alteraEmpregado(String emp, String atributo, String valor) throws EmpregadoNaoExisteException, NomeNuloException,
             EnderecoNuloException, SalarioNuloException, ComissaoNulaException, SalarioNumericoException, SalarioNegativoException,
-            ValorTrueFalseException{
-        if(emp == null){
-            throw new EmpregadoNaoExisteException();
+            ValorTrueFalseException, EmpregadoNaoComissionadoException, AtributoNExisteException, TipoInvalidoException, MetodoPagInvalidoException,
+            IdNuloException, ComissaoNumericaException, ComissaoNegativaException, EmpregadoNaoRecebeBancoException { //Método para alterar algum atributo de um empregado
+        if(emp.isEmpty()){ //qualquer outro atributo que queira ser alterado sera possível em outro metodo de alteraEmpregado
+            throw new IdNuloException();
         }
 
         Empregado empregado = empregados.get(emp);
+
+        if(empregados.isEmpty()){
+            throw new EmpregadoNaoExisteException();
+        }
 
         switch (atributo){
             case "nome" ->{
                 if(valor.isEmpty()){
                     throw new NomeNuloException();
+                }if(empregado == null){
+                    throw new EmpregadoNaoExisteException();
                 }
                 empregado.setNome(valor);
             }
@@ -144,17 +167,10 @@ public class GerenciaEmpregados {
             case "salario" ->{
                 if(valor.isEmpty()){
                     throw new SalarioNuloException();
-                }
-
-                try{
-                    double salario = Double.parseDouble(valor.replace(',', '.'));
-
-                    if(salario <= 0)
-                    {
-                        throw new SalarioNegativoException();
-                    }
-                }catch (Exception e){
+                } else if(!Aritmetica.isNumeric(valor)) {
                     throw new SalarioNumericoException();
+                } else if (Double.parseDouble(valor.replace(',', '.')) <= 0) {
+                    throw new SalarioNegativoException();
                 }
                 empregado.setSalario(valor);
             }
@@ -164,26 +180,122 @@ public class GerenciaEmpregados {
                 }
                 if(valor.equals("false")){
                     empregado.setSindicalizado(valor);
+                    String key = null;
+                    for(Map.Entry<String, MembroSindicato> entry : empregadosSindicalizados.entrySet()){
+                        MembroSindicato membro = entry.getValue();
+                        if(membro.getEmpregado().equals(emp)){
+                            key = entry.getKey();
+                        }
+                    }
+                    empregadosSindicalizados.remove(key);
+
+
+
                 }
             }
+            case "tipo" -> {
+                if(!valor.equals("assalariado")){
+                    throw new TipoInvalidoException();
+                } else {
+                    EmpregadoAssalariado novoEmpregado =
+                        new EmpregadoAssalariado.EmpregadoAssalariadoBuilder()
+                            .nome(empregado.getNome())
+                            .endereco(empregado.getEndereco())
+                            .tipo("assalariado")
+                            .salario(empregado.getSalario())
+                            .id(empregado.getId())
+                            .build();
+                    if(Objects.equals(empregado.getMetodoPagamento(), "banco")){
+                        empregado.setBanco(empregado.getBanco(empregado.getMetodoPagamento()));
+                        empregado.setAgencia(empregado.getAgencia(empregado.getMetodoPagamento()));
+                        empregado.setContaCorrente(empregado.getContaCorrente(empregado.getMetodoPagamento()));
+                    }
+                    empregados.put(novoEmpregado.getId(), novoEmpregado);
+                }
+
+            }
+            case "comissao" ->{
+                if(!(Objects.equals(empregado.getTipo(), "comissionado"))){
+                    throw new EmpregadoNaoComissionadoException();
+                }else if(valor.isEmpty()){
+                    throw new ComissaoNulaException();
+                }else if(!(Aritmetica.isNumeric(valor))){
+                    throw new ComissaoNumericaException();
+                }else if (Double.parseDouble(valor.replace(',', '.')) <= 0) {
+                    throw new ComissaoNegativaException();
+                }
+
+                EmpregadoComissionado empregadoComissionado = (EmpregadoComissionado) empregado;
+                empregadoComissionado.setComissao(valor);
+
+            }
+            case "metodoPagamento" ->{
+                if(!(Arrays.asList("emMaos", "correios").contains(valor))){
+                    throw new MetodoPagInvalidoException();
+                }
+                empregado.setMetodoPagamento(valor);
+            }
+            default -> throw new AtributoNExisteException();
+        }
+    }
+
+    public static void alteraEmpregado(String emp, String atributo, String valor, String pagamento) throws IdNuloException, EmpregadoNaoRecebeBancoException {
+        Empregado empregado = empregados.get(emp);
+
+        if(emp == null){
+            throw new IdNuloException();
+        }
+        if(valor.equals("horista")) {
+            EmpregadoHorista novoEmpregado =
+                new EmpregadoHorista.EmpregadoHoristaBuilder()
+                        .nome(empregado.getNome())
+                        .endereco(empregado.getEndereco())
+                        .tipo("horista")
+                        .salario(pagamento)
+                        .id(empregado.getId())
+                        .metodoPagamento(empregado.getMetodoPagamento())
+                        .build();
+
+            if(Objects.equals(empregado.getMetodoPagamento(), "banco")){
+
+                empregado.setBanco(empregado.getBanco(empregado.getMetodoPagamento()));
+                empregado.setAgencia(empregado.getAgencia(empregado.getMetodoPagamento()));
+                empregado.setContaCorrente(empregado.getContaCorrente(empregado.getMetodoPagamento()));
+            }
+            empregados.put(novoEmpregado.getId(), novoEmpregado);
+        } else if(valor.equals("comissionado")){
+            EmpregadoComissionado novoEmpregado =
+                    new EmpregadoComissionado.EmpregadoComissionadoBuilder()
+                            .nome(empregado.getNome())
+                            .endereco(empregado.getEndereco())
+                            .tipo("comissionado")
+                            .salario(empregado.getSalario())
+                            .id(empregado.getId())
+                            .metodoPagamento(empregado.getMetodoPagamento())
+                            .build();
+            novoEmpregado.setComissao(pagamento);
+            if(Objects.equals(empregado.getMetodoPagamento(), "banco")){
+
+                empregado.setBanco(empregado.getBanco(empregado.getMetodoPagamento()));
+                empregado.setAgencia(empregado.getAgencia(empregado.getMetodoPagamento()));
+                empregado.setContaCorrente(empregado.getContaCorrente(empregado.getMetodoPagamento()));
+            }
+            empregados.put(novoEmpregado.getId(), novoEmpregado);
         }
     }
 
     public static void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws
-            IdSindicatoNuloException, TaxaSindicalNulaException, TaxaSindicalNumericaException, OutroEmpregadoSindicatoException {
+            IdSindicatoNuloException, TaxaSindicalNulaException, TaxaSindicalNumericaException, OutroEmpregadoSindicatoException, TaxaSindicalPositivaException {
         if(idSindicato.isEmpty()){
             throw new IdSindicatoNuloException();
-        }if(taxaSindical.isEmpty()){
+        }else if(taxaSindical.isEmpty()){
             throw new TaxaSindicalNulaException();
-        }
-        try{double taxaSindicalDouble = Double.parseDouble(taxaSindical.replace(',','.'));
-            if(taxaSindicalDouble <= 0){
-                throw new TaxaSindicalPositivaException();
-            }
-        }catch (Exception e){
+        } else if(!Aritmetica.isNumeric((taxaSindical))) {
             throw new TaxaSindicalNumericaException();
         }
-        if(!(Erros.verificarIdSindicato(idSindicato))){
+        else if(Double.parseDouble(taxaSindical.replace(',','.'))<= 0){
+            throw new TaxaSindicalPositivaException();
+        }  else if(!Erros.verificarIdSindicato(idSindicato)) {
             throw new OutroEmpregadoSindicatoException();
         }
         empregados.get(emp).setSindicalizado("true");
@@ -192,7 +304,52 @@ public class GerenciaEmpregados {
                 .taxaSindical(taxaSindical)
                 .empregado(empregados.get(emp))
                 .build();
-        GerenciaSindicato.empregadosSindicalizados.put(idSindicato, novoMembroSindicato);
+        empregadosSindicalizados.put(idSindicato, novoMembroSindicato);
+    }
+
+    public static void alteraEmpregado (String emp, String atributo, String valor1, String banco, String agencia, String contaCorrente) throws
+            EmpregadoNaoExisteException, BancoNuloException, AgenciaNuloException, ContaCorrenteNuloException, AtributoNExisteException, MetodoPagInvalidoException {
+        if(emp == null){
+            throw new EmpregadoNaoExisteException();
+        }
+
+        Empregado empregado = empregados.get(emp);
+
+        switch (atributo){
+            case "metodoPagamento" ->{
+                if(!(Arrays.asList("emMaos", "banco", "correios").contains(valor1))){
+                    throw new MetodoPagInvalidoException();
+                } else if(banco.isEmpty()){
+                    throw new BancoNuloException();
+                } else if (agencia.isEmpty()){
+                    throw new AgenciaNuloException();
+                } else if (contaCorrente.isEmpty()) {
+                    throw new ContaCorrenteNuloException();
+                }
+                empregado.setMetodoPagamento(valor1);
+                empregado.setBanco(banco);
+                empregado.setAgencia(agencia);
+                empregado.setContaCorrente(contaCorrente);
+
+            }
+            case "banco" ->{
+                if (valor1.isEmpty()){
+                    throw new BancoNuloException();
+                }
+                empregado.setMetodoPagamento(valor1);
+            }
+            case "agencia" ->{
+                if (valor1.isEmpty()){
+                    throw new AgenciaNuloException();
+                }
+            }
+            case "contaCorrente" ->{
+                if(valor1.isEmpty()){
+                    throw new ContaCorrenteNuloException();
+                }
+            }
+            default -> throw new AtributoNExisteException();
+        }
     }
 
     public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{

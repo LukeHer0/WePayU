@@ -94,4 +94,26 @@ public class GerenciaSindicato {
         }
         throw new EmpregadoNaoSindicalizadoException();
     }
+
+    public static String getIdSindicato(String emp)throws
+            EmpregadoNaoSindicalizadoException{
+        for(Map.Entry<String, MembroSindicato> entry: empregadosSindicalizados.entrySet()){
+            MembroSindicato membro = entry.getValue();
+            if(membro.getEmpregado().equals(emp)){
+                return entry.getKey();
+            }
+        }
+        throw new EmpregadoNaoSindicalizadoException();
+    }
+
+    public static String getTaxaSindical(String emp)throws
+            EmpregadoNaoSindicalizadoException{
+        for(Map.Entry<String, MembroSindicato> entry: empregadosSindicalizados.entrySet()){
+            MembroSindicato membro = entry.getValue();
+            if(membro.getEmpregado().equals(emp)){
+                return Aritmetica.doubleFormat(membro.getTaxaSindical());
+            }
+        }
+        throw new EmpregadoNaoSindicalizadoException();
+    }
 }

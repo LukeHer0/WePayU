@@ -37,7 +37,9 @@ public class Facade {
     }
 
     public String getAtributoEmpregado(String emp, String atributo) throws
-            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException {
+            IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
+            EmpregadoNaoComissionadoException, EmpregadoNaoRecebeBancoException,
+            EmpregadoNaoSindicalizadoException {
         return GerenciaEmpregados.getAtributoEmpregado(emp, atributo);
     }
 
@@ -51,16 +53,27 @@ public class Facade {
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws
-            TaxaSindicalNulaException, TaxaSindicalNumericaException, IdSindicatoNuloException, OutroEmpregadoSindicatoException {
+            TaxaSindicalNulaException, TaxaSindicalNumericaException, IdSindicatoNuloException, OutroEmpregadoSindicatoException,
+            TaxaSindicalPositivaException {
         GerenciaEmpregados.alteraEmpregado(emp, atributo, valor, idSindicato, taxaSindical);
+    }
+
+    public static void alteraEmpregado(String emp, String atributo, String valor, String pagamento) throws IdNuloException, EmpregadoNaoRecebeBancoException{
+        GerenciaEmpregados.alteraEmpregado(emp, atributo, valor, pagamento);
     }
 
     public static void alteraEmpregado(String emp, String atributo, String valor) throws
             EmpregadoNaoExisteException, NomeNuloException, EnderecoNuloException, SalarioNuloException,
-            ComissaoNulaException, SalarioNumericoException, SalarioNegativoException, ValorTrueFalseException{
+            ComissaoNulaException, SalarioNumericoException, SalarioNegativoException, ValorTrueFalseException, EmpregadoNaoComissionadoException, AtributoNExisteException, TipoInvalidoException, MetodoPagInvalidoException, IdNuloException, ComissaoNegativaException, ComissaoNumericaException, EmpregadoNaoRecebeBancoException {
         GerenciaEmpregados.alteraEmpregado(emp, atributo, valor);
     }
-    public void removerEmpregado(String emp) throws
+
+    public static void alteraEmpregado (String emp, String atributo, String valor1, String banco, String agencia, String contaCorrente) throws
+            EmpregadoNaoExisteException, BancoNuloException, AgenciaNuloException, ContaCorrenteNuloException, AtributoNExisteException, MetodoPagInvalidoException {
+        GerenciaEmpregados.alteraEmpregado(emp, atributo, valor1, banco, agencia, contaCorrente);
+    }
+
+        public void removerEmpregado(String emp) throws
             IdNuloException, EmpregadoNaoExisteException {
         GerenciaEmpregados.removerEmpregado(emp);
     }

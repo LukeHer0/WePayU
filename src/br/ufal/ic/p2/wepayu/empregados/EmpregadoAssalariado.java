@@ -9,6 +9,7 @@ public class EmpregadoAssalariado extends Empregado{
         this.salario = salario;
         this.id = id;
         this.sindicalizado = false;
+        this.metodoPagamento = "emMaos";
     }
 
     public static class EmpregadoAssalariadoBuilder{
@@ -17,6 +18,7 @@ public class EmpregadoAssalariado extends Empregado{
         protected String tipo;
         protected String salario;
         protected String id;
+        protected String metodoPagamento;
 
         public EmpregadoAssalariadoBuilder nome(String nome){
             this.nome = nome;
@@ -36,6 +38,10 @@ public class EmpregadoAssalariado extends Empregado{
         }
         public EmpregadoAssalariadoBuilder id(String id){
             this.id = id;
+            return this;
+        }
+        public EmpregadoAssalariadoBuilder metodoPagamento(String metodoPagamento){
+            this.metodoPagamento = metodoPagamento;
             return this;
         }
         public EmpregadoAssalariado build(){

@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Aritmetica {
-    private final DecimalFormat dF = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
 
-    public boolean isNumeric(String str) {
+
+    public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str.replace(",", "."));
             return true;
@@ -20,7 +20,8 @@ public class Aritmetica {
         }
     }
 
-    public String doubleFormat(String str) {
+    public static String doubleFormat(String str) {
+        DecimalFormat dF = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
         str =  dF.format(Double.parseDouble(str.replace(',', '.')));
 
         return str.replace(".", "");
