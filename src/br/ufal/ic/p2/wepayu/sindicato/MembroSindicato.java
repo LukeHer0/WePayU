@@ -2,15 +2,17 @@ package br.ufal.ic.p2.wepayu.sindicato;
 
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class MembroSindicato {
+public class MembroSindicato implements Serializable {
     private String idMembro;
     private String taxaSindical;
     private Empregado empregado;
     public ArrayList<TaxaServico> taxasServicos;
 
+    public MembroSindicato() {
+    }
 
     private MembroSindicato(String idMembro, String taxaSindical, Empregado empregado){
         this.idMembro = idMembro;

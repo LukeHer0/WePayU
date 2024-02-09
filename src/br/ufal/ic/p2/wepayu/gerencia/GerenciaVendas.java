@@ -31,11 +31,11 @@ public class GerenciaVendas implements Serializable {
 
         LocalDate date;
         try {
-            DateTimeFormatter dataa = DateTimeFormatter.ofPattern("d/M/yyyy");
-            date = LocalDate.parse(data, dataa);
+            DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+            date = LocalDate.parse(data, dataFormato);
         } catch (Exception e) {
             throw new DataInvalidaException();
         }
-        empregado.setCartaoVenda(new CartaoVenda(date, valorDouble));
+        empregado.setCartaoVenda(new CartaoVenda(data, valorDouble));
     }
 }

@@ -3,8 +3,11 @@ package br.ufal.ic.p2.wepayu.sindicato;
 import java.time.LocalDate;
 
 public class TaxaServico {
-    private final LocalDate data;
-    private final Double valor;
+    private LocalDate data;
+    private Double valor;
+
+    public TaxaServico() {
+    }
 
     private TaxaServico(LocalDate data, Double valor){
         this.data = data;

@@ -42,7 +42,6 @@ public class XMLUse implements Serializable{
                 empregados = (HashMap<String, Empregado>) obj;
 
         } catch (Exception ignored) {
-            System.out.println("tah nem indo");
         }
         return empregados;
     }

@@ -4,8 +4,10 @@ import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.Exception.IdNuloException;
 import br.ufal.ic.p2.wepayu.gerencia.*;
 
+import java.io.IOException;
+
 public class Facade {
-    public void zerarSistema() {
+    public void zerarSistema() throws IOException {
         Sistema.zerarSistema();
     }
 
@@ -105,11 +107,11 @@ public class Facade {
         GerenciaSindicato.lancaTaxaServico(membro, data, valor);
     }
 
-//    public static String totalFolha(String data) throws DataInvalidaException {
-//        return FolhadePagamento.totalFolha(data);
-//    }
-
-    public static void rodaFolha(String data, String saida) throws Exception {
-        FolhadePagamento.rodaFolha(data, saida);
+    public static String totalFolha(String data) throws Exception {
+        return FolhadePagamento.totalFolha(data);
     }
+
+//    public static void rodaFolha(String data, String saida) throws Exception {
+//        FolhadePagamento.rodaFolha(data, saida);
+//    }
 }

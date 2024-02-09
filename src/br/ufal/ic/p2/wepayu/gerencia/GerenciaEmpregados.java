@@ -38,11 +38,11 @@ public class GerenciaEmpregados{
         return empregadosHoristas;
     }
 
-    public static HashMap<String, EmpregadoComissionado> getEmpregadosComissiados(){
+    public static HashMap<String, EmpregadoComissionado> getEmpregadosComissionados(){
         HashMap <String, EmpregadoComissionado> empregadosComissionados = new HashMap<String,EmpregadoComissionado>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
-            if(empregado.getTipo().equals("horista")){
+            if(empregado.getTipo().equals("comissionado")){
                 empregadosComissionados.put(e.getKey(), (EmpregadoComissionado) empregado);
             }
         }
@@ -53,7 +53,7 @@ public class GerenciaEmpregados{
         HashMap <String, EmpregadoAssalariado> empregadosAssalariados = new HashMap<String,EmpregadoAssalariado>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
-            if(empregado.getTipo().equals("horista")){
+            if(empregado.getTipo().equals("assalariado")){
                 empregadosAssalariados.put(e.getKey(), (EmpregadoAssalariado) empregado);
             }
         }
@@ -441,7 +441,7 @@ public class GerenciaEmpregados{
                 return "0";
             }
             for(CartaoPonto c : empregado.cartaoPonto){
-                if(c.getData().isEqual(Inicial) || (c.getData().isAfter(Inicial) && c.getData().isBefore(Final))){
+                if(LocalDate.parse(c.getData(), dataFormato).isEqual(Inicial) || (LocalDate.parse(c.getData(), dataFormato).isAfter(Inicial) && LocalDate.parse(c.getData(), dataFormato).isBefore(Final))){
                     if(c.getHoras() > 8){
                         acumulador += 8;
                     }else{
@@ -490,7 +490,7 @@ public class GerenciaEmpregados{
                 return "0";
             }
             for(CartaoPonto c : empregado.cartaoPonto){
-                if(c.getData().isEqual(Inicial) || (c.getData().isAfter(Inicial) && c.getData().isBefore(Final))){
+                if(LocalDate.parse(c.getData(), dataFormato).isEqual(Inicial) || (LocalDate.parse(c.getData(), dataFormato).isAfter(Inicial) && LocalDate.parse(c.getData(), dataFormato).isBefore(Final))){
                     if(c.getHoras() > 8){
                         acumulador += (c.getHoras() - 8);
                     }
@@ -536,12 +536,11 @@ public class GerenciaEmpregados{
                 return "0";
             }
             for(CartaoVenda c : empregado.cartaoVenda){
-                if(c.getData().isEqual(Inicial) || (c.getData().isAfter(Inicial) && c.getData().isBefore(Final))){
+                if(LocalDate.parse(c.getData(), dataFormato).isEqual(Inicial) || (LocalDate.parse(c.getData(), dataFormato).isAfter(Inicial) && LocalDate.parse(c.getData(), dataFormato).isBefore(Final))){
                     acumulador += c.getHoras();
                 }
             }
         }
-
         return String.format("%.2f", acumulador).replace(".", ",");
     }
 

@@ -48,13 +48,13 @@ public ArrayList<CartaoPonto> cartaoPonto;
 
         LocalDate date;
         try {
-            DateTimeFormatter dataa = DateTimeFormatter.ofPattern("d/M/yyyy");
-            date = LocalDate.parse(data, dataa);
+            DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+            date = LocalDate.parse(data, dataFormato);
         } catch (Exception e) {
             throw new DataInvalidaException();
         }
 
-        empregado.setCartaoPonto(new CartaoPonto(date, horasDouble));
+        empregado.setCartaoPonto(new CartaoPonto(data, horasDouble));
     }
 
     public static class EmpregadoHoristaBuilder {
