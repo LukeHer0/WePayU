@@ -109,8 +109,7 @@ public class GerenciaSindicato {
             if(membro.getEmpregadoId().equals(emp)){
                 return entry.getKey();
             }
-        }
-        throw new EmpregadoNaoSindicalizadoException();
+        }throw new EmpregadoNaoSindicalizadoException();
     }
 
     public static String getTaxaSindical(String emp)throws

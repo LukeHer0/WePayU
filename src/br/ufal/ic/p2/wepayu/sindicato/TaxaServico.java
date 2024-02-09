@@ -18,10 +18,18 @@ public class TaxaServico implements Serializable {
     public String getData(){
         return this.data;
     }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     public Double getValor(){
         return this.valor;
     }
 
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
 
     public static class TaxaServicoBuilder{
         protected String data;

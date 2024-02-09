@@ -232,7 +232,7 @@ public class GerenciaEmpregados{
                         }
                     }
                     empregadosSindicalizados.remove(key);
-
+                    XMLUse.salvaMembroSindicatoXML(empregadosSindicalizados, "./listaMembrosSindicato.xml");
                 }
             }
             case "tipo" -> {

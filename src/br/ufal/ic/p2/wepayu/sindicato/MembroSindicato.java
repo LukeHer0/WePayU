@@ -68,7 +68,6 @@ public class MembroSindicato implements Serializable {
     public Empregado getEmpregado(){
         return this.empregado;
     }
-
     public void setEmpregado(Empregado empregado) {
         this.empregado = empregado;
     }
@@ -76,7 +75,9 @@ public class MembroSindicato implements Serializable {
     public ArrayList<TaxaServico> getTaxasServicos() {
         return taxasServicos;
     }
-
+    public void setTaxasServicos(ArrayList<TaxaServico> taxasServicos) {
+        this.taxasServicos = taxasServicos;
+    }
     public void setTaxasServicos(TaxaServico taxasServicos) {
         this.taxasServicos.add(taxasServicos);
     }
