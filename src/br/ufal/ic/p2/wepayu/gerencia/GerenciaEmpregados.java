@@ -20,14 +20,11 @@ import java.util.*;
 import static br.ufal.ic.p2.wepayu.gerencia.GerenciaSindicato.empregadosSindicalizados;
 
 public class GerenciaEmpregados{
-    //public static HashMap<String, Empregado> empregados = new HashMap<>();
     public static HashMap<String, Empregado> empregados = XMLUse.carregarEmpregadosXML("./listaEmpregados.xml");
-
     protected static Erros verificarErros = new Erros();
-
     protected static int idCounter = 100000000;
 
-    public static HashMap<String, EmpregadoHorista> getEmpregadosHoristas(){
+    public static HashMap<String, EmpregadoHorista> getEmpregadosHoristas(){ //retorna o conjunto de empregados horistas da empresa em uma hash map
         HashMap <String, EmpregadoHorista> empregadosHoristas = new HashMap<String,EmpregadoHorista>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
@@ -37,8 +34,7 @@ public class GerenciaEmpregados{
         }
         return empregadosHoristas;
     }
-
-    public static HashMap<String, EmpregadoComissionado> getEmpregadosComissionados(){
+    public static HashMap<String, EmpregadoComissionado> getEmpregadosComissionados(){ //retorna o conjunto de empregados comissionados da empresa em uma hash map
         HashMap <String, EmpregadoComissionado> empregadosComissionados = new HashMap<String,EmpregadoComissionado>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
@@ -49,7 +45,7 @@ public class GerenciaEmpregados{
         return empregadosComissionados;
     }
 
-    public static HashMap<String, EmpregadoAssalariado> getEmpregadosAssalariados(){
+    public static HashMap<String, EmpregadoAssalariado> getEmpregadosAssalariados(){ //retorna o conjunto de empregados assalariados da empresa em uma hashmap
         HashMap <String, EmpregadoAssalariado> empregadosAssalariados = new HashMap<String,EmpregadoAssalariado>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
@@ -121,7 +117,7 @@ public class GerenciaEmpregados{
     public static String criarEmpregado(String nome, String endereco, String tipo, String salario) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
-            ComissaoNegativaException, TipoNAplicavelException{ //Método para criar empregados assalariados e horistas
+            ComissaoNegativaException, TipoNAplicavelException{ //Método para criar empregados assalariados e horistas (4 parametros)
         if(Objects.equals(tipo, "assalariado")){
             verificarErros.conferirErros(nome, endereco, tipo, salario);
             EmpregadoAssalariado empregado =
@@ -155,7 +151,7 @@ public class GerenciaEmpregados{
     public static String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
-            ComissaoNegativaException, TipoNAplicavelException{ //Método para criar empregados comissionados
+            ComissaoNegativaException, TipoNAplicavelException{ //Método para criar empregados comissionados (5 parâmetros)
         if(Objects.equals(tipo, "comissionado")){
             verificarErros.conferirErros(nome, endereco, tipo, salario, comissao);
             EmpregadoComissionado empregado =
@@ -182,7 +178,7 @@ public class GerenciaEmpregados{
     public static void alteraEmpregado(String emp, String atributo, String valor) throws EmpregadoNaoExisteException, NomeNuloException,
             EnderecoNuloException, SalarioNuloException, ComissaoNulaException, SalarioNumericoException, SalarioNegativoException,
             ValorTrueFalseException, EmpregadoNaoComissionadoException, AtributoNExisteException, TipoInvalidoException, MetodoPagInvalidoException,
-            IdNuloException, ComissaoNumericaException, ComissaoNegativaException, EmpregadoNaoRecebeBancoException { //Método para alterar algum atributo de um empregado
+            IdNuloException, ComissaoNumericaException, ComissaoNegativaException, EmpregadoNaoRecebeBancoException { //Método para alterar algum atributo de um empregado (3 parâmetros)
         if(emp.isEmpty()){ //qualquer outro atributo que queira ser alterado sera possível em outro metodo de alteraEmpregado
             throw new IdNuloException();
         }
@@ -266,10 +262,8 @@ public class GerenciaEmpregados{
                 }else if (Double.parseDouble(valor.replace(',', '.')) <= 0) {
                     throw new ComissaoNegativaException();
                 }
-
                 EmpregadoComissionado empregadoComissionado = (EmpregadoComissionado) empregado;
                 empregadoComissionado.setComissao(valor);
-
             }
             case "metodoPagamento" ->{
                 if(!(Arrays.asList("emMaos", "correios").contains(valor))){
@@ -281,7 +275,7 @@ public class GerenciaEmpregados{
         }
     }
 
-    public static void alteraEmpregado(String emp, String atributo, String valor, String pagamento) throws IdNuloException, EmpregadoNaoRecebeBancoException {
+    public static void alteraEmpregado(String emp, String atributo, String valor, String pagamento) throws IdNuloException, EmpregadoNaoRecebeBancoException {//altera o atributo de um empregado (4 parametros)
         Empregado empregado = empregados.get(emp);
 
         if(emp == null){
@@ -297,9 +291,7 @@ public class GerenciaEmpregados{
                         .id(empregado.getId())
                         .metodoPagamento(empregado.getMetodoPagamento())
                         .build();
-
             if(Objects.equals(empregado.getMetodoPagamento(), "banco")){
-
                 empregado.setBanco(empregado.getBanco(empregado.getMetodoPagamento()));
                 empregado.setAgencia(empregado.getAgencia(empregado.getMetodoPagamento()));
                 empregado.setContaCorrente(empregado.getContaCorrente(empregado.getMetodoPagamento()));
@@ -317,7 +309,6 @@ public class GerenciaEmpregados{
                             .build();
             novoEmpregado.setComissao(pagamento);
             if(Objects.equals(empregado.getMetodoPagamento(), "banco")){
-
                 empregado.setBanco(empregado.getBanco(empregado.getMetodoPagamento()));
                 empregado.setAgencia(empregado.getAgencia(empregado.getMetodoPagamento()));
                 empregado.setContaCorrente(empregado.getContaCorrente(empregado.getMetodoPagamento()));
@@ -327,7 +318,7 @@ public class GerenciaEmpregados{
         }
     }
 
-    public static void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws
+    public static void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws //altera o atributo de um empregado (5 parametros)
             IdSindicatoNuloException, TaxaSindicalNulaException, TaxaSindicalNumericaException, OutroEmpregadoSindicatoException, TaxaSindicalPositivaException {
         if(idSindicato.isEmpty()){
             throw new IdSindicatoNuloException();
@@ -348,18 +339,15 @@ public class GerenciaEmpregados{
                 .empregado(empregados.get(emp))
                 .build();
         empregadosSindicalizados.put(idSindicato, novoMembroSindicato);
-
         XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
     }
 
-    public static void alteraEmpregado (String emp, String atributo, String valor1, String banco, String agencia, String contaCorrente) throws
+    public static void alteraEmpregado (String emp, String atributo, String valor1, String banco, String agencia, String contaCorrente) throws //altera o atributo de um empregado (6 parametros)
             EmpregadoNaoExisteException, BancoNuloException, AgenciaNuloException, ContaCorrenteNuloException, AtributoNExisteException, MetodoPagInvalidoException {
         if(emp == null){
             throw new EmpregadoNaoExisteException();
         }
-
         Empregado empregado = empregados.get(emp);
-
         switch (atributo){
             case "metodoPagamento" ->{
                 if(!(Arrays.asList("emMaos", "banco", "correios").contains(valor1))){
@@ -375,7 +363,6 @@ public class GerenciaEmpregados{
                 empregado.setBanco(banco);
                 empregado.setAgencia(agencia);
                 empregado.setContaCorrente(contaCorrente);
-
             }
             case "banco" ->{
                 if (valor1.isEmpty()){
@@ -398,20 +385,17 @@ public class GerenciaEmpregados{
         XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
     }
 
-    public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
+    public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{ //remove um empregado do hashmap
         if (emp.isEmpty())
             throw new IdNuloException();
-
         Empregado empregado = empregados.get(emp);
-
         if (empregado == null)
             throw new EmpregadoNaoExisteException();
-
         empregados.remove(emp);
         XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
     }
 
-    public static String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException,
+    public static String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException, //calcula as horas normais de um empregado horista
             IdNuloException, DataIniPostFinException, DataInicialInvException, DataFinalInvException{
         if(emp == null) {
             throw new IdNuloException();
@@ -419,20 +403,16 @@ public class GerenciaEmpregados{
             throw new EmpregadoNaoHoristaException();
         }
         EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
-
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate Inicial, Final;
-
         if(!(Erros.confereData(dataInicial))){
             throw new DataInicialInvException();
         }
         Inicial = LocalDate.parse(dataInicial, dataFormato);
-
         if(!(Erros.confereData(dataFinal))){
             throw new DataFinalInvException();
         }
         Final = LocalDate.parse(dataFinal,dataFormato);
-
         double acumulador = 0;
         if(Inicial.equals(Final))
         {
@@ -460,7 +440,7 @@ public class GerenciaEmpregados{
         return Integer.toString((int)acumulador);
     }
 
-    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoHoristaException,
+    public static String getHorasExtrasTrabalhadas(String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoHoristaException, //calcula as horas extras de um empregado horista
             DataIniPostFinException, DataInicialInvException, DataFinalInvException{
         if(emp == null) {
             throw new IdNuloException();
@@ -468,21 +448,16 @@ public class GerenciaEmpregados{
             throw new EmpregadoNaoHoristaException();
         }
         EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
-
-
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate Inicial, Final;
-
         if(!(Erros.confereData(dataInicial))){
             throw new DataInicialInvException();
         }
         Inicial = LocalDate.parse(dataInicial, dataFormato);
-
         if(!(Erros.confereData(dataFinal))){
             throw new DataFinalInvException();
         }
         Final = LocalDate.parse(dataFinal,dataFormato);
-
         double acumulador = 0;
         if(Inicial.equals(Final)) {
             return "0";
@@ -507,20 +482,16 @@ public class GerenciaEmpregados{
         return Integer.toString((int)acumulador);
     }
 
-    public static String getVendasRealizadas (String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoComissionadoException,
+    public static String getVendasRealizadas (String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoComissionadoException, //calcula as vendas de um empregado comissionado
             DataInicialInvException, DataFinalInvException, DataIniPostFinException{
         if(emp == null){
             throw new IdNuloException();
         }if(!(empregados.get(emp) instanceof  EmpregadoComissionado)){
             throw new EmpregadoNaoComissionadoException();
         }
-
         EmpregadoComissionado empregado = (EmpregadoComissionado) empregados.get(emp);
-
-
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate Inicial, Final;
-
         if(!(Erros.confereData(dataInicial))){
             throw new DataInicialInvException();
         }
@@ -549,7 +520,7 @@ public class GerenciaEmpregados{
         return String.format("%.2f", acumulador).replace(".", ",");
     }
 
-    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
+    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException{ //referencia para um metodo de EmpregadoHorista
         EmpregadoHorista.lancaCartao(emp, data, horas);
     }
 }

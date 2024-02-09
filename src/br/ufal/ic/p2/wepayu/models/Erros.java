@@ -30,7 +30,6 @@ public class Erros {
             throw new TipoNAplicavelException();
         }
     }
-
     public void conferirErros (String nome, String endereco, String tipo, String salario, String comissao) throws
             SalarioNuloException, SalarioNumericoException, NomeNuloException, EnderecoNuloException,
             TipoInvalidoException, SalarioNegativoException, ComissaoNulaException, ComissaoNumericaException,
@@ -55,7 +54,6 @@ public class Erros {
             throw new SalarioNegativoException();
         }
     }
-
     public static boolean verificarIdSindicato(String idSindicato) {
         for(Map.Entry<String, MembroSindicato> entry : GerenciaSindicato.empregadosSindicalizados.entrySet()) {
             String membro = entry.getKey();
@@ -65,8 +63,7 @@ public class Erros {
         }
         return true;
     }
-
-    public static boolean confereData(String data){
+    public static boolean confereData(String data){ //confere se a data eh valida
         int d = 0, m = 0, y, i = 0;
 
         for (String s : data.split("/")) {
@@ -90,7 +87,6 @@ public class Erros {
             return true;
         }
     }
-
     public static void conferirErrosGetAtributo(String emp, String atributo)
             throws IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
             EmpregadoNaoComissionadoException {

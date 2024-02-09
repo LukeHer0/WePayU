@@ -15,7 +15,6 @@ public class EmpregadoAssalariado extends Empregado implements Serializable {
         this.sindicalizado = false;
         this.metodoPagamento = "emMaos";
     }
-
     public static class EmpregadoAssalariadoBuilder{
         protected String nome;
         protected String endereco;

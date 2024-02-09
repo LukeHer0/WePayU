@@ -32,9 +32,9 @@ public ArrayList<CartaoPonto> cartaoPonto;
     }
     public ArrayList<CartaoPonto> getCartaoPonto(){return this.cartaoPonto;}
 
-    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
+    public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, //lanca o cartao de um empregado horista
+            EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
         double horasDouble = Double.parseDouble(horas.replace(",", "."));
-
         if (Objects.equals(emp, "")) {
             throw new IdNuloException();
         } else if (!empregados.containsKey(emp)) {
@@ -44,10 +44,8 @@ public ArrayList<CartaoPonto> cartaoPonto;
         } else if (horasDouble <= 0) {
             throw new HoraPositivaException();
         }
-
         EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
         XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
-
         LocalDate date;
         try {
             DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -55,10 +53,8 @@ public ArrayList<CartaoPonto> cartaoPonto;
         } catch (Exception e) {
             throw new DataInvalidaException();
         }
-
         empregado.setCartaoPonto(new CartaoPonto(data, horasDouble));
     }
-
     public static class EmpregadoHoristaBuilder {
         protected String nome;
         protected String endereco;

@@ -20,12 +20,10 @@ public class MembroSindicato implements Serializable {
         this.empregado = empregado;
         this.taxasServicos = new ArrayList<>();
     }
-
     public static class MembroSindicatoBuilder{
         protected String idMembro;
         protected String taxaSindical;
         protected Empregado empregado;
-
         public MembroSindicatoBuilder idMembro(String idMembro){
             this.idMembro = idMembro;
             return this;
@@ -34,33 +32,26 @@ public class MembroSindicato implements Serializable {
             this.taxaSindical = taxaSindical;
             return this;
         }
-
         public MembroSindicatoBuilder empregado(Empregado empregado){
             this.empregado = empregado;
             return this;
         }
-
         public MembroSindicato build(){
             return new MembroSindicato(idMembro, taxaSindical, empregado);
         }
     }
-
     public String getIdMembro(){
         return this.idMembro;
     }
-
     public void setIdMembro(String idMembro) {
         this.idMembro = idMembro;
     }
-
     public String getTaxaSindical(){
         return this.taxaSindical;
     }
-
     public void setTaxaSindical(String taxaSindical) {
         this.taxaSindical = taxaSindical;
     }
-
     public String getEmpregadoId() {
         return this.empregado.getId();
     }

@@ -13,7 +13,6 @@ public class CartaoPonto implements Serializable {
         this.data = data;
         this.horas = horas;
     }
-
     public String getData(){
         return this.data;
     }

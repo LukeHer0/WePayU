@@ -17,7 +17,6 @@ public class GerenciaVendas implements Serializable {
             IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoComissionadoException,
             ValorPositivoException, DataInvalidaException {
         double valorDouble = Double.parseDouble(valor.replace(",", "."));
-
         if (Objects.equals(emp, "")) {
             throw new IdNuloException();
         } else if (!empregados.containsKey(emp)) {
@@ -27,9 +26,7 @@ public class GerenciaVendas implements Serializable {
         } else if (valorDouble <= 0) {
             throw new ValorPositivoException();
         }
-
         EmpregadoComissionado empregado = (EmpregadoComissionado) empregados.get(emp);
-
         LocalDate date;
         try {
             DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");

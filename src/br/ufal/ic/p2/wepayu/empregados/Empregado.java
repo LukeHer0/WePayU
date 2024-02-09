@@ -43,14 +43,12 @@ public abstract class Empregado implements Serializable {
         //System.out.println("\nNOMEE\n");
         this.nome = nome;
     }
-
     public String getEndereco() {
         return this.endereco;
     }
     public void setEndereco(String endereco){
         this.endereco = endereco;
     }
-
     public String getTipo() {
         return this.tipo;
     }
@@ -62,35 +60,30 @@ public abstract class Empregado implements Serializable {
             this.tipo = tipo;
         }
     }
-
     public String getSalario() {
         return this.salario;
     }
     public void setSalario(String salario){
         this.salario = aritmetica.doubleFormat(salario);
     }
-
     public boolean getSindicalizado() {
         return this.sindicalizado;
     }
     public void setSindicalizado(String sindicalizado){
         this.sindicalizado = sindicalizado.equals("true");
     }
-
     public String getId() {
         return this.id;
     }
     public void setId(String id) {
         this.id = id;
     }
-
     public String getMetodoPagamento(){
         return this.metodoPagamento;
     }
     public void setMetodoPagamento(String metodoPagamento){
         this.metodoPagamento = metodoPagamento;
     }
-
     public String getBanco(String metodoPagamento) throws EmpregadoNaoRecebeBancoException {
         if(Objects.equals(metodoPagamento, "banco")){
             return this.banco;
@@ -100,7 +93,6 @@ public abstract class Empregado implements Serializable {
     public void setBanco(String banco){
         this.banco = banco;
     }
-
     public String getAgencia(String metodoPagamento) throws EmpregadoNaoRecebeBancoException {
         if(Objects.equals(metodoPagamento, "banco")){
             return this.agencia;
@@ -110,7 +102,6 @@ public abstract class Empregado implements Serializable {
     public void setAgencia(String agencia){
         this.agencia = agencia;
     }
-
     public String getContaCorrente(String metodoPagamento) throws EmpregadoNaoRecebeBancoException {
         if(Objects.equals(metodoPagamento, "banco")){
             return this.contaCorrente;
@@ -120,5 +111,4 @@ public abstract class Empregado implements Serializable {
     public void setContaCorrente(String contaCorrente){
         this.contaCorrente = contaCorrente;
     }
-
 }

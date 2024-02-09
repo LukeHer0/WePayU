@@ -14,7 +14,6 @@ public class Sistema {
 
 
     public static void zerarSistema() throws IOException {
-//        Files.delete(Path.of("listaEmpregados.xml"));
         GerenciaEmpregados.empregados = new HashMap<>();
         GerenciaSindicato.empregadosSindicalizados = new HashMap<>();
     }

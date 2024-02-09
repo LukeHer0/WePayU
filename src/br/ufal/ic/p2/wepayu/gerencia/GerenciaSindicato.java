@@ -16,10 +16,8 @@ import java.util.Objects;
 import java.util.Map;
 
 public class GerenciaSindicato {
-
     public static HashMap<String, MembroSindicato> empregadosSindicalizados = XMLUse.carregarMembroSindicatoXML("./listaMembrosSindicato.xml");
-
-    public static void lancaTaxaServico(String membro, String data, String valor) throws
+    public static void lancaTaxaServico(String membro, String data, String valor) throws //lanca taxa servico em um empregado sindicalizado
             IdMembroNuloException, MembroNaoExisteException, DataInvalidaException,
             ValorPositivoException {
         double valorDouble = Double.parseDouble(valor.replace(",", "."));
@@ -32,10 +30,8 @@ public class GerenciaSindicato {
         } else if (valorDouble <= 0) {
             throw new ValorPositivoException();
         }
-
         MembroSindicato membroSindicato = empregadosSindicalizados.get(membro);
         XMLUse.salvaMembroSindicatoXML(empregadosSindicalizados, "./listaMembrosSindicato.xml");
-
         LocalDate date;
         try {
             DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -49,50 +45,39 @@ public class GerenciaSindicato {
                 .build();
         membroSindicato.setTaxasServicos(taxa);
     }
-
-    public static String getTaxasServico(String emp, String dataInicial, String dataFinal) throws
+    public static String getTaxasServico(String emp, String dataInicial, String dataFinal) throws //retorna a taxa servico de um empregado sindicalizado
             DataInvalidaException, EmpregadoNaoSindicalizadoException, DataIniPostFinException,
             DataFinalInvException, DataInicialInvException {
-
         LocalDate dateDataInicial, dateDataFinal;
-
         if(Erros.confereData(dataInicial)){
             dateDataInicial = Aritmetica.toData(dataInicial);
         } else {
             throw new DataInicialInvException();
         }
-
         if(Erros.confereData(dataFinal)){
             dateDataFinal = Aritmetica.toData(dataFinal);
         }else {
             throw new DataFinalInvException();
         }
-
         if(dateDataInicial.equals(dateDataFinal)){
             return "0,00";
         }else if(dateDataInicial.isAfter(dateDataFinal)){
             throw new DataIniPostFinException();
         }
         double taxas = 0d;
-
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
-
         for(Map.Entry<String, MembroSindicato> entry: empregadosSindicalizados.entrySet()){
             MembroSindicato membro = entry.getValue();
-
             if(membro.getEmpregadoId().equals(emp)){
-
                 if(membro.taxasServicos.isEmpty()){
                     return "0,00";
                 }
                 else {
                     for(TaxaServico taxa: membro.taxasServicos){
                         LocalDate dataTaxa = LocalDate.parse(taxa.getData(), dataFormato);
-
                         if((dataTaxa.isAfter(dateDataInicial) || dataTaxa.isEqual(dateDataInicial))
                                 && dataTaxa.isBefore(dateDataFinal)) {
                             taxas += taxa.getValor();
-
                         }
                     }
                     return String.format("%.2f", taxas).replace(".", ",");

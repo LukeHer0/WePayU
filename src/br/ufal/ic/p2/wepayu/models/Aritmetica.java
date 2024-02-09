@@ -11,7 +11,7 @@ import java.util.Locale;
 public class Aritmetica {
 
 
-    public static boolean isNumeric(String str) {
+    public static boolean isNumeric(String str) { //testa se uma string eh numerica
         try {
             Double.parseDouble(str.replace(",", "."));
             return true;
@@ -19,14 +19,12 @@ public class Aritmetica {
             return false;
         }
     }
-
-    public static String doubleFormat(String str) {
+    public static String doubleFormat(String str) { //converte para o formato de string requerido no projeto
         DecimalFormat dF = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
         str =  dF.format(Double.parseDouble(str.replace(',', '.')));
 
         return str.replace(".", "");
     }
-
     public static LocalDate toData(String data) throws
             DataInvalidaException{
         LocalDate date;
@@ -36,6 +34,4 @@ public class Aritmetica {
         return date;
 
     }
-
-//    public String
 }
