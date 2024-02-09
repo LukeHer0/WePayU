@@ -14,20 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FolhadePagamento {
-    private HashMap<String, EmpregadoHorista> empregadoHorista;
+    private static HashMap<String, EmpregadoHorista> empregadosHoristas;
     private static HashMap<String, EmpregadoComissionado> empregadosComissionados;
     private static HashMap<String, EmpregadoAssalariado> empregadosAssalariados;
-
-    private static HashMap<String, Double> salarioBrutoHoristas;
-    private static HashMap<String, Double> salarioBrutoComissionados;
-    private static HashMap<String, Double> salarioBrutoAssalariados;
-    private static HashMap<String, EmpregadoHorista> empregadosHoristas;
-//    private HashMap<String, EmpregadoHorista> empregadosHoristas;
 
     public FolhadePagamento(HashMap<String, EmpregadoHorista> empregadosHoristas,
                                         HashMap<String, EmpregadoComissionado> empregadosComissionados,
                                         HashMap<String, EmpregadoAssalariado> empregadosAssalariados) {
-
         this.empregadosHoristas = empregadosHoristas;
         this.empregadosComissionados = empregadosComissionados;
         this.empregadosAssalariados = empregadosAssalariados;
@@ -37,12 +30,11 @@ public class FolhadePagamento {
 //
 //    }
 
-    public static String totalSalario(String data) throws DataInvalidaException, DataInicialInvException, DataIniPostFinException, EmpregadoNaoHoristaException, IdNuloException, DataFinalInvException, EmpregadoNaoComissionadoException {
+    public static String totalSalario(String data) throws DataInvalidaException, DataInicialInvException, //retorna o quanto a empresa ira pagar numa determinada data
+            DataIniPostFinException, EmpregadoNaoHoristaException, IdNuloException, DataFinalInvException, EmpregadoNaoComissionadoException {
         LocalDate date = Aritmetica.toData(data);
-
         double acumulado = 0d;
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
-
         for (Map.Entry<String, EmpregadoHorista> e : empregadosHoristas.entrySet()) {
             EmpregadoHorista empregadoHorista = e.getValue();
             if (date.getDayOfWeek() != DayOfWeek.FRIDAY) {
@@ -51,10 +43,8 @@ public class FolhadePagamento {
                 String inData = date.minusDays(7).format(dataFormato);
                 double horasNormaisAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasNormaisTrabalhadas(e.getKey(), inData, data).replace("," , "."));
                 double horasExtrasAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasExtrasTrabalhadas(e.getKey(), inData, data ).replace(",", "."));
-
                 double total = horasNormaisAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", "."));
                 total += (1.5 * horasExtrasAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", ".")));
-
                 acumulado += total;
             }
         }
@@ -75,7 +65,6 @@ public class FolhadePagamento {
                 break;
             }
         }
-
         for (Map.Entry<String, EmpregadoAssalariado> e : empregadosAssalariados.entrySet()){
 
             if(date.getDayOfMonth() == date.lengthOfMonth()){
@@ -85,7 +74,6 @@ public class FolhadePagamento {
                 break;
             }
         }
-
         return Double.toString(acumulado);
     }
 
