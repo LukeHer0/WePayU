@@ -1,15 +1,15 @@
 package br.ufal.ic.p2.wepayu.empregados.comissionado;
 
-import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoComissionadoException;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Arrays;
 
-public class EmpregadoComissionado extends Empregado {
+public class EmpregadoComissionado extends Empregado implements Serializable {
 
     public ArrayList<CartaoVenda> cartaoVenda;
-
+    public EmpregadoComissionado(){}
     private EmpregadoComissionado(String nome, String endereco, String tipo, String salario, String comissao, String id) {
 
         this.nome = nome;
@@ -23,8 +23,12 @@ public class EmpregadoComissionado extends Empregado {
         this.metodoPagamento = "emMaos";
     }
 
-    public void setVenda(CartaoVenda cartao){
+    public void setCartaoVenda(CartaoVenda cartao){
         this.cartaoVenda.add(cartao);
+    }
+
+    public ArrayList<CartaoVenda> getCartaoVenda(){
+        return this.cartaoVenda;
     }
 
     public static class EmpregadoComissionadoBuilder {

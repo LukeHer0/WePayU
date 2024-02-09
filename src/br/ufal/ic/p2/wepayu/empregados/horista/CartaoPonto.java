@@ -1,7 +1,8 @@
 package br.ufal.ic.p2.wepayu.empregados.horista;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-public class CartaoPonto {
+public class CartaoPonto implements Serializable {
 
     private LocalDate data;
     private Double horas;

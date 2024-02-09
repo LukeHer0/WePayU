@@ -7,13 +7,14 @@ import br.ufal.ic.p2.wepayu.models.Erros;
 import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
 import br.ufal.ic.p2.wepayu.sindicato.TaxaServico;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Map;
 
-public class GerenciaSindicato {
+public class GerenciaSindicato implements Serializable {
 
     public static HashMap<String, MembroSindicato> empregadosSindicalizados = new HashMap<>();
 

@@ -1,7 +1,11 @@
 package br.ufal.ic.p2.wepayu.empregados;
 
-public class EmpregadoAssalariado extends Empregado{
+import java.io.Serial;
+import java.io.Serializable;
 
+public class EmpregadoAssalariado extends Empregado implements Serializable {
+
+    public EmpregadoAssalariado(){}
     private EmpregadoAssalariado(String nome, String endereco, String tipo, String salario, String id){
         this.nome = nome;
         this.endereco = endereco;

@@ -2,16 +2,7 @@ package br.ufal.ic.p2.wepayu;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.Exception.IdNuloException;
-import br.ufal.ic.p2.wepayu.empregados.Empregado;
-import br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda;
-import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.gerencia.*;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-
-import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
 
 public class Facade {
     public void zerarSistema() {
@@ -39,7 +30,7 @@ public class Facade {
     public String getAtributoEmpregado(String emp, String atributo) throws
             IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
             EmpregadoNaoComissionadoException, EmpregadoNaoRecebeBancoException,
-            EmpregadoNaoSindicalizadoException {
+            EmpregadoNaoSindicalizadoException, TipoInvalidoException {
         return GerenciaEmpregados.getAtributoEmpregado(emp, atributo);
     }
 
@@ -112,5 +103,13 @@ public class Facade {
             IdMembroNuloException, MembroNaoExisteException, DataInvalidaException,
             ValorPositivoException {
         GerenciaSindicato.lancaTaxaServico(membro, data, valor);
+    }
+
+//    public static String totalFolha(String data) throws DataInvalidaException {
+//        return FolhadePagamento.totalFolha(data);
+//    }
+
+    public static void rodaFolha(String data, String saida) throws Exception {
+        FolhadePagamento.rodaFolha(data, saida);
     }
 }

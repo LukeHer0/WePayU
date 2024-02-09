@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.gerencia;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
+import br.ufal.ic.p2.wepayu.XMLUse.XMLUse;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado;
@@ -11,23 +12,58 @@ import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static br.ufal.ic.p2.wepayu.gerencia.GerenciaSindicato.empregadosSindicalizados;
 
-public class GerenciaEmpregados {
-    public static HashMap<String, Empregado> empregados = new HashMap<>();
+public class GerenciaEmpregados{
+    //public static HashMap<String, Empregado> empregados = new HashMap<>();
+    public static HashMap<String, Empregado> empregados = XMLUse.carregarEmpregadosXML("./listaEmpregados.xml");
 
     protected static Erros verificarErros = new Erros();
 
     protected static int idCounter = 100000000;
 
+    public static HashMap<String, EmpregadoHorista> getEmpregadosHoristas(){
+        HashMap <String, EmpregadoHorista> empregadosHoristas = new HashMap<String,EmpregadoHorista>();
+        for(Map.Entry<String, Empregado> e : empregados.entrySet()){
+            Empregado empregado = e.getValue();
+            if(empregado.getTipo().equals("horista")){
+                empregadosHoristas.put(e.getKey(), (EmpregadoHorista) empregado);
+            }
+        }
+        return empregadosHoristas;
+    }
+
+    public static HashMap<String, EmpregadoComissionado> getEmpregadosComissiados(){
+        HashMap <String, EmpregadoComissionado> empregadosComissionados = new HashMap<String,EmpregadoComissionado>();
+        for(Map.Entry<String, Empregado> e : empregados.entrySet()){
+            Empregado empregado = e.getValue();
+            if(empregado.getTipo().equals("horista")){
+                empregadosComissionados.put(e.getKey(), (EmpregadoComissionado) empregado);
+            }
+        }
+        return empregadosComissionados;
+    }
+
+    public static HashMap<String, EmpregadoAssalariado> getEmpregadosAssalariados(){
+        HashMap <String, EmpregadoAssalariado> empregadosAssalariados = new HashMap<String,EmpregadoAssalariado>();
+        for(Map.Entry<String, Empregado> e : empregados.entrySet()){
+            Empregado empregado = e.getValue();
+            if(empregado.getTipo().equals("horista")){
+                empregadosAssalariados.put(e.getKey(), (EmpregadoAssalariado) empregado);
+            }
+        }
+        return empregadosAssalariados;
+    }
+
     public static String getAtributoEmpregado(String emp, String atributo) throws
             IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
             EmpregadoNaoComissionadoException, EmpregadoNaoRecebeBancoException,
-            EmpregadoNaoSindicalizadoException{
+            EmpregadoNaoSindicalizadoException, TipoInvalidoException {
         //Método que retorna um atributo requerido pelo usuário
         if (Objects.equals(emp, "")) {
             throw new IdNuloException(); //caso o id seja nulo
@@ -47,7 +83,13 @@ public class GerenciaEmpregados {
             case "tipo" -> empregado.getTipo();
             case "salario" -> empregado.getSalario();
             case "sindicalizado" -> String.valueOf(empregado.getSindicalizado());
-            case "comissao" -> empregado.getComissao(empregado.getTipo());
+            case "comissao" -> {
+                    if (empregado.getTipo().equals("comissionado")){
+                    yield empregado.getComissao();
+                    }else{
+                    throw new EmpregadoNaoComissionadoException();
+                }
+            }
             case "metodoPagamento" -> empregado.getMetodoPagamento();
             case "banco" -> empregado.getBanco(empregado.getMetodoPagamento());
             case "agencia" -> empregado.getAgencia(empregado.getMetodoPagamento());
@@ -92,6 +134,7 @@ public class GerenciaEmpregados {
                             .metodoPagamento("emMaos")
                             .build();
             empregados.put(empregado.getId(), empregado);
+            XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
             return empregado.getId(); //empregado criado e o id sera gerado na classe empregado
         }else{
             verificarErros.conferirErros(nome, endereco, tipo, salario);
@@ -126,6 +169,7 @@ public class GerenciaEmpregados {
                             .metodoPagamento("emMaos")
                             .build();
             empregados.put(empregado.getId(), empregado);
+            XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
             return empregado.getId();
         } else{
             if(!comissao.isEmpty()){

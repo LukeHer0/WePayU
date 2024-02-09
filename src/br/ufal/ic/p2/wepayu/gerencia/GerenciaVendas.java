@@ -4,13 +4,14 @@ import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
 
-public class GerenciaVendas {
+public class GerenciaVendas implements Serializable {
     public static void lancaVenda(String emp, String data, String valor) throws
             IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoComissionadoException,
             ValorPositivoException, DataInvalidaException {
@@ -35,6 +36,6 @@ public class GerenciaVendas {
         } catch (Exception e) {
             throw new DataInvalidaException();
         }
-        empregado.setVenda(new CartaoVenda(date, valorDouble));
+        empregado.setCartaoVenda(new CartaoVenda(date, valorDouble));
     }
 }

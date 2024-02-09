@@ -3,16 +3,18 @@ package br.ufal.ic.p2.wepayu.empregados.horista;
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
 
-public class EmpregadoHorista extends Empregado {
+public class EmpregadoHorista extends Empregado implements Serializable {
 
 public ArrayList<CartaoPonto> cartaoPonto;
 
+    public EmpregadoHorista(){}
     private EmpregadoHorista(String nome, String endereco, String tipo, String salario, String id) {
         this.nome = nome;
         this.endereco = endereco;
@@ -24,9 +26,10 @@ public ArrayList<CartaoPonto> cartaoPonto;
         this.cartaoPonto = new ArrayList<CartaoPonto>();
     }
 
-    public void setPontodeHora(CartaoPonto cartao){
+    public void setCartaoPonto(CartaoPonto cartao){
         this.cartaoPonto.add(cartao);
     }
+    public ArrayList<CartaoPonto> getCartaoPonto(){return this.cartaoPonto;}
 
     public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException {
         double horasDouble = Double.parseDouble(horas.replace(",", "."));
@@ -51,7 +54,7 @@ public ArrayList<CartaoPonto> cartaoPonto;
             throw new DataInvalidaException();
         }
 
-        empregado.setPontodeHora(new CartaoPonto(date, horasDouble));
+        empregado.setCartaoPonto(new CartaoPonto(date, horasDouble));
     }
 
     public static class EmpregadoHoristaBuilder {

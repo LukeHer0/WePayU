@@ -1,8 +1,9 @@
 package br.ufal.ic.p2.wepayu.empregados.comissionado;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CartaoVenda {
+public class CartaoVenda implements Serializable {
     private LocalDate data;
     private Double valor;
 
