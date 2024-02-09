@@ -103,7 +103,7 @@ public class GerenciaEmpregados{
     public static String getEmpregadoPorNome(String nome, Integer indice) throws NomeInexistenteException, EmpregadoNaoExisteException {
         //Método para obter um empregado a partir do nome
         if(empregados.isEmpty()){
-//            System.out.println("\nEmpregados vazios\n");
+            System.out.println("\nEmpregados vazios\n");
             throw new EmpregadoNaoExisteException();
         }
         for (Map.Entry<String, Empregado> entry : empregados.entrySet()) { //for que percorre a lista de empregados
