@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.gerencia;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
+import br.ufal.ic.p2.wepayu.XMLUse.XMLUse;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 
@@ -37,5 +38,6 @@ public class GerenciaVendas implements Serializable {
             throw new DataInvalidaException();
         }
         empregado.setCartaoVenda(new CartaoVenda(data, valorDouble));
+        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
     }
 }

@@ -14,21 +14,11 @@ public class Sistema {
 
 
     public static void zerarSistema() throws IOException {
-        Files.delete(Path.of("listaEmpregados.xml"));
+//        Files.delete(Path.of("listaEmpregados.xml"));
         GerenciaEmpregados.empregados = new HashMap<>();
         GerenciaSindicato.empregadosSindicalizados = new HashMap<>();
     }
 
-//    public static String totalFolha(String data) throws DataInvalidaException {
-//        HashMap<String, EmpregadoHorista> empregadohorista;
-//        private
-//    }
-
-//    public static void rodaFolha(String data, String saida) throws DataInvalidaException {
-//        LocalDate date = Aritmetica.toData(data);
-//    }
-
     public static void encerrarSistema(){
     }
-
 }

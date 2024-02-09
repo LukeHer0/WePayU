@@ -1,20 +1,21 @@
 package br.ufal.ic.p2.wepayu.sindicato;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class TaxaServico {
-    private LocalDate data;
+public class TaxaServico implements Serializable {
+    private String data;
     private Double valor;
 
     public TaxaServico() {
     }
 
-    private TaxaServico(LocalDate data, Double valor){
+    private TaxaServico(String data, Double valor){
         this.data = data;
         this.valor = valor;
     }
 
-    public LocalDate getData(){
+    public String getData(){
         return this.data;
     }
     public Double getValor(){
@@ -23,10 +24,10 @@ public class TaxaServico {
 
 
     public static class TaxaServicoBuilder{
-        protected LocalDate data;
+        protected String data;
         protected Double valor;
 
-        public TaxaServicoBuilder data(LocalDate data){
+        public TaxaServicoBuilder data(String data){
             this.data = data;
             return this;
         }

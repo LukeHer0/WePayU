@@ -49,16 +49,35 @@ public class MembroSindicato implements Serializable {
         return this.idMembro;
     }
 
+    public void setIdMembro(String idMembro) {
+        this.idMembro = idMembro;
+    }
+
     public String getTaxaSindical(){
         return this.taxaSindical;
     }
 
-    public String getEmpregado() {
+    public void setTaxaSindical(String taxaSindical) {
+        this.taxaSindical = taxaSindical;
+    }
+
+    public String getEmpregadoId() {
         return this.empregado.getId();
     }
 
-    public void setTaxas(TaxaServico taxa){
-        this.taxasServicos.add(taxa);
+    public Empregado getEmpregado(){
+        return this.empregado;
     }
 
+    public void setEmpregado(Empregado empregado) {
+        this.empregado = empregado;
+    }
+
+    public ArrayList<TaxaServico> getTaxasServicos() {
+        return taxasServicos;
+    }
+
+    public void setTaxasServicos(TaxaServico taxasServicos) {
+        this.taxasServicos.add(taxasServicos);
+    }
 }

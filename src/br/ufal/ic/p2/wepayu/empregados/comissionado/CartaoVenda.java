@@ -28,7 +28,7 @@ public class CartaoVenda implements Serializable {
         this.valor = valor;
     }
 
-    public Double getHoras(){
+    public Double getValor(){
         return this.valor;
     }
 }

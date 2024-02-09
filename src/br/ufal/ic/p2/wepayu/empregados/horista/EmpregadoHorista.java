@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.empregados.horista;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
+import br.ufal.ic.p2.wepayu.XMLUse.XMLUse;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 
 import java.io.Serializable;
@@ -45,6 +46,7 @@ public ArrayList<CartaoPonto> cartaoPonto;
         }
 
         EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
+        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
 
         LocalDate date;
         try {

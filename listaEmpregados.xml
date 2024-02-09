@@ -2,75 +2,32 @@
 <java version="21.0.1" class="java.beans.XMLDecoder">
  <object class="java.util.HashMap">
   <void method="put">
-   <string>100000010</string>
+   <string>100000000</string>
    <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" id="EmpregadoComissionado0">
     <void class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" method="getField">
      <string>cartaoVenda</string>
      <void method="set">
       <object idref="EmpregadoComissionado0"/>
-      <object class="java.util.ArrayList">
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>1/1/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>2/1/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>1/2/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>2/2/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>1/12/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>2/12/2005</string>
-         </void>
-        </object>
-       </void>
-      </object>
+      <object class="java.util.ArrayList"/>
      </void>
     </void>
     <void property="comissao">
-     <string>0,13</string>
+     <string>0,05</string>
     </void>
     <void property="endereco">
-     <string>end11</string>
+     <string>Rua dos Jooes, 333 - Campina Grande</string>
     </void>
     <void property="id">
-     <string>100000010</string>
+     <string>100000000</string>
     </void>
     <void property="metodoPagamento">
-     <string>correios</string>
+     <string>emMaos</string>
     </void>
     <void property="nome">
-     <string>Suzana Vieira</string>
+     <string>Joao da Silva</string>
     </void>
     <void property="salario">
-     <string>1500,00</string>
+     <string>2300,00</string>
     </void>
     <void property="tipo">
      <string>comissionado</string>
@@ -78,7 +35,30 @@
    </object>
   </void>
   <void method="put">
-   <string>100000000</string>
+   <string>100000001</string>
+   <object class="br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado">
+    <void property="endereco">
+     <string>Rua das Marias, 333 - Campina Grande</string>
+    </void>
+    <void property="id">
+     <string>100000001</string>
+    </void>
+    <void property="metodoPagamento">
+     <string>emMaos</string>
+    </void>
+    <void property="nome">
+     <string>Mariazinha</string>
+    </void>
+    <void property="salario">
+     <string>2300,00</string>
+    </void>
+    <void property="tipo">
+     <string>assalariado</string>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>100000002</string>
    <object class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" id="EmpregadoHorista0">
     <void class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" method="getField">
      <string>cartaoPonto</string>
@@ -88,597 +68,22 @@
      </void>
     </void>
     <void property="endereco">
-     <string>end1</string>
-    </void>
-    <void property="id">
-     <string>100000000</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>emMaos</string>
-    </void>
-    <void property="nome">
-     <string>Fernanda Montenegro</string>
-    </void>
-    <void property="salario">
-     <string>12,50</string>
-    </void>
-    <void property="tipo">
-     <string>horista</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000011</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" id="EmpregadoComissionado1">
-    <void class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" method="getField">
-     <string>cartaoVenda</string>
-     <void method="set">
-      <object idref="EmpregadoComissionado1"/>
-      <object class="java.util.ArrayList"/>
-     </void>
-    </void>
-    <void property="comissao">
-     <string>0,14</string>
-    </void>
-    <void property="endereco">
-     <string>end12</string>
-    </void>
-    <void property="id">
-     <string>100000011</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>emMaos</string>
-    </void>
-    <void property="nome">
-     <string>Maite Proenca</string>
-    </void>
-    <void property="salario">
-     <string>1600,00</string>
-    </void>
-    <void property="tipo">
-     <string>comissionado</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000001</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" id="EmpregadoHorista1">
-    <void class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" method="getField">
-     <string>cartaoPonto</string>
-     <void method="set">
-      <object idref="EmpregadoHorista1"/>
-      <object class="java.util.ArrayList">
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>8.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>8.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>8.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-      </object>
-     </void>
-    </void>
-    <void property="endereco">
-     <string>end2</string>
-    </void>
-    <void property="id">
-     <string>100000001</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>banco</string>
-    </void>
-    <void property="nome">
-     <string>Paloma Duarte</string>
-    </void>
-    <void property="salario">
-     <string>11,25</string>
-    </void>
-    <void property="tipo">
-     <string>horista</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000002</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" id="EmpregadoHorista2">
-    <void class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" method="getField">
-     <string>cartaoPonto</string>
-     <void method="set">
-      <object idref="EmpregadoHorista2"/>
-      <object class="java.util.ArrayList">
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>10.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>8.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>12.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-      </object>
-     </void>
-    </void>
-    <void property="endereco">
-     <string>end3</string>
+     <string>Rua dos Bufoes, 333 - Campina Grande</string>
     </void>
     <void property="id">
      <string>100000002</string>
     </void>
     <void property="metodoPagamento">
-     <string>banco</string>
-    </void>
-    <void property="nome">
-     <string>Lavinia Vlasak</string>
-    </void>
-    <void property="salario">
-     <string>11,21</string>
-    </void>
-    <void property="tipo">
-     <string>horista</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000003</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" id="EmpregadoHorista3">
-    <void class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" method="getField">
-     <string>cartaoPonto</string>
-     <void method="set">
-      <object idref="EmpregadoHorista3"/>
-      <object class="java.util.ArrayList">
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>10.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>8.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>12.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-      </object>
-     </void>
-    </void>
-    <void property="endereco">
-     <string>end4</string>
-    </void>
-    <void property="id">
-     <string>100000003</string>
-    </void>
-    <void property="metodoPagamento">
      <string>emMaos</string>
     </void>
     <void property="nome">
-     <string>Claudia Abreu</string>
-    </void>
-    <void property="salario">
-     <string>11,00</string>
-    </void>
-    <void property="tipo">
-     <string>horista</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000004</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" id="EmpregadoHorista4">
-    <void class="br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista" method="getField">
-     <string>cartaoPonto</string>
-     <void method="set">
-      <object idref="EmpregadoHorista4"/>
-      <object class="java.util.ArrayList">
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>10.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/1/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>8.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/2/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>1/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>12.0</double>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto">
-         <void property="data">
-          <string>2/12/2005</string>
-         </void>
-         <void property="horas">
-          <double>7.0</double>
-         </void>
-        </object>
-       </void>
-      </object>
-     </void>
-    </void>
-    <void property="endereco">
-     <string>end5</string>
-    </void>
-    <void property="id">
-     <string>100000004</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>banco</string>
-    </void>
-    <void property="nome">
-     <string>Claudia Raia</string>
-    </void>
-    <void property="salario">
-     <string>10,00</string>
-    </void>
-    <void property="tipo">
-     <string>horista</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000005</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado">
-    <void property="endereco">
-     <string>end6</string>
-    </void>
-    <void property="id">
-     <string>100000005</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>correios</string>
-    </void>
-    <void property="nome">
-     <string>Natalia do Valle</string>
-    </void>
-    <void property="salario">
-     <string>1000,00</string>
-    </void>
-    <void property="tipo">
-     <string>assalariado</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000006</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado">
-    <void property="endereco">
-     <string>end7</string>
-    </void>
-    <void property="id">
-     <string>100000006</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>correios</string>
-    </void>
-    <void property="nome">
-     <string>Regina Duarte</string>
-    </void>
-    <void property="salario">
-     <string>1100,00</string>
-    </void>
-    <void property="tipo">
-     <string>assalariado</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000007</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado">
-    <void property="endereco">
-     <string>end8</string>
-    </void>
-    <void property="id">
-     <string>100000007</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>correios</string>
-    </void>
-    <void property="nome">
-     <string>Flavia Alessandra</string>
-    </void>
-    <void property="salario">
-     <string>1200,00</string>
-    </void>
-    <void property="tipo">
-     <string>assalariado</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000008</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" id="EmpregadoComissionado2">
-    <void class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" method="getField">
-     <string>cartaoVenda</string>
-     <void method="set">
-      <object idref="EmpregadoComissionado2"/>
-      <object class="java.util.ArrayList"/>
-     </void>
-    </void>
-    <void property="comissao">
-     <string>0,11</string>
-    </void>
-    <void property="endereco">
-     <string>end9</string>
-    </void>
-    <void property="id">
-     <string>100000008</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>correios</string>
-    </void>
-    <void property="nome">
-     <string>Deborah Secco</string>
+     <string>Gaiato Vendedor</string>
     </void>
     <void property="salario">
      <string>1300,00</string>
     </void>
     <void property="tipo">
-     <string>comissionado</string>
-    </void>
-   </object>
-  </void>
-  <void method="put">
-   <string>100000009</string>
-   <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" id="EmpregadoComissionado3">
-    <void class="br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado" method="getField">
-     <string>cartaoVenda</string>
-     <void method="set">
-      <object idref="EmpregadoComissionado3"/>
-      <object class="java.util.ArrayList">
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>1/1/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>2/1/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>1/2/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>2/2/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>1/12/2005</string>
-         </void>
-        </object>
-       </void>
-       <void method="add">
-        <object class="br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda">
-         <void property="data">
-          <string>2/12/2005</string>
-         </void>
-        </object>
-       </void>
-      </object>
-     </void>
-    </void>
-    <void property="comissao">
-     <string>0,12</string>
-    </void>
-    <void property="endereco">
-     <string>end10</string>
-    </void>
-    <void property="id">
-     <string>100000009</string>
-    </void>
-    <void property="metodoPagamento">
-     <string>correios</string>
-    </void>
-    <void property="nome">
-     <string>Ana Paula Arosio</string>
-    </void>
-    <void property="salario">
-     <string>1400,00</string>
-    </void>
-    <void property="tipo">
-     <string>comissionado</string>
+     <string>horista</string>
     </void>
    </object>
   </void>

@@ -227,13 +227,11 @@ public class GerenciaEmpregados{
                     String key = null;
                     for(Map.Entry<String, MembroSindicato> entry : empregadosSindicalizados.entrySet()){
                         MembroSindicato membro = entry.getValue();
-                        if(membro.getEmpregado().equals(emp)){
+                        if(membro.getEmpregadoId().equals(emp)){
                             key = entry.getKey();
                         }
                     }
                     empregadosSindicalizados.remove(key);
-
-
 
                 }
             }
@@ -325,6 +323,7 @@ public class GerenciaEmpregados{
                 empregado.setContaCorrente(empregado.getContaCorrente(empregado.getMetodoPagamento()));
             }
             empregados.put(novoEmpregado.getId(), novoEmpregado);
+            XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
         }
     }
 
@@ -349,6 +348,8 @@ public class GerenciaEmpregados{
                 .empregado(empregados.get(emp))
                 .build();
         empregadosSindicalizados.put(idSindicato, novoMembroSindicato);
+
+        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
     }
 
     public static void alteraEmpregado (String emp, String atributo, String valor1, String banco, String agencia, String contaCorrente) throws
@@ -394,6 +395,7 @@ public class GerenciaEmpregados{
             }
             default -> throw new AtributoNExisteException();
         }
+        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
     }
 
     public static void removerEmpregado (String emp) throws IdNuloException, EmpregadoNaoExisteException{
@@ -406,6 +408,7 @@ public class GerenciaEmpregados{
             throw new EmpregadoNaoExisteException();
 
         empregados.remove(emp);
+        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
     }
 
     public static String getHorasNormaisTrabalhadas(String emp, String dataInicial, String dataFinal) throws EmpregadoNaoHoristaException,
@@ -514,6 +517,7 @@ public class GerenciaEmpregados{
 
         EmpregadoComissionado empregado = (EmpregadoComissionado) empregados.get(emp);
 
+
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate Inicial, Final;
 
@@ -537,10 +541,11 @@ public class GerenciaEmpregados{
             }
             for(CartaoVenda c : empregado.cartaoVenda){
                 if(LocalDate.parse(c.getData(), dataFormato).isEqual(Inicial) || (LocalDate.parse(c.getData(), dataFormato).isAfter(Inicial) && LocalDate.parse(c.getData(), dataFormato).isBefore(Final))){
-                    acumulador += c.getHoras();
+                    acumulador += c.getValor();
                 }
             }
         }
+        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
         return String.format("%.2f", acumulador).replace(".", ",");
     }
 
