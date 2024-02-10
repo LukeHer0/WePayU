@@ -4,6 +4,7 @@ import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.XMLUse.XMLUse;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
+import br.ufal.ic.p2.wepayu.models.Erros;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -36,5 +37,43 @@ public class GerenciaVendas implements Serializable {
         }
         empregado.setCartaoVenda(new CartaoVenda(data, valorDouble));
         XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
+    }
+
+    public static String getVendasRealizadas (String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoComissionadoException, //calcula as vendas de um empregado comissionado
+            DataInicialInvException, DataFinalInvException, DataIniPostFinException{
+        if(emp == null){
+            throw new IdNuloException();
+        }if(!(empregados.get(emp) instanceof  EmpregadoComissionado)){
+            throw new EmpregadoNaoComissionadoException();
+        }
+        EmpregadoComissionado empregado = (EmpregadoComissionado) empregados.get(emp);
+        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate Inicial, Final;
+        if(!(Erros.confereData(dataInicial))){
+            throw new DataInicialInvException();
+        }
+        Inicial = LocalDate.parse(dataInicial, dataFormato);
+
+        if(!(Erros.confereData(dataFinal))){
+            throw new DataFinalInvException();
+        }
+        Final = LocalDate.parse(dataFinal,dataFormato);
+        double acumulador = 0;
+        if(Inicial.equals(Final)){
+            return "0,00";
+        }else if(Inicial.isAfter(Final)) {
+            throw new DataIniPostFinException();
+        } else{
+            if(empregado.cartaoVenda == null){
+                return "0";
+            }
+            for(CartaoVenda c : empregado.cartaoVenda){
+                if(LocalDate.parse(c.getData(), dataFormato).isEqual(Inicial) || (LocalDate.parse(c.getData(), dataFormato).isAfter(Inicial) && LocalDate.parse(c.getData(), dataFormato).isBefore(Final))){
+                    acumulador += c.getValor();
+                }
+            }
+        }
+        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
+        return String.format("%.2f", acumulador).replace(".", ",");
     }
 }

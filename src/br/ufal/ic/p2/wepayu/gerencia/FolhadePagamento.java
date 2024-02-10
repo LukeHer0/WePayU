@@ -60,7 +60,7 @@ public class FolhadePagamento {
             long diferenca = ChronoUnit.DAYS.between(primeiroDia, date) + 1;
             if(diferenca % 14 == 0){
                 acumulado += Math.floor((((Double.parseDouble(empregadoComissionado.getSalario().replace(",",".")) * 12)/ 52) * 2) * 100)/100d;
-                acumulado += Math.floor((Double.parseDouble(GerenciaEmpregados.getVendasRealizadas(e.getKey(), inData, data).replace(",","."))) * Double.parseDouble(e.getValue().getComissao().replace(",", "."))*100)/100d;
+                acumulado += Math.floor((Double.parseDouble(GerenciaVendas.getVendasRealizadas(e.getKey(), inData, data).replace(",","."))) * Double.parseDouble(e.getValue().getComissao().replace(",", "."))*100)/100d;
             }else{
                 break;
             }

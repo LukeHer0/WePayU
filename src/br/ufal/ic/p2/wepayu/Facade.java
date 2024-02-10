@@ -86,7 +86,7 @@ public class Facade {
     public String getVendasRealizadas(String emp, String dataInicial, String dataFinal) throws
             IdNuloException, EmpregadoNaoComissionadoException, DataInicialInvException, DataFinalInvException,
             DataIniPostFinException {
-        return GerenciaEmpregados.getVendasRealizadas(emp, dataInicial, dataFinal);
+        return GerenciaVendas.getVendasRealizadas(emp, dataInicial, dataFinal);
     }
 
     public void lancaCartao(String emp, String data, String horas) throws

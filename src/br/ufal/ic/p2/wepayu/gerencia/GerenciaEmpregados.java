@@ -482,44 +482,6 @@ public class GerenciaEmpregados{
         return Integer.toString((int)acumulador);
     }
 
-    public static String getVendasRealizadas (String emp, String dataInicial, String dataFinal) throws IdNuloException, EmpregadoNaoComissionadoException, //calcula as vendas de um empregado comissionado
-            DataInicialInvException, DataFinalInvException, DataIniPostFinException{
-        if(emp == null){
-            throw new IdNuloException();
-        }if(!(empregados.get(emp) instanceof  EmpregadoComissionado)){
-            throw new EmpregadoNaoComissionadoException();
-        }
-        EmpregadoComissionado empregado = (EmpregadoComissionado) empregados.get(emp);
-        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
-        LocalDate Inicial, Final;
-        if(!(Erros.confereData(dataInicial))){
-            throw new DataInicialInvException();
-        }
-        Inicial = LocalDate.parse(dataInicial, dataFormato);
-
-        if(!(Erros.confereData(dataFinal))){
-            throw new DataFinalInvException();
-        }
-        Final = LocalDate.parse(dataFinal,dataFormato);
-        double acumulador = 0;
-        if(Inicial.equals(Final)){
-            return "0,00";
-        }else if(Inicial.isAfter(Final)) {
-            throw new DataIniPostFinException();
-        } else{
-            if(empregado.cartaoVenda == null){
-                return "0";
-            }
-            for(CartaoVenda c : empregado.cartaoVenda){
-                if(LocalDate.parse(c.getData(), dataFormato).isEqual(Inicial) || (LocalDate.parse(c.getData(), dataFormato).isAfter(Inicial) && LocalDate.parse(c.getData(), dataFormato).isBefore(Final))){
-                    acumulador += c.getValor();
-                }
-            }
-        }
-        XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
-        return String.format("%.2f", acumulador).replace(".", ",");
-    }
-
     public static void lancaCartao(String emp, String data, String horas) throws IdNuloException, EmpregadoNaoExisteException, EmpregadoNaoHoristaException, DataInvalidaException, HoraPositivaException{ //referencia para um metodo de EmpregadoHorista
         EmpregadoHorista.lancaCartao(emp, data, horas);
     }
