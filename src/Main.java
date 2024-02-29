@@ -18,9 +18,6 @@ public class Main {
 //        EasyAccept.main(new String[]{facade, "tests/us6.txt"});
 //        EasyAccept.main(new String[]{facade, "tests/us6_1.txt"});
         EasyAccept.main(new String[]{facade, "tests/us7.txt"});
-
-      //Só precisa fazer as acima
-
 //        EasyAccept.main(new String[]{facade, "tests/us8.txt"});
 //        EasyAccept.main(new String[]{facade, "tests/us9.txt"});
 //        EasyAccept.main(new String[]{facade, "tests/us9_1.txt"});

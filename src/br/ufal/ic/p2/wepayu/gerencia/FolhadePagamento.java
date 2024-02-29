@@ -1,15 +1,18 @@
 package br.ufal.ic.p2.wepayu.gerencia;
 
 import br.ufal.ic.p2.wepayu.Exception.*;
+import br.ufal.ic.p2.wepayu.empregados.Empregado;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 
+import java.io.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,41 +29,112 @@ public class FolhadePagamento {
         this.empregadosAssalariados = empregadosAssalariados;
     }
 
-//    public static void rodaFolha(String data, String saida) throws Exception {
+//    private static String dadosFolha(Empregado e, String data) throws DataInicialInvException, DataIniPostFinException, EmpregadoNaoHoristaException, DataInvalidaException, IdNuloException, EmpregadoNaoComissionadoException, DataFinalInvException, EmpregadoNaoSindicalizadoException, EmpregadoNaoRecebeBancoException {
+//        
 //
+//        if(e.getTipo().equals("horista")){
+//            horas = GerenciaEmpregados.getHorasNormaisTrabalhadas(e.getId(), Aritmetica.toData(data).minusDays(7).toString(), data);
+//            extra = GerenciaEmpregados.getHorasExtrasTrabalhadas(e.getId(), Aritmetica.toData(data).minusDays(7).toString(), data);
+//            salarioBruto = Aritmetica.calculaSalario(e, data);
+//            descontos = Aritmetica.calculaDescontos(e, data);
+//            salarioLiquido = Double.toString(Double.parseDouble(salarioBruto) - Double.parseDouble(descontos)).replace(",", ".");
+//            metodo = Aritmetica.retornarMetodo(e);
+//
+//            return e.getNome() + horas  + extra + salarioBruto + descontos + salarioLiquido + metodo;
+//        } else if(e.getTipo().equals("comissionado")){
+//
+//        } else{
+//
+//        }
+//        return "";
 //    }
+
+    public static void rodaFolha(String data, String saida) throws
+            IOException, DataInvalidaException, DataInicialInvException,
+            DataIniPostFinException, EmpregadoNaoHoristaException,
+            IdNuloException, DataFinalInvException, EmpregadoNaoComissionadoException,
+            EmpregadoNaoRecebeBancoException, EmpregadoNaoSindicalizadoException {
+        //System.out.println("\n" + data + "\n");
+        String horas, extra, salarioBruto, descontos, salarioLiquido, metodo;
+        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+        ArrayList<String> horistas = new ArrayList<String>();
+        ArrayList<String> comissionados = new ArrayList<String>();
+        ArrayList<String> assalariados = new ArrayList<String>();
+
+
+        
+        OutputStream outputStream = new FileOutputStream(saida);
+        Writer writer = new OutputStreamWriter(outputStream);
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+        bufferedWriter.write("FOLHA DE PAGAMENTO DO DIA " + Aritmetica.toData(data));
+        bufferedWriter.newLine();
+        bufferedWriter.write("====================================");
+        bufferedWriter.newLine();
+        bufferedWriter.newLine();
+        bufferedWriter.write("===============================================================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("===================== HORISTAS ================================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("===============================================================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("Nome                                 Horas Extra Salario Bruto Descontos Salario Liquido Metodo");
+        bufferedWriter.newLine();
+        bufferedWriter.write("==================================== ===== ===== ============= ========= =============== ======================================\n");
+        bufferedWriter.newLine();
+
+        for (Map.Entry<String, EmpregadoHorista> entry : empregadosHoristas.entrySet()) { //for que percorre a lista de empregados
+            Empregado e = entry.getValue();
+            String key = entry.getKey();
+
+
+            horas = GerenciaEmpregados.getHorasNormaisTrabalhadas(key, Aritmetica.toData(data).minusDays(6).format(dataFormato), data);
+            //System.out.println(horas);
+            extra = GerenciaEmpregados.getHorasExtrasTrabalhadas(key, Aritmetica.toData(data).minusDays(6).format(dataFormato), data);
+            salarioBruto = Aritmetica.calculaSalario(e, data);
+            descontos = Aritmetica.calculaDescontos(e, data);
+            salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(",", ".");
+            metodo = Aritmetica.retornarMetodo(e);
+            System.out.println("aaaaaa");
+            bufferedWriter.write(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
+            //bufferedWriter.newLine();
+            //horistas.add(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
+        }
+
+//        for (String linha: horistas) {
+//            bufferedWriter.write(linha);
+//            bufferedWriter.newLine();
+//        }
+
+        //Libera a escrita no arquivo e fecha o mesmo
+        bufferedWriter.flush();
+        bufferedWriter.close();
+    }
 
     public static String totalSalario(String data) throws DataInvalidaException, DataInicialInvException, //retorna o quanto a empresa ira pagar numa determinada data
             DataIniPostFinException, EmpregadoNaoHoristaException, IdNuloException, DataFinalInvException, EmpregadoNaoComissionadoException {
         LocalDate date = Aritmetica.toData(data);
         double acumulado = 0d;
-        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
         for (Map.Entry<String, EmpregadoHorista> e : empregadosHoristas.entrySet()) {
-            EmpregadoHorista empregadoHorista = e.getValue();
             if (date.getDayOfWeek() != DayOfWeek.FRIDAY) {
                 break;
             } else {
-                String inData = date.minusDays(7).format(dataFormato);
-                double horasNormaisAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasNormaisTrabalhadas(e.getKey(), inData, data).replace("," , "."));
-                double horasExtrasAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasExtrasTrabalhadas(e.getKey(), inData, data ).replace(",", "."));
-                double total = horasNormaisAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", "."));
-                total += (1.5 * horasExtrasAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", ".")));
-                acumulado += total;
+//                System.out.println(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));
+                acumulado += Double.parseDouble(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));
             }
         }
 
         for (Map.Entry<String, EmpregadoComissionado> e : empregadosComissionados.entrySet()){
-            EmpregadoComissionado empregadoComissionado = e.getValue();
 
             if(date.getDayOfWeek() != DayOfWeek.FRIDAY){
                 break;
             }
+
             LocalDate primeiroDia = LocalDate.of(2005,1,1);
-            String inData = date.minusDays(13).format(dataFormato);
             long diferenca = ChronoUnit.DAYS.between(primeiroDia, date) + 1;
+
             if(diferenca % 14 == 0){
-                acumulado += Math.floor((((Double.parseDouble(empregadoComissionado.getSalario().replace(",",".")) * 12)/ 52) * 2) * 100)/100d;
-                acumulado += Math.floor((Double.parseDouble(GerenciaVendas.getVendasRealizadas(e.getKey(), inData, data).replace(",","."))) * Double.parseDouble(e.getValue().getComissao().replace(",", "."))*100)/100d;
+                acumulado += Double.parseDouble(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));
             }else{
                 break;
             }
@@ -68,8 +142,7 @@ public class FolhadePagamento {
         for (Map.Entry<String, EmpregadoAssalariado> e : empregadosAssalariados.entrySet()){
 
             if(date.getDayOfMonth() == date.lengthOfMonth()){
-                EmpregadoAssalariado empregadoAssalariado = e.getValue();
-                acumulado += Double.parseDouble(empregadoAssalariado.getSalario().replace(",", "."));
+                acumulado += Double.parseDouble(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));
             }else {
                 break;
             }

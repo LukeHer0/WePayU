@@ -404,14 +404,17 @@ public class GerenciaEmpregados{
         }
         EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+
         LocalDate Inicial, Final;
         if(!(Erros.confereData(dataInicial))){
             throw new DataInicialInvException();
         }
+
         Inicial = LocalDate.parse(dataInicial, dataFormato);
         if(!(Erros.confereData(dataFinal))){
             throw new DataFinalInvException();
         }
+
         Final = LocalDate.parse(dataFinal,dataFormato);
         double acumulador = 0;
         if(Inicial.equals(Final))

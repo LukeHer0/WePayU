@@ -111,7 +111,7 @@ public class Facade {
         return FolhadePagamento.totalFolha(data);
     }
 
-//    public static void rodaFolha(String data, String saida) throws Exception {
-//        FolhadePagamento.rodaFolha(data, saida);
-//    }
+    public static void rodaFolha(String data, String saida) throws Exception {
+        FolhadePagamento.rodaFolha(data, saida);
+    }
 }
