@@ -61,8 +61,6 @@ public class FolhadePagamento {
         ArrayList<String> comissionados = new ArrayList<String>();
         ArrayList<String> assalariados = new ArrayList<String>();
 
-
-        
         OutputStream outputStream = new FileOutputStream(saida);
         Writer writer = new OutputStreamWriter(outputStream);
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
@@ -95,12 +93,59 @@ public class FolhadePagamento {
             descontos = Aritmetica.calculaDescontos(e, data);
             salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(",", ".");
             metodo = Aritmetica.retornarMetodo(e);
-            System.out.println("aaaaaa");
+//            System.out.println("aaaaaa");
             bufferedWriter.write(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
-            //bufferedWriter.newLine();
-            //horistas.add(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
+            bufferedWriter.newLine();
+            horistas.add(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
+        }
+        bufferedWriter.write("===============================================================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("===================== ASSALARIADOS ============================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("===============================================================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("Nome                                             Salario Bruto Descontos Salario Liquido Metodo");
+        bufferedWriter.newLine();
+        bufferedWriter.write("================================================ ============= ========= =============== ======================================\n");
+        bufferedWriter.newLine();
+
+        for (Map.Entry<String, EmpregadoAssalariado> entry : empregadosAssalariados.entrySet()) { //for que percorre a lista de empregados
+            Empregado e = entry.getValue();
+            String key = entry.getKey();
+
+            salarioBruto = Aritmetica.calculaSalario(e, data);
+            descontos = Aritmetica.calculaDescontos(e, data);
+            salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(",", ".");
+            metodo = Aritmetica.retornarMetodo(e);
+//            System.out.println("aaaaaa");
+            bufferedWriter.write(e.getNome() + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
+            bufferedWriter.newLine();
+            horistas.add(e.getNome() + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
         }
 
+        bufferedWriter.write("===============================================================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("===================== COMISSIONADOS ===========================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("===============================================================================================================================");
+        bufferedWriter.newLine();
+        bufferedWriter.write("Nome                  Fixo     Vendas   Comissao Salario Bruto Descontos Salario Liquido Metodo");
+        bufferedWriter.newLine();
+        bufferedWriter.write("===================== ======== ======== ======== ============= ========= =============== ======================================\n");
+
+//        for (Map.Entry<String, EmpregadoComissionado> entry : empregadosComissionados.entrySet()) { //for que percorre a lista de empregados
+//            Empregado e = entry.getValue();
+//            String key = entry.getKey();
+//
+//            salarioBruto = Aritmetica.calculaSalario(e, data);
+//            descontos = Aritmetica.calculaDescontos(e, data);
+//            salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(",", ".");
+//            metodo = Aritmetica.retornarMetodo(e);
+////            System.out.println("aaaaaa");
+//            bufferedWriter.write(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
+//            bufferedWriter.newLine();
+//            horistas.add(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
+//        }
 //        for (String linha: horistas) {
 //            bufferedWriter.write(linha);
 //            bufferedWriter.newLine();
