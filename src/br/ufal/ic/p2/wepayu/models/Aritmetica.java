@@ -71,7 +71,7 @@ public class Aritmetica {
             total += Double.parseDouble(empregadoAssalariado.getSalario().replace(",", "."));
         }
 
-        return Double.toString(total);
+        return Double.toString(total).replace(".", ",");
     }
 
     public static String retornarMetodo(Empregado e) throws EmpregadoNaoRecebeBancoException {
@@ -80,7 +80,7 @@ public class Aritmetica {
         } else if(e.getMetodoPagamento().equals("correios")){
             return "Correios, " + e.getEndereco();
         } else{
-            return "emMaos";
+            return "Em maos";
         }
     }
 
@@ -106,6 +106,6 @@ public class Aritmetica {
         } else{
             return "0,00";
         }
-        return Double.toString(totalDescontos);
+        return Double.toString(totalDescontos).replace(".", ",");
     }
 }
