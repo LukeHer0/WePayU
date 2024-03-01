@@ -15,6 +15,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 *.xml
+*.txt
 
 ### NetBeans ###
 /nbproject/private/
