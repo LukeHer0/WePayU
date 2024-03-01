@@ -12,11 +12,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 import java.util.Map;
 
 public class GerenciaSindicato {
-    public static HashMap<String, MembroSindicato> empregadosSindicalizados = XMLUse.carregarMembroSindicatoXML("./listaMembrosSindicato.xml");
+    public static LinkedHashMap<String, MembroSindicato> empregadosSindicalizados = XMLUse.carregarMembroSindicatoXML("./listaMembrosSindicato.xml");
     public static void lancaTaxaServico(String membro, String data, String valor) throws //lanca taxa servico em um empregado sindicalizado
             IdMembroNuloException, MembroNaoExisteException, DataInvalidaException,
             ValorPositivoException {

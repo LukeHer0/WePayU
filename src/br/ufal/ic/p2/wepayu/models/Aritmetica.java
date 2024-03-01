@@ -15,8 +15,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
-
+import java.util.stream.*;
+import java.util.*;
 public class Aritmetica {
 
 
@@ -76,7 +76,7 @@ public class Aritmetica {
 
     public static String retornarMetodo(Empregado e) throws EmpregadoNaoRecebeBancoException {
         if(e.getMetodoPagamento().equals("banco")){
-            return e.getBanco(e.getMetodoPagamento()) + ", " + e.getAgencia(e.getMetodoPagamento()) + " CC " + e.getContaCorrente(e.getMetodoPagamento());
+            return e.getBanco(e.getMetodoPagamento()) + ", Ag. " + e.getAgencia(e.getMetodoPagamento()) + " CC " + e.getContaCorrente(e.getMetodoPagamento());
         } else if(e.getMetodoPagamento().equals("correios")){
             return "Correios, " + e.getEndereco();
         } else{
@@ -107,5 +107,17 @@ public class Aritmetica {
             return "0,00";
         }
         return Double.toString(totalDescontos).replace(".", ",");
+    }
+
+    public static LinkedHashMap<String, Empregado> ordenaEmpregadosPorNome(LinkedHashMap<String, Empregado> empregados){
+        LinkedHashMap<String, Empregado> ordenado = empregados.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.comparing(Empregado::getNome)))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+        return ordenado;
     }
 }

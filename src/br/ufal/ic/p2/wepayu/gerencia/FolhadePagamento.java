@@ -14,16 +14,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class FolhadePagamento {
-    private static HashMap<String, EmpregadoHorista> empregadosHoristas;
-    private static HashMap<String, EmpregadoComissionado> empregadosComissionados;
-    private static HashMap<String, EmpregadoAssalariado> empregadosAssalariados;
+    private static LinkedHashMap<String, EmpregadoHorista> empregadosHoristas;
+    private static LinkedHashMap<String, EmpregadoComissionado> empregadosComissionados;
+    private static LinkedHashMap<String, EmpregadoAssalariado> empregadosAssalariados;
 
-    public FolhadePagamento(HashMap<String, EmpregadoHorista> empregadosHoristas,
-                                        HashMap<String, EmpregadoComissionado> empregadosComissionados,
-                                        HashMap<String, EmpregadoAssalariado> empregadosAssalariados) {
+    public FolhadePagamento(LinkedHashMap<String, EmpregadoHorista> empregadosHoristas,
+                                        LinkedHashMap<String, EmpregadoComissionado> empregadosComissionados,
+                                        LinkedHashMap<String, EmpregadoAssalariado> empregadosAssalariados) {
         this.empregadosHoristas = empregadosHoristas;
         this.empregadosComissionados = empregadosComissionados;
         this.empregadosAssalariados = empregadosAssalariados;
@@ -60,9 +61,6 @@ public class FolhadePagamento {
         Double acumuladoBruto = 0d, acumuladoDescontos = 0d, acumuladoLiquido = 0d, acumuladoFixo = 0d, acumuladoVendas = 0d, acumuladoComissao = 0d;
         String space = "";
         DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
-        ArrayList<String> horistas = new ArrayList<String>();
-        ArrayList<String> comissionados = new ArrayList<String>();
-        ArrayList<String> assalariados = new ArrayList<String>();
         LocalDate datalocal = Aritmetica.toData(data);
         LocalDate primeiroDia = LocalDate.of(2005,1,1);
         long diferenca = ChronoUnit.DAYS.between(primeiroDia, datalocal) + 1;
@@ -105,37 +103,41 @@ public class FolhadePagamento {
                 acumuladoDescontos += Double.parseDouble(descontos.replace(",", "."));
                 acumuladoLiquido += Double.parseDouble(salarioLiquido.replace(",", "."));
                 String printnome = e.getNome();
-
+                //Printa o nome no espaçamento correto.
                 while(printnome.length() < 37){
                     printnome += " ";
                 }bufferedWriter.write(printnome);
+                //Printa as horas trabalhadas com o espaçamento correto.
                 while((space.length() + horas.length()) < 5){
                     space += " ";
                 }space += horas + " ";
                 bufferedWriter.write(space);
                 space = "";
+                //Printa as horas extras com o espaçamento correto.
                 while((space.length() + extra.length()) < 5){
                     space += " ";
                 }space += extra + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while((space.length() + salarioBruto.length()) < 13){
+                //Printa o salario bruto formatado corretamente (X,00) e com o espaçamento correto.
+                while((space.length() + Aritmetica.doubleFormat(salarioBruto).length()) < 13){
                     space += " ";
-                }space += salarioBruto + " ";
+                }space += Aritmetica.doubleFormat(salarioBruto) + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while ((space.length() + descontos.length()) < 9){
+                //Printa os descontos formatados corretamente (X,00) e com o espaçamento correto.
+                while ((space.length() + Aritmetica.doubleFormat(descontos).length()) < 9){
                     space += " ";
-                }space += descontos + " ";
+                }space += Aritmetica.doubleFormat(descontos) + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while ((space.length() + salarioLiquido.length()) < 15){
+                //Printa o salário líquido formatado corretamente (X,00) e com o espaçamento correto.
+                while ((space.length() + Aritmetica.doubleFormat(salarioLiquido).length()) < 15){
                     space += " ";
-                }space += salarioLiquido + " ";
+                }space += Aritmetica.doubleFormat(salarioLiquido) + " ";
                 bufferedWriter.write(space + metodo);
                 bufferedWriter.newLine();
                 space = "";
-                horistas.add(e.getNome() + "\t\t" + horas + "\t\t" + extra + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
             }
         }
         bufferedWriter.newLine();
@@ -150,22 +152,23 @@ public class FolhadePagamento {
         }space += acumuladoExtra.toString() + " ";
         bufferedWriter.write(space);
         space = "";
-        while ((space.length() + acumuladoBruto.toString().length()) < 13){
+        while ((space.length() + Aritmetica.doubleFormat(acumuladoBruto.toString()).length()) < 13){
             space += " ";
-        }space += acumuladoBruto.toString().replace(".", ",") + " ";
+        }space += Aritmetica.doubleFormat(acumuladoBruto.toString()).replace(".", ",") + " ";
         bufferedWriter.write(space);
         space = "";
-        while ((space.length() + acumuladoDescontos.toString().length()) < 9){
+        while ((space.length() + Aritmetica.doubleFormat(acumuladoDescontos.toString()).length()) < 9){
             space += " ";
-        }space += acumuladoDescontos.toString().replace(".", ",") + " ";
+        }space += Aritmetica.doubleFormat(acumuladoDescontos.toString()).replace(".", ",") + " ";
         bufferedWriter.write(space);
         space = "";
-        while ((space.length() + acumuladoLiquido.toString().length()) < 15){
+        while ((space.length() + Aritmetica.doubleFormat(acumuladoLiquido.toString()).length()) < 15){
             space += " ";
-        }space += acumuladoLiquido.toString().replace(".", ",") + " ";
+        }space += Aritmetica.doubleFormat(acumuladoLiquido.toString()).replace(".", ",") + " ";
         bufferedWriter.write(space);
         space = "";
-        bufferedWriter.write("\n");
+        bufferedWriter.newLine();
+        bufferedWriter.newLine();
 
         bufferedWriter.write("===============================================================================================================================");
         bufferedWriter.newLine();
@@ -207,7 +210,6 @@ public class FolhadePagamento {
                 }space += salarioLiquido + " ";
                 bufferedWriter.write(space + metodo);
                 bufferedWriter.newLine();
-                assalariados.add(e.getNome() + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
             }
         }
         bufferedWriter.newLine();
@@ -272,8 +274,6 @@ public class FolhadePagamento {
                 }space += salarioLiquido + " ";
                 bufferedWriter.write(space + metodo);
                 bufferedWriter.newLine();
-
-                comissionados.add(e.getNome() + "\t\t" + fixo + "\t\t" + vendas + "\t\t" + comissao + "\t\t" + salarioBruto + "\t\t" + descontos + "\t\t" + salarioLiquido + "\t\t" + metodo);
             }
         }
         bufferedWriter.newLine();
@@ -331,6 +331,7 @@ public class FolhadePagamento {
     }
 
     public static String totalFolha(String data) throws Exception {
+        GerenciaEmpregados.empregados = Aritmetica.ordenaEmpregadosPorNome(GerenciaEmpregados.empregados);
         empregadosHoristas = GerenciaEmpregados.getEmpregadosHoristas();
         empregadosComissionados = GerenciaEmpregados.getEmpregadosComissionados();
         empregadosAssalariados = GerenciaEmpregados.getEmpregadosAssalariados();

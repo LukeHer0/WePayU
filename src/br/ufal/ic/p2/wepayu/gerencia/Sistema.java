@@ -14,8 +14,8 @@ public class Sistema {
 
 
     public static void zerarSistema() throws IOException {
-        GerenciaEmpregados.empregados = new HashMap<>();
-        GerenciaSindicato.empregadosSindicalizados = new HashMap<>();
+        GerenciaEmpregados.empregados = new LinkedHashMap<>();
+        GerenciaSindicato.empregadosSindicalizados = new LinkedHashMap<>();
     }
 
     public static void encerrarSistema(){

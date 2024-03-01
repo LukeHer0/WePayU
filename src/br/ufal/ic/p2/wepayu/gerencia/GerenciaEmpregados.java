@@ -20,12 +20,12 @@ import java.util.*;
 import static br.ufal.ic.p2.wepayu.gerencia.GerenciaSindicato.empregadosSindicalizados;
 
 public class GerenciaEmpregados{
-    public static HashMap<String, Empregado> empregados = XMLUse.carregarEmpregadosXML("./listaEmpregados.xml");
+    public static LinkedHashMap<String, Empregado> empregados = XMLUse.carregarEmpregadosXML("./listaEmpregados.xml");
     protected static Erros verificarErros = new Erros();
     protected static int idCounter = 100000000;
 
-    public static HashMap<String, EmpregadoHorista> getEmpregadosHoristas(){ //retorna o conjunto de empregados horistas da empresa em uma hash map
-        HashMap <String, EmpregadoHorista> empregadosHoristas = new HashMap<String,EmpregadoHorista>();
+    public static LinkedHashMap<String, EmpregadoHorista> getEmpregadosHoristas(){ //retorna o conjunto de empregados horistas da empresa em uma hash map
+        LinkedHashMap <String, EmpregadoHorista> empregadosHoristas = new LinkedHashMap<String,EmpregadoHorista>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
             if(empregado.getTipo().equals("horista")){
@@ -34,8 +34,8 @@ public class GerenciaEmpregados{
         }
         return empregadosHoristas;
     }
-    public static HashMap<String, EmpregadoComissionado> getEmpregadosComissionados(){ //retorna o conjunto de empregados comissionados da empresa em uma hash map
-        HashMap <String, EmpregadoComissionado> empregadosComissionados = new HashMap<String,EmpregadoComissionado>();
+    public static LinkedHashMap<String, EmpregadoComissionado> getEmpregadosComissionados(){ //retorna o conjunto de empregados comissionados da empresa em uma hash map
+        LinkedHashMap <String, EmpregadoComissionado> empregadosComissionados = new LinkedHashMap<String,EmpregadoComissionado>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
             if(empregado.getTipo().equals("comissionado")){
@@ -45,8 +45,8 @@ public class GerenciaEmpregados{
         return empregadosComissionados;
     }
 
-    public static HashMap<String, EmpregadoAssalariado> getEmpregadosAssalariados(){ //retorna o conjunto de empregados assalariados da empresa em uma hashmap
-        HashMap <String, EmpregadoAssalariado> empregadosAssalariados = new HashMap<String,EmpregadoAssalariado>();
+    public static LinkedHashMap<String, EmpregadoAssalariado> getEmpregadosAssalariados(){ //retorna o conjunto de empregados assalariados da empresa em uma hashmap
+        LinkedHashMap <String, EmpregadoAssalariado> empregadosAssalariados = new LinkedHashMap<String,EmpregadoAssalariado>();
         for(Map.Entry<String, Empregado> e : empregados.entrySet()){
             Empregado empregado = e.getValue();
             if(empregado.getTipo().equals("assalariado")){

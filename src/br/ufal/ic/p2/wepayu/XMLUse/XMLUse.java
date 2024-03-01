@@ -11,6 +11,7 @@ import java.beans.XMLDecoder;
 import java.io.*;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class XMLUse implements Serializable{
@@ -30,23 +31,23 @@ public class XMLUse implements Serializable{
         } catch (Exception ignored) {
         }
     }
-    public static HashMap<String, Empregado> carregarEmpregadosXML(String arquivo){
-        HashMap<String, Empregado> empregados = new HashMap<>();
+    public static LinkedHashMap<String, Empregado> carregarEmpregadosXML(String arquivo){
+        LinkedHashMap<String, Empregado> empregados = new LinkedHashMap<>();
         try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(arquivo)))) {
             Object obj;
             obj = decoder.readObject();
-            empregados = (HashMap<String, Empregado>) obj;
+            empregados = (LinkedHashMap<String, Empregado>) obj;
 
         } catch (Exception ignored) {
         }
         return empregados;
     }
-    public static HashMap<String, MembroSindicato> carregarMembroSindicatoXML(String arquivo){
-        HashMap<String, MembroSindicato> membros = new HashMap<>();
+    public static LinkedHashMap<String, MembroSindicato> carregarMembroSindicatoXML(String arquivo){
+        LinkedHashMap<String, MembroSindicato> membros = new LinkedHashMap<>();
         try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(arquivo)))) {
             Object obj;
             obj = decoder.readObject();
-            membros = (HashMap<String, MembroSindicato>) obj;
+            membros = (LinkedHashMap<String, MembroSindicato>) obj;
 
         } catch (Exception ignored) {
         }
