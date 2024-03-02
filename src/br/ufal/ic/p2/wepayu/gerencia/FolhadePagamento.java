@@ -86,7 +86,7 @@ public class FolhadePagamento {
 
         if(datalocal.getDayOfWeek() == DayOfWeek.FRIDAY) {
             for (Map.Entry<String, EmpregadoHorista> entry : empregadosHoristas.entrySet()) { //for que percorre a lista de empregados
-                Empregado e = entry.getValue();
+                EmpregadoHorista e = entry.getValue();
                 String key = entry.getKey();
 
                 horas = GerenciaEmpregados.getHorasNormaisTrabalhadas(key, Aritmetica.toData(data).minusDays(6).format(dataFormato), data);
@@ -94,6 +94,10 @@ public class FolhadePagamento {
                 extra = GerenciaEmpregados.getHorasExtrasTrabalhadas(key, Aritmetica.toData(data).minusDays(6).format(dataFormato), data);
                 salarioBruto = Aritmetica.calculaSalario(e, data);
                 descontos = Aritmetica.calculaDescontos(e, data);
+                if(Double.parseDouble(salarioBruto.replace(",", ".")) < Double.parseDouble(descontos.replace(",", "."))){
+                    e.setDescontoHorista(Double.parseDouble(descontos.replace(",", ".")));
+                    descontos = "0,00";
+                }
                 salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(".", ",");
                 if(Double.parseDouble(salarioLiquido.replace(",", ".")) < 0){
                     salarioLiquido = "0,00";
@@ -103,7 +107,11 @@ public class FolhadePagamento {
                 acumuladoHora += Integer.parseInt(horas);
                 acumuladoExtra += Integer.parseInt(extra);
                 acumuladoBruto += Double.parseDouble(salarioBruto.replace(",", "."));
-                acumuladoDescontos += Double.parseDouble(descontos.replace(",", "."));
+                if(e.getDescontoHorista() <= 0){
+                    acumuladoDescontos += Double.parseDouble(descontos.replace(",", "."));
+                }else{
+                    acumuladoDescontos += e.getDescontoHorista();
+                }
                 acumuladoLiquido += Double.parseDouble(salarioLiquido.replace(",", "."));
 
                 String printnome = e.getNome();
@@ -264,12 +272,14 @@ public class FolhadePagamento {
 
         if (diferenca % 14 == 0) {
             for (Map.Entry<String, EmpregadoComissionado> entry : empregadosComissionados.entrySet()) { //for que percorre a lista de empregados
-                Empregado e = entry.getValue();
+                EmpregadoComissionado e = entry.getValue();
                 String key = entry.getKey();
 
-                fixo = Aritmetica.calculaSalario(e, data);
-                vendas = Aritmetica.calculaSalario(e, data);
-                comissao = e.getComissao();
+                Double dSalario = Math.floor((((Double.parseDouble(e.getSalario().replace(",", ".")))*24d/52)*100)/100d);
+
+                fixo = Double.toString(dSalario);
+                vendas = GerenciaVendas.getVendasRealizadas(key, Aritmetica.toData(data).minusDays(13).format(dataFormato), data);
+                comissao = Double.toString(Double.parseDouble(e.getComissao().replace(",", ".")) * Double.parseDouble(vendas.replace(",", ".")));
                 salarioBruto = Aritmetica.calculaSalario(e, data);
                 descontos = Aritmetica.calculaDescontos(e, data);
                 salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(".", ",");
@@ -285,36 +295,36 @@ public class FolhadePagamento {
                 acumuladoLiquido += Double.parseDouble(salarioLiquido.replace(",", "."));
 
                 String printnome = e.getNome();
-//                String space = "";
+
                 while(printnome.length() < 22){
                     printnome += " ";
                 }bufferedWriter.write(printnome);
-                while((space.length() + fixo.length()) < 8){
+                while((space.length() + Aritmetica.doubleFormat(fixo).length()) < 8){
                     space += " ";
                 }space += Aritmetica.doubleFormat(fixo) + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while((space.length() + vendas.length()) < 8){
+                while((space.length() + Aritmetica.doubleFormat(vendas).length()) < 8){
                     space += " ";
                 }space += Aritmetica.doubleFormat(vendas) + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while((space.length() + comissao.length()) < 8){
+                while((space.length() + Aritmetica.doubleFormat(comissao).length()) < 8){
                     space += " ";
                 }space += Aritmetica.doubleFormat(comissao) + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while((space.length() + salarioBruto.length()) < 13){
+                while((space.length() + Aritmetica.doubleFormat(salarioBruto).length()) < 13){
                     space += " ";
                 }space += Aritmetica.doubleFormat(salarioBruto) + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while ((space.length() + descontos.length()) < 9){
+                while ((space.length() + Aritmetica.doubleFormat(descontos).length()) < 9){
                     space += " ";
                 }space += Aritmetica.doubleFormat(descontos) + " ";
                 bufferedWriter.write(space);
                 space = "";
-                while ((space.length() + salarioLiquido.length()) < 15){
+                while ((space.length() + Aritmetica.doubleFormat(salarioLiquido).length()) < 15){
                     space += " ";
                 }space += Aritmetica.doubleFormat(salarioLiquido) + " ";
                 bufferedWriter.write(space + metodo);

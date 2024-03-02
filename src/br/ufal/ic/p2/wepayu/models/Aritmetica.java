@@ -101,7 +101,7 @@ public class Aritmetica {
             } else{
                 String inData = date.minusDays(30).format(dataFormato);
                 totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxasServico(emp.getId(), inData, data).replace(",", "."));
-                totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxaSindical(emp.getId()).replace(",", ".")) * 31;
+                totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxaSindical(emp.getId()).replace(",", ".")) * date.lengthOfMonth();
             }
         } else{
             return "0,00";
