@@ -30,26 +30,6 @@ public class FolhadePagamento {
         this.empregadosAssalariados = empregadosAssalariados;
     }
 
-//    private static String dadosFolha(Empregado e, String data) throws DataInicialInvException, DataIniPostFinException, EmpregadoNaoHoristaException, DataInvalidaException, IdNuloException, EmpregadoNaoComissionadoException, DataFinalInvException, EmpregadoNaoSindicalizadoException, EmpregadoNaoRecebeBancoException {
-//        
-//
-//        if(e.getTipo().equals("horista")){
-//            horas = GerenciaEmpregados.getHorasNormaisTrabalhadas(e.getId(), Aritmetica.toData(data).minusDays(7).toString(), data);
-//            extra = GerenciaEmpregados.getHorasExtrasTrabalhadas(e.getId(), Aritmetica.toData(data).minusDays(7).toString(), data);
-//            salarioBruto = Aritmetica.calculaSalario(e, data);
-//            descontos = Aritmetica.calculaDescontos(e, data);
-//            salarioLiquido = Double.toString(Double.parseDouble(salarioBruto) - Double.parseDouble(descontos)).replace(",", ".");
-//            metodo = Aritmetica.retornarMetodo(e);
-//
-//            return e.getNome() + horas  + extra + salarioBruto + descontos + salarioLiquido + metodo;
-//        } else if(e.getTipo().equals("comissionado")){
-//
-//        } else{
-//
-//        }
-//        return "";
-//    }
-
     public static void rodaFolha(String data, String saida) throws
             IOException, DataInvalidaException, DataInicialInvException,
             DataIniPostFinException, EmpregadoNaoHoristaException,
@@ -93,26 +73,52 @@ public class FolhadePagamento {
                 //System.out.println(horas);
                 extra = GerenciaEmpregados.getHorasExtrasTrabalhadas(key, Aritmetica.toData(data).minusDays(6).format(dataFormato), data);
                 salarioBruto = Aritmetica.calculaSalario(e, data);
+
+                System.out.println(saida);
+
                 descontos = Aritmetica.calculaDescontos(e, data);
-                if(Double.parseDouble(salarioBruto.replace(",", ".")) < Double.parseDouble(descontos.replace(",", "."))){
-                    e.setDescontoHorista(Double.parseDouble(descontos.replace(",", ".")));
-                    descontos = "0,00";
-                }
-                salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(".", ",");
-                if(Double.parseDouble(salarioLiquido.replace(",", ".")) < 0){
+//                if(Double.parseDouble(salarioBruto.replace(",", ".")) < Double.parseDouble(descontos.replace(",", "."))){
+//                    e.setDescontoHorista(Double.parseDouble(descontos.replace(",", ".")));
+//                    descontos = "0,00";
+//                }
+//                salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(".", ",");
+//                if(Double.parseDouble(salarioLiquido.replace(",", ".")) < 0){
+//                    e.setDescontoHorista(Math.abs(Double.parseDouble(salarioLiquido.replace(",", "."))));
+//                    salarioLiquido = "0,00";
+//
+//                }
+
+                salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.')) - e.getDescontoHorista());
+                System.out.println("\n" + "Salario Liquido Parte 1: " + salarioLiquido);
+
+                if(Double.parseDouble(salarioLiquido) < 0){
+                    //as proximas 2 linhas definem descontoHorista = o quanto o salario deste mês ficaria negativado
+                    e.setDescontoHorista(-e.getDescontoHorista());
+                    e.setDescontoHorista(Math.abs(Double.parseDouble(salarioLiquido.replace(',', '.'))));
+                    descontos = salarioBruto;
                     salarioLiquido = "0,00";
+                } else if(Double.parseDouble(salarioLiquido.replace(',', '.')) == 0) {
+                    e.setDescontoHorista(-e.getDescontoHorista());
+                    descontos = salarioLiquido;
+                } else {
+                    descontos = (Double.toString((Double.parseDouble(descontos.replace(',', '.')) + e.getDescontoHorista())));
+                    e.setDescontoHorista(-e.getDescontoHorista());
                 }
+
+                System.out.println(" - Salario Liquido Parte 2: " + salarioLiquido + "\n");
+
                 metodo = Aritmetica.retornarMetodo(e);
 
                 acumuladoHora += Integer.parseInt(horas);
                 acumuladoExtra += Integer.parseInt(extra);
                 acumuladoBruto += Double.parseDouble(salarioBruto.replace(",", "."));
-                if(e.getDescontoHorista() <= 0){
-                    acumuladoDescontos += Double.parseDouble(descontos.replace(",", "."));
-                }else{
-                    acumuladoDescontos += e.getDescontoHorista();
-                }
-                acumuladoLiquido += Double.parseDouble(salarioLiquido.replace(",", "."));
+//                if(e.getDescontoHorista() <= 0){
+//                    acumuladoDescontos += Double.parseDouble(descontos.replace(",", "."));
+//                }else{
+//                    acumuladoDescontos += e.getDescontoHorista();
+//                }
+                acumuladoDescontos += Double.parseDouble(descontos.replace(',', '.'));
+                acumuladoLiquido += Double.parseDouble(salarioLiquido.replace(',', '.'));
 
                 String printnome = e.getNome();
                 //Printa o nome no espaçamento correto.
@@ -275,9 +281,10 @@ public class FolhadePagamento {
                 EmpregadoComissionado e = entry.getValue();
                 String key = entry.getKey();
 
-                Double dSalario = Math.floor((((Double.parseDouble(e.getSalario().replace(",", ".")))*24d/52)*100)/100d);
+                //float dSalario = Math.floor(((((float)e.getSalario().replace(",", ".")))*24d/52)*100)/100d);
+                float fSalario = ((((float)(Double.parseDouble(e.getSalario().replace(",", ".")))*24/52)*100)/100);
 
-                fixo = Double.toString(dSalario);
+                fixo = Float.toString(fSalario);
                 vendas = GerenciaVendas.getVendasRealizadas(key, Aritmetica.toData(data).minusDays(13).format(dataFormato), data);
                 comissao = Double.toString(Double.parseDouble(e.getComissao().replace(",", ".")) * Double.parseDouble(vendas.replace(",", ".")));
                 salarioBruto = Aritmetica.calculaSalario(e, data);

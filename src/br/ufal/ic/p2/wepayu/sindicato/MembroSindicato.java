@@ -11,6 +11,8 @@ public class MembroSindicato implements Serializable {
     private Empregado empregado;
     public ArrayList<TaxaServico> taxasServicos;
 
+    //private String taxaSindicalAtrasada;
+
     public MembroSindicato() {
     }
 
@@ -19,6 +21,7 @@ public class MembroSindicato implements Serializable {
         this.taxaSindical = taxaSindical;
         this.empregado = empregado;
         this.taxasServicos = new ArrayList<>();
+        //this.taxaSindicalAtrasada = "0";
     }
     public static class MembroSindicatoBuilder{
         protected String idMembro;
@@ -72,4 +75,12 @@ public class MembroSindicato implements Serializable {
     public void setTaxasServicos(TaxaServico taxasServicos) {
         this.taxasServicos.add(taxasServicos);
     }
+
+//    public void setTaxaSindicalAtrasada(Double taxa) {
+//        Double taxaTotal = Double.parseDouble(taxaSindicalAtrasada) + taxa;
+//        this.taxaSindicalAtrasada = taxaTotal.toString();
+//    }
+//    public String getTaxaSindicalAtrasada() {
+//        return this.taxaSindicalAtrasada;
+//    }
 }

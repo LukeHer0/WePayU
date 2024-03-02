@@ -13,7 +13,7 @@ import static br.ufal.ic.p2.wepayu.gerencia.GerenciaEmpregados.empregados;
 
 public class EmpregadoHorista extends Empregado implements Serializable {
 
-    public Double descontoHorista = 0d;
+    public Double descontoHorista;
     public ArrayList<CartaoPonto> cartaoPonto;
 
     public EmpregadoHorista(){}
@@ -26,15 +26,14 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         this.sindicalizado = false;
         this.metodoPagamento = "emMaos";
         this.cartaoPonto = new ArrayList<CartaoPonto>();
+        this.descontoHorista = 0d;
     }
 
     public void setDescontoHorista(double desconto){
         this.descontoHorista += desconto;
     }
     public Double getDescontoHorista(){
-        Double desconto = this.descontoHorista;
-        this.descontoHorista = 0d;
-        return desconto;
+        return this.descontoHorista;
     }
     public void setCartaoPonto(CartaoPonto cartao){
         this.cartaoPonto.add(cartao);
