@@ -23,6 +23,7 @@ public abstract class Empregado implements Serializable, Cloneable {
     protected String agencia;
     protected String contaCorrente;
     protected String comissao;
+    protected String agendaPagamento;
     protected static Aritmetica aritmetica = new Aritmetica();
     protected static Erros verificarErros = new Erros();
     public Empregado(){}
@@ -107,6 +108,14 @@ public abstract class Empregado implements Serializable, Cloneable {
     }
     public void setContaCorrente(String contaCorrente){
         this.contaCorrente = contaCorrente;
+    }
+
+    public String getAgendaPagamento() {
+        return this.agendaPagamento;
+    }
+
+    public void setAgendaPagamento(String agendaPagamento) {
+        this.agendaPagamento = agendaPagamento;
     }
 
     @Override

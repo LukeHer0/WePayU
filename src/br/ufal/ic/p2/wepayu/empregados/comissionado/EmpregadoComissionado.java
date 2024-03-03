@@ -21,6 +21,7 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
         this.comissao = comissao;
         this.cartaoVenda = new ArrayList<CartaoVenda>();
         this.metodoPagamento = "emMaos";
+        this.agendaPagamento = "semanal 2 5";
     }
     public void setCartaoVenda(CartaoVenda cartao){
         this.cartaoVenda.add(cartao);

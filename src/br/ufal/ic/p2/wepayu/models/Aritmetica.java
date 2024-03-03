@@ -56,24 +56,31 @@ public class Aritmetica {
         if (emp.getTipo().equals("horista")) {
             EmpregadoHorista empregadoHorista = (EmpregadoHorista) emp;
             String inData = date.minusDays(7).format(dataFormato);
+
+            //Especifico Horista
             double horasNormaisAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasNormaisTrabalhadas(empregadoHorista.getId(), inData, data).replace(",", "."));
             double horasExtrasAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasExtrasTrabalhadas(empregadoHorista.getId(), inData, data).replace(",", "."));
             total = horasNormaisAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", "."));
             total += (1.5 * horasExtrasAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", ".")));
+
         } else if (emp.getTipo().equals("comissionado")) {
             EmpregadoComissionado empregadoComissionado = (EmpregadoComissionado) emp;
             String inData = date.minusDays(13).format(dataFormato);
-            total += Math.floor((((Float.parseFloat(empregadoComissionado.getSalario().replace(",", ".")) * 12) / 52) * 2) * 100) / 100;
 
+            //Especifico Comissionado
+            total += Math.floor((((Float.parseFloat(empregadoComissionado.getSalario().replace(",", ".")) * 12) / 52) * 2) * 100) / 100;
             total += Math.floor((Float.parseFloat(GerenciaVendas.getVendasRealizadas(emp.getId(), inData, data).replace(",", "."))) * Float.parseFloat(empregadoComissionado.getComissao().replace(",", ".")) * 100) / 100;
 
         } else if (emp.getTipo().equals("assalariado")) {
             EmpregadoAssalariado empregadoAssalariado = (EmpregadoAssalariado) emp;
             total += Double.parseDouble(empregadoAssalariado.getSalario().replace(",", "."));
         }
-
         return Double.toString(total).replace(".", ",");
     }
+
+//    public static String calculaSalario(Empregado emp, String data, String inData) {
+//
+//    }
 
     public static String retornarMetodo(Empregado e) throws EmpregadoNaoRecebeBancoException {
         if(e.getMetodoPagamento().equals("banco")){

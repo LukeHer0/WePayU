@@ -77,13 +77,14 @@ public class GerenciaEmpregados{
             throw new EmpregadoNaoExisteException(); //caso o id não seja nulo, mas não há nenhum empregado com o id requerido
         }
         if (!(Arrays.asList("nome", "endereco", "tipo", "salario", "sindicalizado", "comissao", "metodoPagamento",
-                "banco", "agencia", "contaCorrente", "idSindicato", "taxaSindical").contains(atributo))) {
+                "banco", "agencia", "contaCorrente", "idSindicato", "taxaSindical", "agendaPagamento").contains(atributo))) {
             throw new AtributoNExisteException(); //o atributo deve ser um desses da lista acima
         }
         Empregado empregado = empregados.get(emp);
 
         return switch (atributo) {
             case "nome" -> empregado.getNome();
+            case "agendaPagamento" -> empregado.getAgendaPagamento();
             case "endereco" -> empregado.getEndereco();
             case "tipo" -> empregado.getTipo();
             case "salario" -> empregado.getSalario();
@@ -186,7 +187,7 @@ public class GerenciaEmpregados{
     public static void alteraEmpregado(String emp, String atributo, String valor) throws EmpregadoNaoExisteException, NomeNuloException,
             EnderecoNuloException, SalarioNuloException, ComissaoNulaException, SalarioNumericoException, SalarioNegativoException,
             ValorTrueFalseException, EmpregadoNaoComissionadoException, AtributoNExisteException, TipoInvalidoException, MetodoPagInvalidoException,
-            IdNuloException, ComissaoNumericaException, ComissaoNegativaException, EmpregadoNaoRecebeBancoException { //Método para alterar algum atributo de um empregado (3 parâmetros)
+            IdNuloException, ComissaoNumericaException, ComissaoNegativaException, EmpregadoNaoRecebeBancoException, AgendaNaoDisponivelException { //Método para alterar algum atributo de um empregado (3 parâmetros)
         if(emp.isEmpty()){ //qualquer outro atributo que queira ser alterado sera possível em outro metodo de alteraEmpregado
             throw new IdNuloException();
         }
@@ -278,6 +279,13 @@ public class GerenciaEmpregados{
                     throw new MetodoPagInvalidoException();
                 }
                 empregado.setMetodoPagamento(valor);
+            }
+            case "agendaPagamento" -> {
+                if (GerenciaAgenda.getAgendas().contains(valor)){
+                    empregado.setAgendaPagamento(valor);
+                } else {
+                    throw new AgendaNaoDisponivelException();
+                }
             }
             default -> throw new AtributoNExisteException();
         }

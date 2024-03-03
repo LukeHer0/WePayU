@@ -22,6 +22,7 @@ public class FolhadePagamento {
     private static LinkedHashMap<String, EmpregadoComissionado> empregadosComissionados;
     private static LinkedHashMap<String, EmpregadoAssalariado> empregadosAssalariados;
 
+
     public FolhadePagamento(LinkedHashMap<String, EmpregadoHorista> empregadosHoristas,
                                         LinkedHashMap<String, EmpregadoComissionado> empregadosComissionados,
                                         LinkedHashMap<String, EmpregadoAssalariado> empregadosAssalariados) {
@@ -366,15 +367,30 @@ public class FolhadePagamento {
             DataIniPostFinException, EmpregadoNaoHoristaException, IdNuloException, DataFinalInvException, EmpregadoNaoComissionadoException {
         LocalDate date = Aritmetica.toData(data);
         double acumulado = 0d;
+
         for (Map.Entry<String, EmpregadoHorista> e : empregadosHoristas.entrySet()) {
+            switch (e.getValue().getAgendaPagamento()){
+                case "mensal $":
+
+                case "semanal 5":
+                case "semanal 2 5":
+            }
+
             if (date.getDayOfWeek() != DayOfWeek.FRIDAY) {
                 break;
             } else {
                 acumulado += Double.parseDouble(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));
             }
+
         }
 
         for (Map.Entry<String, EmpregadoComissionado> e : empregadosComissionados.entrySet()){
+            switch (e.getValue().getAgendaPagamento()){
+                case "mensal $":
+
+                case "semanal 5":
+                case "semanal 2 5":
+            }
 
             if(date.getDayOfWeek() != DayOfWeek.FRIDAY){
                 break;
@@ -389,6 +405,12 @@ public class FolhadePagamento {
             }
         }
         for (Map.Entry<String, EmpregadoAssalariado> e : empregadosAssalariados.entrySet()){
+            switch (e.getValue().getAgendaPagamento()){
+                case "mensal $":
+
+                case "semanal 5":
+                case "semanal 2 5":
+            }
 
             if(date.getDayOfMonth() == date.lengthOfMonth()){
                 acumulado += Double.parseDouble(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));

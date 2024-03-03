@@ -27,6 +27,7 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         this.metodoPagamento = "emMaos";
         this.cartaoPonto = new ArrayList<CartaoPonto>();
         this.descontoHorista = 0d;
+        this.agendaPagamento = "semanal 5";
     }
 
     public void setDescontoHorista(double desconto){

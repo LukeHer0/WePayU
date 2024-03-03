@@ -14,6 +14,7 @@ public class EmpregadoAssalariado extends Empregado {
         this.id = id;
         this.sindicalizado = false;
         this.metodoPagamento = "emMaos";
+        this.agendaPagamento = "mensal $";
     }
 
     @Override

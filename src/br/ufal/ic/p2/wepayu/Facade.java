@@ -73,7 +73,7 @@ public class Facade {
 
     public void alteraEmpregado(String emp, String atributo, String valor) throws
             EmpregadoNaoExisteException, NomeNuloException, EnderecoNuloException, SalarioNuloException,
-            ComissaoNulaException, SalarioNumericoException, SalarioNegativoException, ValorTrueFalseException, EmpregadoNaoComissionadoException, AtributoNExisteException, TipoInvalidoException, MetodoPagInvalidoException, IdNuloException, ComissaoNegativaException, ComissaoNumericaException, EmpregadoNaoRecebeBancoException, CloneNotSupportedException {
+            ComissaoNulaException, SalarioNumericoException, SalarioNegativoException, ValorTrueFalseException, EmpregadoNaoComissionadoException, AtributoNExisteException, TipoInvalidoException, MetodoPagInvalidoException, IdNuloException, ComissaoNegativaException, ComissaoNumericaException, EmpregadoNaoRecebeBancoException, CloneNotSupportedException, AgendaNaoDisponivelException {
         mementoCommands.backup();
         GerenciaEmpregados.alteraEmpregado(emp, atributo, valor);
     }
@@ -166,5 +166,9 @@ public class Facade {
 
     public void redo() throws NaoComandoRefazerException {
         mementoCommands.redo();
+    }
+
+    public void criarAgendaDePagamentos(String descricao) throws AgendaJaExisteException, AgendaInvalidaException{
+        GerenciaAgenda.criarAgendaDePagamentos(descricao);
     }
 }
