@@ -42,7 +42,6 @@ public class Aritmetica {
 
         DateTimeFormatter dataa = DateTimeFormatter.ofPattern("d/M/yyyy");
         date = LocalDate.parse(data, dataa);
-        //System.out.println(date);
         return date;
     }
 
@@ -66,11 +65,7 @@ public class Aritmetica {
             String inData = date.minusDays(13).format(dataFormato);
             total += Math.floor((((Float.parseFloat(empregadoComissionado.getSalario().replace(",", ".")) * 12) / 52) * 2) * 100) / 100;
 
-            //System.out.println("\n" + emp.getNome() + " Salário fixo " + total + "\n" +);
-
             total += Math.floor((Float.parseFloat(GerenciaVendas.getVendasRealizadas(emp.getId(), inData, data).replace(",", "."))) * Float.parseFloat(empregadoComissionado.getComissao().replace(",", ".")) * 100) / 100;
-
-            //System.out.println("\n" + emp.getNome() + " " + total + "\n");
 
         } else if (emp.getTipo().equals("assalariado")) {
             EmpregadoAssalariado empregadoAssalariado = (EmpregadoAssalariado) emp;
@@ -99,18 +94,14 @@ public class Aritmetica {
             if(emp.getTipo().equals("comissionado")){
                 String inData = date.minusDays(13).format(dataFormato);
                 totalDescontos += Float.parseFloat(GerenciaSindicato.getTaxasServico(emp.getId(), inData, data).replace(",", "."));
-                //totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxaSindicalAtrasada(emp.getId()));
                 totalDescontos += Float.parseFloat(GerenciaSindicato.getTaxaSindical(emp.getId()).replace(",", ".")) * 14;
             } else if(emp.getTipo().equals("horista")){
                 String inData = date.minusDays(6).format(dataFormato);
                 totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxasServico(emp.getId(), inData, data).replace(",", "."));
-
-                //totalDescontos += (((EmpregadoHorista) emp).getDescontoHorista());
                 totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxaSindical(emp.getId()).replace(",", ".")) * 7;
             } else{
                 String inData = date.minusDays(30).format(dataFormato);
                 totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxasServico(emp.getId(), inData, data).replace(",", "."));
-                //totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxaSindicalAtrasada(emp.getId()));
                 totalDescontos += Double.parseDouble(GerenciaSindicato.getTaxaSindical(emp.getId()).replace(",", ".")) * date.lengthOfMonth();
             }
         } else{

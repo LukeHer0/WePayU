@@ -28,6 +28,20 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
     public ArrayList<CartaoVenda> getCartaoVenda(){
         return this.cartaoVenda;
     }
+    
+    @Override
+    public EmpregadoComissionado clone() throws CloneNotSupportedException{
+        EmpregadoComissionado clone = (EmpregadoComissionado) super.clone();
+        
+        clone.cartaoVenda = new ArrayList<CartaoVenda>();
+        
+        for(CartaoVenda cartao: this.cartaoVenda) {
+            clone.cartaoVenda.add(cartao.clone());
+        }
+
+        return clone;
+    }
+    
     public static class EmpregadoComissionadoBuilder {
         protected String nome;
         protected String endereco;

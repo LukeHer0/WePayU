@@ -37,8 +37,8 @@ public class XMLUse implements Serializable{
             Object obj;
             obj = decoder.readObject();
             empregados = (LinkedHashMap<String, Empregado>) obj;
-
         } catch (Exception ignored) {
+
         }
         return empregados;
     }

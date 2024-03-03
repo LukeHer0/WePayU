@@ -35,7 +35,6 @@ public class FolhadePagamento {
             DataIniPostFinException, EmpregadoNaoHoristaException,
             IdNuloException, DataFinalInvException, EmpregadoNaoComissionadoException,
             EmpregadoNaoRecebeBancoException, EmpregadoNaoSindicalizadoException {
-        //System.out.println("\n" + data + "\n");
         String horas, extra, salarioBruto, descontos, salarioLiquido, metodo, fixo, vendas, comissao;
         Integer acumuladoHora = 0, acumuladoExtra = 0;
         Double acumuladoTotal = 0d, acumuladoBruto = 0d, acumuladoDescontos = 0d, acumuladoLiquido = 0d, acumuladoFixo = 0d, acumuladoVendas = 0d, acumuladoComissao = 0d;
@@ -70,20 +69,10 @@ public class FolhadePagamento {
                 String key = entry.getKey();
 
                 horas = GerenciaEmpregados.getHorasNormaisTrabalhadas(key, Aritmetica.toData(data).minusDays(6).format(dataFormato), data);
-                //System.out.println(horas);
+
                 extra = GerenciaEmpregados.getHorasExtrasTrabalhadas(key, Aritmetica.toData(data).minusDays(6).format(dataFormato), data);
                 salarioBruto = Aritmetica.calculaSalario(e, data);
                 descontos = Aritmetica.calculaDescontos(e, data);
-//                if(Double.parseDouble(salarioBruto.replace(",", ".")) < Double.parseDouble(descontos.replace(",", "."))){
-//                    e.setDescontoHorista(Double.parseDouble(descontos.replace(",", ".")));
-//                    descontos = "0,00";
-//                }
-//                salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.'))).replace(".", ",");
-//                if(Double.parseDouble(salarioLiquido.replace(",", ".")) < 0){
-//                    e.setDescontoHorista(Math.abs(Double.parseDouble(salarioLiquido.replace(",", "."))));
-//                    salarioLiquido = "0,00";
-//
-//                }
 
                 salarioLiquido = Double.toString(Double.parseDouble(salarioBruto.replace(',', '.')) - Double.parseDouble(descontos.replace(',', '.')) - e.getDescontoHorista());
 
@@ -106,11 +95,6 @@ public class FolhadePagamento {
                 acumuladoHora += Integer.parseInt(horas);
                 acumuladoExtra += Integer.parseInt(extra);
                 acumuladoBruto += Double.parseDouble(salarioBruto.replace(",", "."));
-//                if(e.getDescontoHorista() <= 0){
-//                    acumuladoDescontos += Double.parseDouble(descontos.replace(",", "."));
-//                }else{
-//                    acumuladoDescontos += e.getDescontoHorista();
-//                }
                 acumuladoDescontos += Double.parseDouble(descontos.replace(',', '.'));
                 acumuladoLiquido += Double.parseDouble(salarioLiquido.replace(',', '.'));
 
@@ -372,10 +356,6 @@ public class FolhadePagamento {
         bufferedWriter.write("TOTAL FOLHA: ");
         bufferedWriter.write(Aritmetica.doubleFormat(acumuladoTotal.toString()));
         bufferedWriter.newLine();
-//        for (String linha: horistas) {
-//            bufferedWriter.write(linha);
-//            bufferedWriter.newLine();
-//        }
 
         //Libera a escrita no arquivo e fecha o mesmo
         bufferedWriter.flush();
@@ -390,7 +370,6 @@ public class FolhadePagamento {
             if (date.getDayOfWeek() != DayOfWeek.FRIDAY) {
                 break;
             } else {
-//                System.out.println(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));
                 acumulado += Double.parseDouble(Aritmetica.calculaSalario(e.getValue(), data).replace(",", "."));
             }
         }
@@ -416,8 +395,7 @@ public class FolhadePagamento {
             }else {
                 break;
             }
-        }
-        return Double.toString(acumulado);
+        }return Double.toString(acumulado);
     }
 
     public static String totalFolha(String data) throws Exception {

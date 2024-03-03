@@ -3,7 +3,7 @@ package br.ufal.ic.p2.wepayu.empregados.comissionado;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CartaoVenda implements Serializable {
+public class CartaoVenda implements Serializable, Cloneable {
 
     private String data;
     private Double valor;
@@ -25,5 +25,10 @@ public class CartaoVenda implements Serializable {
     }
     public Double getValor(){
         return this.valor;
+    }
+
+    @Override
+    public CartaoVenda clone() throws CloneNotSupportedException{
+        return (CartaoVenda) super.clone();
     }
 }

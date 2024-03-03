@@ -69,11 +69,9 @@ public class GerenciaVendas implements Serializable {
             }
             for(CartaoVenda c : empregado.cartaoVenda){
                 if(LocalDate.parse(c.getData(), dataFormato).isEqual(Inicial) || (LocalDate.parse(c.getData(), dataFormato).isAfter(Inicial) && LocalDate.parse(c.getData(), dataFormato).isBefore(Final))){
-                    //System.out.println("Valor atual: " + acumulador + " | Próxima venda: " + c.getValor());
                     acumulador += c.getValor();
                 }
             }
-            //System.out.println("Valor total de vendas: " + acumulador + "\n\n");
         }
         XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
         return String.format("%.2f", acumulador).replace(".", ",");

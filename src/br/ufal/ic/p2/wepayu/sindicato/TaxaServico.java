@@ -3,7 +3,7 @@ package br.ufal.ic.p2.wepayu.sindicato;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class TaxaServico implements Serializable {
+public class TaxaServico implements Serializable, Cloneable {
     private String data;
     private Double valor;
     public TaxaServico() {
@@ -24,6 +24,12 @@ public class TaxaServico implements Serializable {
     public void setValor(Double valor) {
         this.valor = valor;
     }
+
+    @Override
+    public TaxaServico clone() throws CloneNotSupportedException{
+        return (TaxaServico) super.clone();
+    }
+
     public static class TaxaServicoBuilder{
         protected String data;
         protected Double valor;

@@ -1,7 +1,7 @@
 package br.ufal.ic.p2.wepayu.empregados.horista;
 
 import java.io.Serializable;
-public class CartaoPonto implements Serializable {
+public class CartaoPonto implements Serializable, Cloneable {
 
     private String data;
     private Double horas;
@@ -27,5 +27,10 @@ public class CartaoPonto implements Serializable {
 
     public Double getHoras(){
         return this.horas;
+    }
+
+    @Override
+    public CartaoPonto clone() throws CloneNotSupportedException{
+        return (CartaoPonto) super.clone();
     }
 }

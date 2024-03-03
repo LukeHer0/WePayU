@@ -22,7 +22,6 @@ public class GerenciaSindicato {
             IdMembroNuloException, MembroNaoExisteException, DataInvalidaException,
             ValorPositivoException {
         double valorDouble = Double.parseDouble(valor.replace(",", "."));
-        //System.out.println("Valor:" + valorDouble);
 
         if (Objects.equals(membro, "")) {
             throw new IdMembroNuloException();
@@ -108,26 +107,4 @@ public class GerenciaSindicato {
         }
         throw new EmpregadoNaoSindicalizadoException();
     }
-
-//    public static void setTaxaSindicalAtrasada(String emp)throws
-//            EmpregadoNaoSindicalizadoException{
-//        for(Map.Entry<String, MembroSindicato> entry: empregadosSindicalizados.entrySet()){
-//            MembroSindicato membro = entry.getValue();
-//            if(membro.getEmpregadoId().equals(emp)){
-//                membro.setTaxaSindicalAtrasada();
-//            }
-//        }
-//        throw new EmpregadoNaoSindicalizadoException();
-//    }
-
-//    public static String getTaxaSindicalAtrasada(String emp)throws
-//            EmpregadoNaoSindicalizadoException{
-//        for(Map.Entry<String, MembroSindicato> entry: empregadosSindicalizados.entrySet()){
-//            MembroSindicato membro = entry.getValue();
-//            if(membro.getEmpregadoId().equals(emp)){
-//                return Aritmetica.doubleFormat(membro.getTaxaSindicalAtrasada());
-//            }
-//        }
-//        throw new EmpregadoNaoSindicalizadoException();
-//    }
 }

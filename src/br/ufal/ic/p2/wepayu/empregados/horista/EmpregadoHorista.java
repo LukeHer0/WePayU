@@ -63,6 +63,20 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         }
         empregado.setCartaoPonto(new CartaoPonto(data, horasDouble));
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        EmpregadoHorista clone = (EmpregadoHorista) super.clone();
+
+        clone.cartaoPonto = new ArrayList<CartaoPonto>();
+
+        for(CartaoPonto cartao: this.cartaoPonto){
+            clone.cartaoPonto.add(cartao.clone());
+        }
+
+        return clone;
+    }
+
     public static class EmpregadoHoristaBuilder {
         protected String nome;
         protected String endereco;

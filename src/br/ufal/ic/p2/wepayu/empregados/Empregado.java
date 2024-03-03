@@ -10,14 +10,13 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public abstract class Empregado implements Serializable {
+public abstract class Empregado implements Serializable, Cloneable {
 
     protected String nome;
     protected String endereco;
     protected String tipo;
     protected String salario;
     protected boolean sindicalizado;
-    //protected static int idCounter = 100000000;
     protected String id;
     protected String metodoPagamento;
     protected String banco;
@@ -36,11 +35,9 @@ public abstract class Empregado implements Serializable {
     }
 
     public String getNome() {
-        //System.out.println("\nNOMEE\n");
         return this.nome;
     }
     public void setNome(String nome){
-        //System.out.println("\nNOMEE\n");
         this.nome = nome;
     }
     public String getEndereco() {
@@ -110,5 +107,10 @@ public abstract class Empregado implements Serializable {
     }
     public void setContaCorrente(String contaCorrente){
         this.contaCorrente = contaCorrente;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return (Empregado) super.clone();
     }
 }

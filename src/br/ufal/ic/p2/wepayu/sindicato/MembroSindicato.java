@@ -5,13 +5,11 @@ import br.ufal.ic.p2.wepayu.empregados.Empregado;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MembroSindicato implements Serializable {
+public class MembroSindicato implements Serializable, Cloneable{
     private String idMembro;
     private String taxaSindical;
     private Empregado empregado;
     public ArrayList<TaxaServico> taxasServicos;
-
-    //private String taxaSindicalAtrasada;
 
     public MembroSindicato() {
     }
@@ -21,8 +19,20 @@ public class MembroSindicato implements Serializable {
         this.taxaSindical = taxaSindical;
         this.empregado = empregado;
         this.taxasServicos = new ArrayList<>();
-        //this.taxaSindicalAtrasada = "0";
     }
+
+    @Override
+    public MembroSindicato clone() throws CloneNotSupportedException{
+        MembroSindicato clone = (MembroSindicato) super.clone();
+
+        clone.taxasServicos = new ArrayList<TaxaServico>();
+
+        for(TaxaServico taxa: taxasServicos){
+            clone.taxasServicos.add(taxa.clone());
+        }
+        return clone;
+    }
+
     public static class MembroSindicatoBuilder{
         protected String idMembro;
         protected String taxaSindical;
@@ -75,12 +85,4 @@ public class MembroSindicato implements Serializable {
     public void setTaxasServicos(TaxaServico taxasServicos) {
         this.taxasServicos.add(taxasServicos);
     }
-
-//    public void setTaxaSindicalAtrasada(Double taxa) {
-//        Double taxaTotal = Double.parseDouble(taxaSindicalAtrasada) + taxa;
-//        this.taxaSindicalAtrasada = taxaTotal.toString();
-//    }
-//    public String getTaxaSindicalAtrasada() {
-//        return this.taxaSindicalAtrasada;
-//    }
 }

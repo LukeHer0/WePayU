@@ -11,6 +11,7 @@ import br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
+import br.ufal.ic.p2.wepayu.memento.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -56,6 +57,14 @@ public class GerenciaEmpregados{
         return empregadosAssalariados;
     }
 
+    public static Integer getNumeroDeEmpregados(){
+        for (Map.Entry<String, Empregado> emp: GerenciaEmpregados.empregados.entrySet()) {
+            System.out.println("Empregado: " + emp.getValue().getNome());
+            System.out.println(GerenciaEmpregados.empregados.size());
+        }
+        return GerenciaEmpregados.empregados.size();
+    }
+
     public static String getAtributoEmpregado(String emp, String atributo) throws
             IdNuloException, EmpregadoNaoExisteException, AtributoNExisteException,
             EmpregadoNaoComissionadoException, EmpregadoNaoRecebeBancoException,
@@ -99,7 +108,6 @@ public class GerenciaEmpregados{
     public static String getEmpregadoPorNome(String nome, Integer indice) throws NomeInexistenteException, EmpregadoNaoExisteException {
         //Método para obter um empregado a partir do nome
         if(empregados.isEmpty()){
-            System.out.println("\nEmpregados vazios\n");
             throw new EmpregadoNaoExisteException();
         }
         for (Map.Entry<String, Empregado> entry : empregados.entrySet()) { //for que percorre a lista de empregados
@@ -399,7 +407,7 @@ public class GerenciaEmpregados{
             IdNuloException, DataIniPostFinException, DataInicialInvException, DataFinalInvException{
         if(emp == null) {
             throw new IdNuloException();
-        }if(!(empregados.get(emp) instanceof EmpregadoHorista)){
+        }if(!(empregados.get(emp).getTipo().equals("horista"))){
             throw new EmpregadoNaoHoristaException();
         }
         EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);
@@ -447,7 +455,7 @@ public class GerenciaEmpregados{
             DataIniPostFinException, DataInicialInvException, DataFinalInvException{
         if(emp == null) {
             throw new IdNuloException();
-        }if(!(empregados.get(emp) instanceof EmpregadoHorista)){
+        }if(!(empregados.get(emp).getTipo().equals("horista"))){
             throw new EmpregadoNaoHoristaException();
         }
         EmpregadoHorista empregado = (EmpregadoHorista) empregados.get(emp);

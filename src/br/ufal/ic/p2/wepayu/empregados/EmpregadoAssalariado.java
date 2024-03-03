@@ -3,7 +3,7 @@ package br.ufal.ic.p2.wepayu.empregados;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class EmpregadoAssalariado extends Empregado implements Serializable {
+public class EmpregadoAssalariado extends Empregado {
 
     public EmpregadoAssalariado(){}
     private EmpregadoAssalariado(String nome, String endereco, String tipo, String salario, String id){
@@ -15,6 +15,12 @@ public class EmpregadoAssalariado extends Empregado implements Serializable {
         this.sindicalizado = false;
         this.metodoPagamento = "emMaos";
     }
+
+    @Override
+    public EmpregadoAssalariado clone() throws CloneNotSupportedException{
+        return (EmpregadoAssalariado) super.clone();
+    }
+
     public static class EmpregadoAssalariadoBuilder{
         protected String nome;
         protected String endereco;
