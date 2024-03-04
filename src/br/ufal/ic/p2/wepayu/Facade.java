@@ -12,7 +12,7 @@ public class Facade {
 
     private boolean sistemaEncerrado = false;
     MementoCommands mementoCommands = new MementoCommands();
-    public void zerarSistema() throws IOException, CloneNotSupportedException {
+    public void zerarSistema() throws IOException, CloneNotSupportedException, AgendaJaExisteException, AgendaInvalidaException {
         mementoCommands.backup();
         Sistema.zerarSistema();
     }
@@ -148,7 +148,7 @@ public class Facade {
             DataInicialInvException, EmpregadoNaoSindicalizadoException,
             EmpregadoNaoRecebeBancoException, DataIniPostFinException, IOException,
             EmpregadoNaoHoristaException, DataInvalidaException, IdNuloException,
-            EmpregadoNaoComissionadoException, DataFinalInvException {
+            EmpregadoNaoComissionadoException, DataFinalInvException, AgendaInvalidaException {
         mementoCommands.backup();
         FolhadePagamento.rodaFolha(data, saida);
     }

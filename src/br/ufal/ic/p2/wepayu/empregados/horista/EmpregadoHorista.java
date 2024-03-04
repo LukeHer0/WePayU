@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.empregados.horista;
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.XMLUse.XMLUse;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
+import br.ufal.ic.p2.wepayu.models.AgendaPagamento;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -27,7 +28,7 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         this.metodoPagamento = "emMaos";
         this.cartaoPonto = new ArrayList<CartaoPonto>();
         this.descontoHorista = 0d;
-        this.agendaPagamento = "semanal 5";
+        this.agendaPagamento = new AgendaPagamento("semanal", "5");
     }
 
     public void setDescontoHorista(double desconto){

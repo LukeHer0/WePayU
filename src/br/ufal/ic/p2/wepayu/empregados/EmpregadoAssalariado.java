@@ -1,5 +1,7 @@
 package br.ufal.ic.p2.wepayu.empregados;
 
+import br.ufal.ic.p2.wepayu.models.AgendaPagamento;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -14,7 +16,7 @@ public class EmpregadoAssalariado extends Empregado {
         this.id = id;
         this.sindicalizado = false;
         this.metodoPagamento = "emMaos";
-        this.agendaPagamento = "mensal $";
+        this.agendaPagamento = new AgendaPagamento("mensal", "$");
     }
 
     @Override

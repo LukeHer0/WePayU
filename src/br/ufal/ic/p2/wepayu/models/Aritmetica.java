@@ -15,11 +15,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.stream.*;
 import java.util.*;
 public class Aritmetica {
 
-
+    private static DateTimeFormatter dataa = DateTimeFormatter.ofPattern("d/M/yyyy");
     public static boolean isNumeric(String str) { //testa se uma string eh numerica
         try {
             Double.parseDouble(str.replace(",", "."));
@@ -38,49 +39,78 @@ public class Aritmetica {
 
     public static LocalDate toData(String data) throws
             DataInvalidaException {
-        LocalDate date;
-
-        DateTimeFormatter dataa = DateTimeFormatter.ofPattern("d/M/yyyy");
-        date = LocalDate.parse(data, dataa);
-        return date;
+        return LocalDate.parse(data, dataa);
     }
 
-    public static String calculaSalario(Empregado emp, String data) throws
-            DataInvalidaException, EmpregadoNaoComissionadoException,
+    public static boolean verifUltimoDiaMes(String data){
+        LocalDate dataParse = LocalDate.parse(data, dataa);
+        LocalDate ultimo = dataParse.with(TemporalAdjusters.lastDayOfMonth());
+
+        return ultimo.equals(dataParse);
+    }
+
+//    public static String calculaSalario(Empregado emp, String data) throws
+//            DataInvalidaException, EmpregadoNaoComissionadoException,
+//            DataInicialInvException, DataIniPostFinException, IdNuloException,
+//            DataFinalInvException, EmpregadoNaoHoristaException {
+//        LocalDate date = toData(data);
+//        double total = 0d;
+//        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
+//
+//        if (emp.getTipo().equals("horista")) {
+//            EmpregadoHorista empregadoHorista = (EmpregadoHorista) emp;
+//            String inData = date.minusDays(7).format(dataFormato);
+//
+//            //Especifico Horista
+//            double horasNormaisAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasNormaisTrabalhadas(empregadoHorista.getId(), inData, data).replace(",", "."));
+//            double horasExtrasAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasExtrasTrabalhadas(empregadoHorista.getId(), inData, data).replace(",", "."));
+//            total = horasNormaisAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", "."));
+//            total += (1.5 * horasExtrasAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", ".")));
+//
+//        } else if (emp.getTipo().equals("comissionado")) {
+//            EmpregadoComissionado empregadoComissionado = (EmpregadoComissionado) emp;
+//            String inData = date.minusDays(13).format(dataFormato);
+//
+//            //Especifico Comissionado
+//            total += Math.floor((((Float.parseFloat(empregadoComissionado.getSalario().replace(",", ".")) * 12) / 52) * 2) * 100) / 100;
+//            total += Math.floor((Float.parseFloat(GerenciaVendas.getVendasRealizadas(emp.getId(), inData, data).replace(",", "."))) * Float.parseFloat(empregadoComissionado.getComissao().replace(",", ".")) * 100) / 100;
+//
+//        } else if (emp.getTipo().equals("assalariado")) {
+//            EmpregadoAssalariado empregadoAssalariado = (EmpregadoAssalariado) emp;
+//            total += Double.parseDouble(empregadoAssalariado.getSalario().replace(",", "."));
+//        }
+//        return Double.toString(total).replace(".", ",");
+//    }
+
+    public static String calculaSalario(Empregado emp, String data, String inData) throws DataInvalidaException, EmpregadoNaoComissionadoException,
             DataInicialInvException, DataIniPostFinException, IdNuloException,
             DataFinalInvException, EmpregadoNaoHoristaException {
-        LocalDate date = toData(data);
+
         double total = 0d;
-        DateTimeFormatter dataFormato = DateTimeFormatter.ofPattern("d/M/yyyy");
 
         if (emp.getTipo().equals("horista")) {
             EmpregadoHorista empregadoHorista = (EmpregadoHorista) emp;
-            String inData = date.minusDays(7).format(dataFormato);
 
             //Especifico Horista
             double horasNormaisAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasNormaisTrabalhadas(empregadoHorista.getId(), inData, data).replace(",", "."));
             double horasExtrasAcumuladas = Double.parseDouble(GerenciaEmpregados.getHorasExtrasTrabalhadas(empregadoHorista.getId(), inData, data).replace(",", "."));
             total = horasNormaisAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", "."));
             total += (1.5 * horasExtrasAcumuladas * Double.parseDouble(empregadoHorista.getSalario().replace(",", ".")));
-
-        } else if (emp.getTipo().equals("comissionado")) {
+        }else if(emp.getTipo().equals("comissionado")){
             EmpregadoComissionado empregadoComissionado = (EmpregadoComissionado) emp;
-            String inData = date.minusDays(13).format(dataFormato);
+            if (emp.getAgendaPagamento().getTipo().equals("mensal")) total += Double.parseDouble(empregadoComissionado.getSalario().replace(",", "."));
+            else total += Math.floor(Double.parseDouble(empregadoComissionado.getSalario().replace(",", ".")) * (12D/52D * emp.getAgendaPagamento().getSemana()) * 100) / 100D;
 
-            //Especifico Comissionado
-            total += Math.floor((((Float.parseFloat(empregadoComissionado.getSalario().replace(",", ".")) * 12) / 52) * 2) * 100) / 100;
-            total += Math.floor((Float.parseFloat(GerenciaVendas.getVendasRealizadas(emp.getId(), inData, data).replace(",", "."))) * Float.parseFloat(empregadoComissionado.getComissao().replace(",", ".")) * 100) / 100;
+            //total += Math.floor(((Float.parseFloat(empregadoComissionado.getSalario().replace(",", ".") * ((12d / 52d) * emp.getAgendaPagamento().getSemana()) * 100)))) / 100d;
+            total += Math.floor((Double.parseDouble(GerenciaVendas.getVendasRealizadas(emp.getId(), inData, data).replace(",", "."))) * (Double.parseDouble(emp.getComissao().replace(",", ".")) * 100)) / 100D;
+//            System.out.println(emp.getSalario() + emp.getNome());
 
-        } else if (emp.getTipo().equals("assalariado")) {
+        }else if(emp.getTipo().equals("assalariado")){
             EmpregadoAssalariado empregadoAssalariado = (EmpregadoAssalariado) emp;
-            total += Double.parseDouble(empregadoAssalariado.getSalario().replace(",", "."));
+            total += Math.floor((((Double.parseDouble(empregadoAssalariado.getSalario().replace(",", ".")) * 12) / 52) * emp.getAgendaPagamento().getSemana()) * 100)/100D;
         }
         return Double.toString(total).replace(".", ",");
     }
-
-//    public static String calculaSalario(Empregado emp, String data, String inData) {
-//
-//    }
 
     public static String retornarMetodo(Empregado e) throws EmpregadoNaoRecebeBancoException {
         if(e.getMetodoPagamento().equals("banco")){
@@ -116,6 +146,8 @@ public class Aritmetica {
         }
         return Double.toString(totalDescontos).replace(".", ",");
     }
+
+    //public static String calculaDescontos
 
     public static LinkedHashMap<String, Empregado> ordenaEmpregadosPorNome(LinkedHashMap<String, Empregado> empregados){
         LinkedHashMap<String, Empregado> ordenado = empregados.entrySet()
