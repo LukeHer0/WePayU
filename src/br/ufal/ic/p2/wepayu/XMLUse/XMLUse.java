@@ -1,9 +1,13 @@
 package br.ufal.ic.p2.wepayu.XMLUse;
 
+import br.ufal.ic.p2.wepayu.Exception.AgendaInvalidaException;
+import br.ufal.ic.p2.wepayu.Exception.AgendaJaExisteException;
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
 import br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.gerencia.GerenciaAgenda;
+import br.ufal.ic.p2.wepayu.models.AgendaPagamento;
 import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
 
 import java.beans.XMLEncoder;
@@ -59,7 +63,7 @@ public class XMLUse implements Serializable{
         return membros;
     }
 
-    public static void salvaAgendasXML(ArrayList<String> agendas, String arquivo){
+    public static void salvaAgendasXML(ArrayList<AgendaPagamento> agendas, String arquivo){
         try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(arquivo)))) {
             encoder.writeObject(agendas);
             encoder.flush();
@@ -67,12 +71,12 @@ public class XMLUse implements Serializable{
         }
     }
 
-    public static ArrayList<String> carregarAgendasXML(String arquivo){
-        ArrayList<String> agendas = new ArrayList<>();
+    public static ArrayList<AgendaPagamento> carregarAgendasXML(String arquivo) throws Exception {
+        ArrayList<AgendaPagamento> agendas = new ArrayList<>();
         try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(arquivo)))){
             Object obj;
             obj = decoder.readObject();
-            agendas = (ArrayList<String>) obj;
+            agendas = (ArrayList<AgendaPagamento>) obj;
 
             return agendas;
         } catch (Exception ignored) {
@@ -80,7 +84,9 @@ public class XMLUse implements Serializable{
         }
 
         if (agendas.isEmpty()) {
-            agendas.addAll(Arrays.asList("mensal $", "semanal 5", "semanal 2 5"));
+            GerenciaAgenda.criarAgendaDePagamentos("mensal $");
+            GerenciaAgenda.criarAgendaDePagamentos("semanal 5");
+            GerenciaAgenda.criarAgendaDePagamentos("semanal 2 5");
         }
         return agendas;
     }

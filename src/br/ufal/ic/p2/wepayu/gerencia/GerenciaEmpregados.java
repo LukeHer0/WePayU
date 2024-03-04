@@ -8,6 +8,7 @@ import br.ufal.ic.p2.wepayu.empregados.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.empregados.comissionado.CartaoVenda;
 import br.ufal.ic.p2.wepayu.empregados.horista.CartaoPonto;
 import br.ufal.ic.p2.wepayu.empregados.horista.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.models.AgendaPagamento;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 import br.ufal.ic.p2.wepayu.sindicato.MembroSindicato;
@@ -59,8 +60,6 @@ public class GerenciaEmpregados{
 
     public static Integer getNumeroDeEmpregados(){
         for (Map.Entry<String, Empregado> emp: GerenciaEmpregados.empregados.entrySet()) {
-            System.out.println("Empregado: " + emp.getValue().getNome());
-            System.out.println(GerenciaEmpregados.empregados.size());
         }
         return GerenciaEmpregados.empregados.size();
     }
@@ -84,7 +83,7 @@ public class GerenciaEmpregados{
 
         return switch (atributo) {
             case "nome" -> empregado.getNome();
-            case "agendaPagamento" -> empregado.getAgendaPagamento();
+            case "agendaPagamento" -> empregado.getAgendaPagamento().getFormula();
             case "endereco" -> empregado.getEndereco();
             case "tipo" -> empregado.getTipo();
             case "salario" -> empregado.getSalario();
@@ -281,11 +280,27 @@ public class GerenciaEmpregados{
                 empregado.setMetodoPagamento(valor);
             }
             case "agendaPagamento" -> {
-                if (GerenciaAgenda.getAgendas().contains(valor)){
-                    empregado.setAgendaPagamento(valor);
-                } else {
-                    throw new AgendaNaoDisponivelException();
+                ArrayList<String> elementos = new ArrayList<>(Arrays.stream(valor.split(" ")).toList());
+
+                AgendaPagamento agenda;
+                if(elementos.get(0).equals("semanal") || elementos.get(0).equals("mensal")){
+                    if(elementos.size() == 2){
+                        agenda =
+                                new AgendaPagamento(elementos.get(0), elementos.get(1));
+                    } else {
+                        agenda =
+                                new AgendaPagamento(elementos.get(0), elementos.get(1), elementos.get(2));
+                    }
+
+                    for (AgendaPagamento item: GerenciaAgenda.getAgendas()) {
+                        if (item.getFormula().equals(valor)){
+                            empregado.setAgendaPagamento(agenda);
+                            XMLUse.salvaEmpregadosXML(empregados, "./listaEmpregados.xml");
+                            return;
+                        }
+                    }
                 }
+                throw new AgendaNaoDisponivelException();
             }
             default -> throw new AtributoNExisteException();
         }

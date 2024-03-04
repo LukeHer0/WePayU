@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.empregados;
 import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoComissionadoException;
 import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoRecebeBancoException;
 import br.ufal.ic.p2.wepayu.Exception.TipoInvalidoException;
+import br.ufal.ic.p2.wepayu.models.AgendaPagamento;
 import br.ufal.ic.p2.wepayu.models.Aritmetica;
 import br.ufal.ic.p2.wepayu.models.Erros;
 
@@ -23,7 +24,7 @@ public abstract class Empregado implements Serializable, Cloneable {
     protected String agencia;
     protected String contaCorrente;
     protected String comissao;
-    protected String agendaPagamento;
+    protected AgendaPagamento agendaPagamento;
     protected static Aritmetica aritmetica = new Aritmetica();
     protected static Erros verificarErros = new Erros();
     public Empregado(){}
@@ -110,11 +111,11 @@ public abstract class Empregado implements Serializable, Cloneable {
         this.contaCorrente = contaCorrente;
     }
 
-    public String getAgendaPagamento() {
+    public AgendaPagamento getAgendaPagamento() {
         return this.agendaPagamento;
     }
 
-    public void setAgendaPagamento(String agendaPagamento) {
+    public void setAgendaPagamento(AgendaPagamento agendaPagamento) {
         this.agendaPagamento = agendaPagamento;
     }
 

@@ -18,9 +18,14 @@ import java.util.*;
 public class Sistema {
 
 
-    public static void zerarSistema() throws IOException {
+    public static void zerarSistema() throws IOException, AgendaJaExisteException, AgendaInvalidaException {
         GerenciaEmpregados.empregados = new LinkedHashMap<>();
         GerenciaSindicato.empregadosSindicalizados = new LinkedHashMap<>();
+        GerenciaAgenda.agendas = new ArrayList<>();
+        //GerenciaAgenda.agendas.addAll(Arrays.asList("mensal $", "semanal 5", "semanal 2 5"));
+        GerenciaAgenda.criarAgendaDePagamentos("semanal 2 5");
+        GerenciaAgenda.criarAgendaDePagamentos("semanal 5");
+        GerenciaAgenda.criarAgendaDePagamentos("mensal $");
     }
 
     public static void encerrarSistema(){

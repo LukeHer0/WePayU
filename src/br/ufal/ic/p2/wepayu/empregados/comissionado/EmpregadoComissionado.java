@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.empregados.comissionado;
 
 import br.ufal.ic.p2.wepayu.empregados.Empregado;
+import br.ufal.ic.p2.wepayu.models.AgendaPagamento;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
         this.comissao = comissao;
         this.cartaoVenda = new ArrayList<CartaoVenda>();
         this.metodoPagamento = "emMaos";
-        this.agendaPagamento = "semanal 2 5";
+        this.agendaPagamento = new AgendaPagamento("semanal", "2", "5");
     }
     public void setCartaoVenda(CartaoVenda cartao){
         this.cartaoVenda.add(cartao);

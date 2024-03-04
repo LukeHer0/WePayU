@@ -23,11 +23,9 @@ public class MementoCommands {
     public void undo() throws NaoComandoDesfazerException {
         if(!undoMementos.isEmpty()) {
 
-            System.out.println(undoMementos.size());
-
             Memento memento = undoMementos.pop();
 
-            if(undoMementos.size() >= 1) {
+            if(!undoMementos.isEmpty()) {
                 redoMementos.push(memento);
             }
 
