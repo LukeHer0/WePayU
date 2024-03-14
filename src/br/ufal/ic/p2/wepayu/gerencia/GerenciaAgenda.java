@@ -8,13 +8,21 @@ import br.ufal.ic.p2.wepayu.models.AgendaPagamento;
 
 import java.util.*;
 
-public class GerenciaAgenda {
-    //public static ArrayList <String> agendas = XMLUse.carregarAgendasXML("./listaAgendas.xml");
-    public static ArrayList <AgendaPagamento> agendas;
+public class GerenciaAgenda{
+    //public static ArrayList <AgendaPagamento> agendas = (ArrayList<AgendaPagamento>)XMLUse.carregarAgendasXML("./listaAgendas.xml");
 
-    static {
+//    static {
+//        try {
+//            agendas = XMLUse.carregarAgendasXML("./listaAgendas.xml");
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+    public static ArrayList <AgendaPagamento> agendas = new ArrayList<>();
+
+    static{
         try {
-            agendas = XMLUse.carregarAgendasXML("./listaAgendas.xml");
+            XMLUse.carregarAgendasXML("./listaAgendas.xml");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -71,23 +71,19 @@ public class XMLUse implements Serializable{
         }
     }
 
-    public static ArrayList<AgendaPagamento> carregarAgendasXML(String arquivo) throws Exception {
-        ArrayList<AgendaPagamento> agendas = new ArrayList<>();
+    public static void carregarAgendasXML(String arquivo) throws AgendaJaExisteException, AgendaInvalidaException {
+        GerenciaAgenda.agendas = new ArrayList<>();
         try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(arquivo)))){
             Object obj;
             obj = decoder.readObject();
-            agendas = (ArrayList<AgendaPagamento>) obj;
-
-            return agendas;
+            GerenciaAgenda.agendas = (ArrayList<AgendaPagamento>) obj;
         } catch (Exception ignored) {
-
         }
 
-        if (agendas.isEmpty()) {
+        if (GerenciaAgenda.agendas.isEmpty()) {
             GerenciaAgenda.criarAgendaDePagamentos("mensal $");
             GerenciaAgenda.criarAgendaDePagamentos("semanal 5");
             GerenciaAgenda.criarAgendaDePagamentos("semanal 2 5");
         }
-        return agendas;
     }
 }
